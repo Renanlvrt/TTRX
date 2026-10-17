@@ -28,6 +28,12 @@ export default function BillsPage() {
           setTask('bills', 'inProgress')
           setEditing(true)
         }}
+        onReset={() => {
+          // Back to a blank survey at step 1, so the demo can be rerun.
+          setState((s) => ({ ...s, bills: { survey: null } }))
+          setTask('bills', 'notStarted')
+          setEditing(true)
+        }}
         onTenancyChange={(tenancyWeeks) => setState((s) => ({ ...s, bills: { survey: { ...saved, tenancyWeeks } } }))}
       />
     )

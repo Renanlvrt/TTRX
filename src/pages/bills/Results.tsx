@@ -17,7 +17,7 @@ const BILL_ICON: Record<BillId, ReactNode> = {
   tv: <Tv size={20} />,
 }
 
-export default function Results({ survey, onEdit, onTenancyChange }: { survey: BillsSurvey; onEdit: () => void; onTenancyChange: (weeks: number) => void }) {
+export default function Results({ survey, onEdit, onReset, onTenancyChange }: { survey: BillsSurvey; onEdit: () => void; onReset: () => void; onTenancyChange: (weeks: number) => void }) {
   const r = useMemo(() => estimateBills(survey), [survey])
   const weeks = survey.tenancyWeeks
   const [weeksText, setWeeksText] = useState(String(weeks))
@@ -154,6 +154,12 @@ export default function Results({ survey, onEdit, onTenancyChange }: { survey: B
           ))}
         </div>
       </section>
+
+      <div className="no-print mt-10 text-center">
+        <button type="button" onClick={onReset} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">
+          Reset compare bills
+        </button>
+      </div>
     </Page>
   )
 }
