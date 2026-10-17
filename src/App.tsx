@@ -1,6 +1,6 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import { Home as HomeIcon } from 'lucide-react'
-import Home from './pages/Home'
+import Home, { StagePage } from './pages/Home'
 import BillsPage from './pages/bills/BillsPage'
 import InspectionPage from './pages/inspection/InspectionPage'
 import EmailPage from './pages/email/EmailPage'
@@ -33,7 +33,7 @@ export default function App() {
               </span>
               RentReady
             </Link>
-            <span className="text-sm font-medium text-slate-500">Free for students · Durham</span>
+            <span className="hidden text-sm font-medium text-slate-500 sm:inline">Free for students · Durham</span>
           </div>
         </header>
         <main>
@@ -46,6 +46,8 @@ export default function App() {
             <Route path={ROUTES.report} element={<ReportPage />} />
             <Route path={ROUTES.storage} element={<StoragePage />} />
             <Route path={ROUTES.cleaning} element={<CleaningPage />} />
+            <Route path="/move-in" element={<StagePage />} />
+            <Route path="/move-out" element={<StagePage />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>

@@ -1,7 +1,7 @@
 // Shared UI kit. Every page builds from these so the whole app reskins from one file.
 // Style rules: white surfaces, green actions, pale-yellow highlights, big type, few elements.
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, Check } from 'lucide-react'
 import type { TaskStatus } from '../lib/types'
 
@@ -55,7 +55,10 @@ export function Card({ children, className, highlight }: { children: ReactNode; 
 }
 
 /** Page frame: back link, big title, one-line subtitle, content. */
-export function Page({ title, subtitle, back = '/', actions, children }: { title: string; subtitle?: string; back?: string | null; actions?: ReactNode; children: ReactNode }) {
+export function Page({ title, subtitle, back, actions, children }: { title: string; subtitle?: string; back?: string | null; actions?: ReactNode; children: ReactNode }) {
+  // Default Back goes to the task's stage page (/move-in or /move-out).
+  const stage = useLocation().pathname.split('/')[1]
+  if (back === undefined) back = stage === 'move-in' || stage === 'move-out' ? `/${stage}` : '/'
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-10">
       {back && (

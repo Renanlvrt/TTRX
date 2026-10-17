@@ -57,7 +57,6 @@ export default function EmailPage() {
   return (
     <Page
       title="Email your landlord"
-      back="/"
       actions={
         <Button variant="ghost" size="md" onClick={reset}>
           <RotateCcw size={18} /> Reset to template
