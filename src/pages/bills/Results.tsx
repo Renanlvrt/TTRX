@@ -101,31 +101,22 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       </section>
 
       <section className="mt-8">
-        <h2 className="mb-3 text-xl font-bold">Breakdown</h2>
+        <h2 className="mb-3 text-xl font-bold">Your share, bill by bill</h2>
         <div className="divide-y divide-line rounded-3xl border border-line">
-          <div className="grid grid-cols-[1fr_auto_auto] gap-6 px-6 py-3 text-sm font-medium uppercase tracking-wide text-slate-400">
-            <span>Bill</span>
-            <span className="w-24 text-right">House / yr</span>
-            <span className="w-24 text-right">You / wk</span>
-          </div>
           {r.lines.map((l) => (
-            <div key={l.id} className="grid grid-cols-[1fr_auto_auto] items-center gap-6 px-6 py-4">
-              <div className="flex min-w-0 items-center gap-3">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">{BILL_ICON[l.id]}</span>
-                <div className="min-w-0">
-                  <div className="text-lg font-semibold">{l.label}</div>
-                  <div className="truncate text-sm text-slate-500" title={l.assumption}>
-                    {l.assumption}
-                  </div>
-                </div>
-              </div>
+            <div key={l.id} className="flex items-center gap-3 px-4 py-3 sm:px-6">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">{BILL_ICON[l.id]}</span>
+              <span className="flex-1 text-lg font-semibold">{l.label}</span>
               {l.householdAnnualGBP == null ? (
-                <span className="col-span-2 w-[13.5rem] text-right font-medium text-slate-400">unavailable</span>
+                <span className="font-medium text-slate-400">unavailable</span>
               ) : (
-                <>
-                  <span className="w-24 text-right text-lg tabular-nums text-slate-600">{gbp(l.householdAnnualGBP)}</span>
-                  <span className="w-24 text-right text-lg font-bold tabular-nums">{gbp(l.householdAnnualGBP / 52 / survey.people)}</span>
-                </>
+                <span className="text-right leading-tight">
+                  <span className="block text-lg font-bold tabular-nums">
+                    {gbp(l.householdAnnualGBP / 52 / survey.people)}
+                    <span className="text-sm font-semibold text-slate-500">/wk</span>
+                  </span>
+                  <span className="block text-xs text-slate-500 tabular-nums">{gbp(l.householdAnnualGBP)}/yr whole house</span>
+                </span>
               )}
             </div>
           ))}
@@ -160,6 +151,11 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
           <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
         </Fine>
         <ul className="mt-3 list-disc space-y-1.5 pl-5">
+          {r.lines.map((l) => (
+            <li key={l.id} className="text-sm leading-relaxed text-slate-500">
+              <span className="font-semibold text-slate-700">{l.label}:</span> {l.assumption}
+            </li>
+          ))}
           {r.assumptions.map((a) => (
             <li key={a} className="text-sm leading-relaxed text-slate-500">
               {a}

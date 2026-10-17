@@ -63,7 +63,7 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
 
   return (
     <div id={`item-${item.id}`} className={cx('scroll-mt-6 rounded-3xl border bg-white p-4 transition', attention ? 'border-highlight-strong ring-4 ring-highlight' : 'border-line')}>
-      <input ref={input} type="file" accept="image/*" capture="environment" className="hidden" onChange={(e) => addPhoto(e.target.files?.[0])} />
+      <input ref={input} type="file" accept="image/*" className="hidden" onChange={(e) => addPhoto(e.target.files?.[0])} />
 
       {url ? (
         <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100">
