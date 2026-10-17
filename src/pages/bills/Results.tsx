@@ -7,7 +7,15 @@ import { AREAS } from '../../lib/types'
 import type { BillId, BillsSurvey } from '../../lib/types'
 import { estimateBills } from '../../lib/bills'
 import { providersFor } from '../../data/billProviders'
+import type { BillGroup } from '../../data/billProviders'
 import { RATES_CHECKED } from '../../data/rates'
+
+const GROUP_ICON: Record<BillGroup, ReactNode> = {
+  energy: <Zap size={16} />,
+  water: <Droplets size={16} />,
+  broadband: <Wifi size={16} />,
+  tv: <Tv size={16} />,
+}
 
 const BILL_ICON: Record<BillId, ReactNode> = {
   electricity: <Zap size={20} />,
@@ -70,6 +78,53 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       </div>
 
       <section className="mt-8">
+        <h2 className="text-xl font-bold">{r.verdict === 'package' ? 'Prefer to set bills up yourself?' : 'Set up & pay your bills'}</h2>
+        <Fine className="mb-4">Straight to each provider. Moving in? Use their moving-in page, not "switch".</Fine>
+        <div className="space-y-5">
+          {providers.map((g) => (
+            <div key={g.group}>
+              <div className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-500">
+                <span className="text-brand">{GROUP_ICON[g.group]}</span>
+                {g.label}
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {g.providers.map((p) => (
+                  <div key={p.id} className="flex flex-col justify-between gap-3 rounded-2xl border border-line p-5">
+                    <div>
+                      <div className="text-lg font-semibold">{p.name}</div>
+                      <div className="mt-0.5 text-sm text-slate-500">{p.tags.join(' · ')}</div>
+                      {p.priceText && <div className="mt-2 text-base font-semibold">{p.priceText}</div>}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <a
+                        href={p.website}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition hover:bg-brand-hover"
+                      >
+                        {p.cta} <ExternalLink size={14} />
+                      </a>
+                      {p.secondary && (
+                        <a
+                          href={p.secondary.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-line px-4 text-sm font-semibold transition hover:bg-slate-50"
+                        >
+                          {p.secondary.label} <ExternalLink size={14} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <Fine className="mt-3">Links checked {fmtDate(RATES_CHECKED)}. Prices shown only where the provider states them; we earn nothing from these links.</Fine>
+      </section>
+
+      <section className="mt-8">
         <h2 className="mb-3 text-xl font-bold">Breakdown</h2>
         <div className="divide-y divide-line rounded-3xl border border-line">
           <div className="grid grid-cols-[1fr_auto_auto] gap-6 px-6 py-3 text-sm font-medium uppercase tracking-wide text-slate-400">
@@ -128,32 +183,6 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
         </Fine>
       </details>
 
-      <section className="mt-8">
-        <h2 className="text-xl font-bold">Set it up</h2>
-        <Fine className="mb-3">Introductory prices for new customers. Check your postcode before you sign.</Fine>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {providers.map((p) => (
-            <a
-              key={p.id}
-              href={p.website}
-              target="_blank"
-              rel="noreferrer"
-              className="group flex flex-col justify-between gap-3 rounded-2xl border border-line p-5 transition hover:border-brand hover:bg-brand-soft"
-            >
-              <div>
-                <div className="text-lg font-semibold">{p.name}</div>
-                <div className="mt-0.5 text-sm text-slate-500">{p.tags.join(' · ')}</div>
-              </div>
-              <div className="flex items-center justify-between gap-3">
-                <span className={cx('text-base font-semibold', p.priceText ? 'text-slate-900' : 'text-slate-400')}>{p.priceText ?? 'Check price'}</span>
-                <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand">
-                  Visit site <ExternalLink size={14} />
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
 
       <div className="no-print mt-10 text-center">
         <button type="button" onClick={onReset} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">

@@ -13,8 +13,9 @@ For the UI teammate. Every screen below already works. To restyle, **replace the
 
 | Screen (route) | File | Reads | Calls |
 |---|---|---|---|
-| Home `/` | `pages/Home.tsx` | `tasks` | `resetState()` |
-| Bills survey + results `/move-in/bills` | `pages/bills/{BillsPage,Survey,Results}.tsx` | `bills.survey` | `estimateBills(survey) → BillsResult`, `providersFor(area, {wifi, tvLicence})`, `areaFromPostcode(text)`, `DEMO_SURVEY`; save survey to `bills.survey`; `setTask('bills', …)` |
+| Home `/` | `pages/Home.tsx` | `tasks` | `resetState()` (phone: 2 stage buttons) |
+| Stage `/move-in`, `/move-out` | `pages/Home.tsx` → `StagePage` | `tasks` | — |
+| Bills survey + results `/move-in/bills` | `pages/bills/{BillsPage,Survey,Results}.tsx` | `bills.survey` | `estimateBills(survey) → BillsResult`, `providersFor(area, {wifi, tvLicence, hasGas}) → [{group, label, providers}]` (direct sign-up/pay links), `areaFromPostcode(text)`, `DEMO_SURVEY`; save survey to `bills.survey`; `setTask('bills', …)` |
 | Photo inspection `/move-in/inspection` | `pages/inspection/{InspectionPage,ItemCard}.tsx` | `moveIn` | `CHECKLIST`, `ROOMS`, `CONDITION_LABEL`, `inspectionProgress()`, `updateRecord('moveIn', itemId, patch)`, `replaceInspection('moveIn', demoMoveIn(), current)` |
 | Email landlord `/move-in/email` | `pages/email/EmailPage.tsx` | `property`, `moveIn`, `emailDraft` | `buildMoveInEmail(property, moveIn, CHECKLIST) → {subject, body, issueCount}`, `mailtoLink(subject, body)` |
 | Move-out photos `/move-out/compare` | `pages/moveout/ComparePage.tsx` | `moveIn`, `moveOut` | same as inspection with `'moveOut'`, `demoMoveOut()` |

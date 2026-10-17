@@ -1,0 +1,105 @@
+{
+  "checkedDate": "2026-10-17",
+  "energy": [
+    {
+      "id": "octopus",
+      "name": "Octopus Energy",
+      "signupUrl": "https://octopus.energy/quote/",
+      "movingHomeUrl": "https://octopus.energy/move-in/",
+      "tariff": "Flexible Octopus",
+      "fixedAvailable": true,
+      "priceText": null,
+      "source": "https://octopus.energy/tariffs/",
+      "notes": "Quote page is a switch flow (postcode, address, dual fuel/elec only, usage). /move-in/ is the form for people who just moved into a home Octopus already supplies (postcode + address); its help article points there. Fixed Octopus is 12 or 18 months. No North East or price-cap-matching price stated on the supplier's pages."
+    },
+    {
+      "id": "british-gas",
+      "name": "British Gas",
+      "signupUrl": "https://www.britishgas.co.uk/new-energy/sales",
+      "movingHomeUrl": "https://www.britishgas.co.uk/discover/home-move/",
+      "tariff": "Standard Variable",
+      "fixedAvailable": true,
+      "priceText": null,
+      "source": "https://www.britishgas.co.uk/energy.html",
+      "notes": "/new-energy/sales is the quote page (title 'Gas and Electricity Quotes'; JS-rendered, returns HTTP 200). /discover/home-move/ is the moving-home flow linked from BG's 'setting up a new home' guide (JS app, HTTP 200). Tariff page lists Fixed, Fix and Fall, Fixed Tracker ('up to £50 less' than the cap) and Standard Variable. No unit rates or North East prices. Old URL /energy/gas-and-electricity.html redirects to /energy.html."
+    },
+    {
+      "id": "edf",
+      "name": "EDF",
+      "signupUrl": "https://www.edfenergy.com/quote/address-details",
+      "movingHomeUrl": "https://www.edfenergy.com/help-support/moving-home-energy",
+      "tariff": "Standard Variable",
+      "fixedAvailable": true,
+      "priceText": null,
+      "source": "https://www.edfenergy.com/home-move",
+      "notes": "/home-move redirects to /help-support/moving-home-energy. For new customers, its 'Get started' button goes to /quote/address-details (the quote form; title 'Gas & Electricity Quote'). Existing customers use MyAccount. Says there is a '£50 credit as a moving-in gift'. Fixed deals exist (e.g. Simply Fixed 2Yr, from search results). EDF's price-cap articles give only GB averages and treat the cap as a maximum, so priceText is null. Don't use /moving-home: it redirects to a MyAccount login."
+    },
+    {
+      "id": "eon-next",
+      "name": "E.ON Next",
+      "signupUrl": "https://www.eonnext.com/tariffs",
+      "movingHomeUrl": "https://www.eonnext.com/moving-home/moving-in",
+      "tariff": "Next Flex",
+      "fixedAvailable": true,
+      "priceText": null,
+      "source": "https://www.eonnext.com/tariffs",
+      "notes": "Tariffs page has the get-a-quote entry point. /moving-home/moving-in is the 'Start my move in' flow (asks whether you have the welcome letter with a PIN). Fixed tariffs: Next Fixed 12m (£50 exit fee per fuel) and 24m (£100 per fuel), plus Next Pledge (a tracker that stays below the cap). The page quotes 26.322p/kWh from 1 Oct 2026 as a national average that varies by region, not North East, so it isn't used."
+    },
+    {
+      "id": "ovo",
+      "name": "OVO",
+      "signupUrl": "https://products.ovoenergy.com/energy/customer-property",
+      "movingHomeUrl": "https://www.ovoenergy.com/moving-home",
+      "tariff": "Simpler Energy (Standard Variable)",
+      "fixedAvailable": true,
+      "priceText": null,
+      "source": "https://www.ovoenergy.com/home-energy-plans/standard-variable-rate-tariffs",
+      "notes": "The quote form URL sits behind 'Get a quote' on https://www.ovoenergy.com/home-energy-plans/switch-energy-supplier (JS app, HTTP 200). The moving-home page covers both new and existing customers. The SVT 'fluctuates in line with the Ofgem price cap' and the page gives only national average estimates (£1,723 for Oct-Dec 2026), so nothing for the North East. Fixed: 1 Year (£50 exit fee per fuel) and 2 Year (£95 per fuel) at /home-energy-plans/fixed-tariffs."
+    }
+  ],
+  "water": {
+    "name": "Northumbrian Water",
+    "newCustomerUrl": "https://www.nwl.co.uk/moving/move-in-page/?step=1",
+    "payUrl": "https://www.nwl.co.uk/non-logged-payment/",
+    "source": "https://www.nwl.co.uk/moving/students/",
+    "notes": "New-customer move-in flow: details, move-in date, meter reading, Direct Debit. Student guide: https://www.nwl.co.uk/moving/students/. Create an online account: https://www.nwl.co.uk/register/. Ways to pay: https://www.nwl.co.uk/myaccount/paying-your-bill/. Direct Debit: https://www.nwl.co.uk/setup-direct-debit/. /your-home/moving-home/ returns 404."
+  },
+  "tv": {
+    "buyUrl": "https://www.tvlicensing.co.uk/",
+    "annualGBP": 180,
+    "source": "https://www.gov.uk/government/news/cost-of-tv-licence-fee-set-for-202627",
+    "notes": "tvlicensing.co.uk is behind Incapsula bot protection, so no deep page could be fetched to confirm its content. The homepage's 'Buy one now' call to action is the verified entry point (via search index). Candidate deep link https://www.tvlicensing.co.uk/check-if-you-need-one/buy-a-tv-licence returns HTTP 200 but its content is unverified. GOV.UK confirms £180 colour licence from 1 April 2026 for 2026/27; the TV Licensing info page (search snippet) also says £180."
+  },
+  "broadband": [
+    {
+      "id": "virgin-media",
+      "name": "Virgin Media (student broadband)",
+      "signupUrl": "https://www.virginmedia.com/broadband/student",
+      "notes": "Live 'Student broadband deals' page, needs an ac.uk email. 12-month minimum term student contract; standard pricing from month 13. /broadband/student-broadband returns 404."
+    },
+    {
+      "id": "bt",
+      "name": "BT (student deals)",
+      "signupUrl": "https://www.bt.com/broadband/student-deals",
+      "notes": "/broadband/deals/student-deals redirects here. Live: discount on 12-month plans up to Full Fibre 900 with a valid university email; must be ordered online; 'monthly prices increase by £4 every 31st March'. Prices shown only after postcode entry. /broadband/student-broadband returns 404."
+    },
+    {
+      "id": "vodafone",
+      "name": "Vodafone Full Fibre",
+      "signupUrl": "https://www.vodafone.co.uk/broadband/full-fibre",
+      "notes": "Live sales page with 'Check availability' and 'Switch now'. 24-month minimum. Vodafone Broadband (up to 910Mbps) from £24/mo, rising to £27.50 on 1 Apr 2027 and £31 on 1 Apr 2028. Pro 3 from £39/mo. The /broadband/deals/select-plan link from the page returned 404 to a direct request (session-based), so don't deep-link it."
+    },
+    {
+      "id": "now",
+      "name": "NOW Broadband",
+      "signupUrl": "https://www.nowtv.com/broadband",
+      "notes": "Live. Pick a plan here, then the order completes on Sky.com. 24-month minimum, £0 activation. Full Fibre 75 £23, 100 £25, 300 £28 per month (prices may change during the term)."
+    },
+    {
+      "id": "cuckoo",
+      "name": "Cuckoo",
+      "signupUrl": "https://cuckoo.co/join",
+      "notes": "Live 5-step sign-up (Address, Speed, Hardware, Details, Payment), '£0 to install'. Plans at https://cuckoo.co/broadband: 150/500/900Mbps, no line rental. Contract length and prices not shown without a postcode (price list at https://cuckoo.co/legal/price-list)."
+    }
+  ]
+}

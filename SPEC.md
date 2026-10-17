@@ -25,7 +25,7 @@ Short one-question-per-screen survey:
 6. Gas in the house: yes / no (no ⇒ electric heating).
 7. Need Wi-Fi? Need a TV licence?
 
-Result: **Option A (package) vs Option B (arrange separately, estimated)**, per person per week, per month and over a **51-week tenancy** (editable). Per-bill breakdown, assumptions, rule-based verdict ("Separate looks £X cheaper under these assumptions"), fair-use reminder, curated provider links. "No package" ⇒ estimate + providers only.
+Result: **Option A (package) vs Option B (arrange separately, estimated)**, per person per week, per month and over a **51-week tenancy** (editable). Per-bill breakdown, assumptions, rule-based verdict ("Separate looks £X cheaper under these assumptions"), fair-use reminder, direct provider links to set up and pay (grouped by bill). "No package" ⇒ estimate + providers only.
 - Prices are **researched and hardcoded** with source + date (`research/*.json` → `src/data/`). Unverified ⇒ shown as **"unavailable"**, never guessed.
 - Energy/water are effectively the same across the 4 areas (one Ofgem region, one water company). Area mainly drives broadband options and local providers. **Do not fake per-area price differences.**
 
@@ -105,6 +105,9 @@ White background, **green** buttons, **pale yellow** highlights, `text-slate-900
 | 16 | Comparison intelligence | Side-by-side + rule-based flags. Purpose = proof of before/after. |
 | 17 | Checklist size | 4 rooms, 2 items each, 4 for bedroom (10 total). Demo: upload only 2, rest pre-done. |
 | 18 | UI polish | "Really good" UI now: white, clean, very compact, big elements, as concise as possible. |
+| 19 | Phone home | Phone shows two big buttons (Moving in / Moving out) → stage page with its 3 tasks. Desktop keeps both stages side by side. |
+| 20 | Bills links | Link **directly to providers** to sign up / pay (energy suppliers' moving-in pages, Northumbrian Water account + pay, broadband sign-up, TV Licensing). No comparison sites. Sources in `research/direct-links.json`. |
+| 21 | Restart bills | Small "Reset compare bills" text link on results restarts the survey. |
 
 ## 10. Git workflow
 - `main` is always demo-able. Work on branches (`feat/<module>`), push to `origin` (github.com/Renanlvrt/TTRX), merge into `main` after `npm run build` and `npm test` pass.
