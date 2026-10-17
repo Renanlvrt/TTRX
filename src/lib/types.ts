@@ -140,6 +140,8 @@ export interface AppState {
   moveOut: Inspection
   emailDraft: string | null
   storageArea: AreaId | null
+  /** Storage recommender answers: box counts by size + weeks. */
+  storageNeeds: { boxes: Record<'small' | 'medium' | 'large', number>; weeks: number }
   cleaningDone: string[]
   tasks: Record<TaskId, TaskStatus>
 }

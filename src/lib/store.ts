@@ -21,6 +21,7 @@ export function initialState(): AppState {
     moveOut: { kind: 'moveOut', records: {} },
     emailDraft: null,
     storageArea: null,
+    storageNeeds: { boxes: { small: 0, medium: 0, large: 0 }, weeks: 15 },
     cleaningDone: [],
     tasks: {
       bills: 'notStarted',

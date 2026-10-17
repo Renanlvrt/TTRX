@@ -20,7 +20,7 @@ For the UI teammate. Every screen below already works. To restyle, **replace the
 | Email landlord `/move-in/email` | `pages/email/EmailPage.tsx` | `property`, `moveIn`, `emailDraft` | `buildMoveInEmail(property, moveIn, CHECKLIST) → {subject, body, issueCount}`, `mailtoLink(subject, body)` |
 | Move-out photos `/move-out/compare` | `pages/moveout/ComparePage.tsx` | `moveIn`, `moveOut` | same as inspection with `'moveOut'`, `demoMoveOut()` |
 | Report `/move-out/report` | `pages/moveout/ReportPage.tsx` | `moveIn`, `moveOut`, `property` | `compareInspections(CHECKLIST, moveIn, moveOut) → ComparisonRow[]`, `sortRows()`, `summarize() → counts per Flag`; Print = `window.print()` |
-| Storage `/move-out/storage` | `pages/storage/StoragePage.tsx` | `storageArea`, `property.area` | `STORAGE` (filter by `areas.includes(area)`) |
+| Storage `/move-out/storage` | `pages/storage/StoragePage.tsx` | `storageNeeds` (box counts + weeks) | `recommendStorage(needs, STORAGE_LISTINGS.map(l => l.pricing)) → {best, alternatives}` (`src/lib/storage.ts`, `src/data/storagePricing.ts`) |
 | Cleaning `/move-out/cleaning` | `pages/cleaning/CleaningPage.tsx` | `cleaningDone` | `CLEANING_CHECKLIST`, `CLEANERS`, `DEPOSIT_LINKS` |
 
 ## Key data shapes (`src/lib/types.ts`)

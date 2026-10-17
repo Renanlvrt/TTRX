@@ -1,0 +1,146 @@
+{
+  "checkedDate": "2026-10-17",
+  "boxSizes": {
+    "small": { "label": "Small box (books, kitchenware)", "dims": "approx. 46 x 30 x 30 cm (18 x 12 x 12 in), ~40 L" },
+    "medium": { "label": "Medium box (clothes, shoes, toiletries)", "dims": "approx. 46 x 46 x 30 cm (18 x 18 x 12 in), ~60 L" },
+    "large": { "label": "Large box (bedding, duvets, cushions)", "dims": "approx. 46 x 46 x 46 cm (18 x 18 x 18 in), ~95 L" },
+    "source": "https://findmymanandvan.co.uk/guides/blog/moving-boxes-and-packing-supplies-update (RemovalBoxes.co.uk sizes in inches; cm/litres converted). Cross-check: Space Station medium 46x33x33 cm, large 45x45x50 cm (https://space-station.co.uk/blog/storage-box-size-guide). No single UK standard exists."
+  },
+  "providers": [
+    {
+      "id": "seven-seas-durham",
+      "name": "Seven Seas Worldwide - Student Storage Durham",
+      "kind": "box",
+      "bookingUrl": "https://account.sevenseasworldwide.com/getquote?lang=en-gb&rs=585850",
+      "coversDurham": true,
+      "areas": ["Durham University", "New College Durham", "Durham city"],
+      "prices": {
+        "small": { "amountGBP": 1.30, "per": "week", "providerSizeName": "Standard", "dims": "51 x 41 x 31 cm" },
+        "medium": { "amountGBP": 1.30, "per": "week", "providerSizeName": "Standard", "dims": "51 x 41 x 31 cm" },
+        "large": null
+      },
+      "unitPrice": null,
+      "minimumChargeGBP": 84,
+      "collectionFeeGBP": 0,
+      "minTermWeeks": 4,
+      "studentDiscount": "£30 off orders storing at least three Large boxes (auto-applied in quote)",
+      "source": "https://www.sevenseasworldwide.com/students/storage/durham/ ; https://www.sevenseasworldwide.com/students/storage/",
+      "quote": "19p per day ... £1.30 per week ... based on the Standard box ... a minimum £84 charge applies",
+      "notes": "Only two box sizes: Standard 51x41x31 cm (~65 L) and Large 61x51x41 cm (~128 L). Large box price not published (quote tool only). Small mapped to Standard (no smaller box offered). Collection included; return free within 50 km of collection address, extra beyond (amount not stated). Min 4 weeks (shorter still charged), max 26 weeks then auto-renewing 4-week periods. £84 deposit (£70 + VAT). Up to 30 kg per box."
+    },
+    {
+      "id": "lovespace",
+      "name": "LOVESPACE (storage by the box)",
+      "kind": "box",
+      "bookingUrl": "https://lovespace.co.uk/apps/order/",
+      "coversDurham": true,
+      "areas": ["Durham", "Framwellgate Moor to Bowburn"],
+      "prices": {
+        "small": null,
+        "medium": { "amountGBP": 3.25, "per": "month", "providerSizeName": "box (size unspecified)", "dims": null },
+        "large": null
+      },
+      "unitPrice": { "amountGBP": 69, "per": "month", "size": "15-25 sq ft unit (from)" },
+      "minimumChargeGBP": null,
+      "collectionFeeGBP": 0,
+      "minTermWeeks": null,
+      "studentDiscount": "40% off when storing 3 months or longer",
+      "source": "https://lovespace.co.uk/student-packing ; https://lovespace.co.uk/student-storage/durham/",
+      "quote": "Starting from £3.25 per box per month ... Get a 40% discount when you store for 3 months or longer",
+      "notes": "National 'from' price; Durham page shows no price (postcode quote only). Box sizes/dimensions not published; 25 kg weight limit per box. Collection from accommodation stated as free; a blog post mentions +£30 for doorstep collection above ground floor. Treat £3.25 as single per-box rate; exact price via quote."
+    },
+    {
+      "id": "theboxco-durham",
+      "name": "The Box Co. - Durham Student Storage",
+      "kind": "box",
+      "bookingUrl": "https://booking.theboxco.co.uk/",
+      "coversDurham": true,
+      "areas": ["Durham City Centre", "Viaduct", "Gilesgate", "Neville's Cross", "Claypath", "Elvet", "Framwellgate Moor", "The Bailey", "South Road", "Durham University colleges"],
+      "prices": {
+        "small": { "amountGBP": 3.56, "per": "month", "providerSizeName": "small box (from price)", "dims": null },
+        "medium": null,
+        "large": null
+      },
+      "unitPrice": null,
+      "minimumChargeGBP": null,
+      "collectionFeeGBP": 0,
+      "minTermWeeks": null,
+      "studentDiscount": "40% off when storing 3 months (banner); 'student discounts' listed without figures",
+      "source": "https://theboxco.co.uk/pages/durham-student-storage",
+      "quote": "From £3.56 per box per month ... prices starting from 79p per week",
+      "notes": "Only a starting price is published; sizes/dimensions and larger-box prices not listed. 'Free* collection' (asterisk unexplained). Return >20 miles: 58p per mile surcharge. £100 cover per box included. No minimum term stated."
+    },
+    {
+      "id": "dumove-du-storage",
+      "name": "DUmove - DU Storage",
+      "kind": "box",
+      "bookingUrl": "https://www.dumove.co.uk/store/p/du-storage-box",
+      "coversDurham": true,
+      "areas": ["Durham University (Durham city)", "Stockton-on-Tees campus (add-on £85)"],
+      "prices": {
+        "small": { "amountGBP": 44, "per": "term", "providerSizeName": "DU Storage Box", "dims": "up to 60 x 40 x 40 cm, max 20 kg" },
+        "medium": { "amountGBP": 44, "per": "term", "providerSizeName": "DU Storage Box", "dims": "up to 60 x 40 x 40 cm, max 20 kg" },
+        "large": { "amountGBP": 49, "per": "term", "providerSizeName": "Your Suitcase / Bag", "dims": "60 x 40 x 40 cm, max 25 kg" }
+      },
+      "unitPrice": null,
+      "minimumChargeGBP": null,
+      "collectionFeeGBP": 0,
+      "minTermWeeks": null,
+      "studentDiscount": null,
+      "source": "https://www.dumove.co.uk/du-storage",
+      "quote": "DU Storage Box £44.00 ... one simple price ... picking up your boxes, collection, storage and redelivery!",
+      "notes": "Flat per-item price for the summer storage period (redelivery window 28 Sep - 11 Oct), NOT a per-week rate: 'per' = 'term'. Specialist item (<=100 cm/side, 30 kg) £53.50. Early retrieval outside window £35; late +£25 per 5 days. Large mapped to suitcase/bag (same dims, 25 kg) - one box size only."
+    },
+    {
+      "id": "student-storage-box-durham",
+      "name": "Student Storage Box (SSB) - Durham",
+      "kind": "box",
+      "bookingUrl": "https://www.studentstoragebox.co.uk/student-storage-durham.php",
+      "coversDurham": true,
+      "areas": ["Durham (Durham warehouse)"],
+      "prices": null,
+      "unitPrice": null,
+      "minimumChargeGBP": 65,
+      "collectionFeeGBP": null,
+      "minTermWeeks": 2,
+      "studentDiscount": "5% off for drop-off",
+      "source": "https://www.studentstoragebox.co.uk/student-storage-durham.php",
+      "quote": "12 weeks: £65 advance storage payment ... £15.10 per month remaining storage payments ... 3 Standard FREE Boxes",
+      "notes": "Bundle-style examples (3 Standard boxes): 2 wks £65 + £9.22/week; 12 wks £65 + £15.10/month; 6 months £65 + £17.32/month. No clean per-box price or dimensions; return delivery charges apply (amount not stated). Unused boxes £2.88 each. minimumChargeGBP = advance payment."
+    },
+    {
+      "id": "yard-self-storage-meadowfield",
+      "name": "Yard Self Storage Durham (Meadowfield)",
+      "kind": "unit",
+      "bookingUrl": "https://bookings.yardselfstorage.co.uk/sites/durham-self-storage-units/order/contact-details?unit_type_slug=20ft-container",
+      "coversDurham": true,
+      "areas": ["Meadowfield DH7 8RL", "Langley Moor"],
+      "prices": null,
+      "unitPrice": { "amountGBP": 159.99, "per": "month", "size": "20ft container" },
+      "minimumChargeGBP": null,
+      "collectionFeeGBP": null,
+      "minTermWeeks": null,
+      "studentDiscount": null,
+      "source": "https://yardselfstorage.co.uk/self-storage-durham/",
+      "quote": "20ft Container £159.99 /month (inc. tax)",
+      "notes": "No 10ft containers or lockers listed. Other products: Micro Yard Storage £280/month, vehicle parking £90/month. 'No minimum contract' but autumn offer = 1 month free with 4-month minimum. Self drop-off, no collection."
+    },
+    {
+      "id": "payless-langley-moor",
+      "name": "Payless For Storage Durham (Langley Moor)",
+      "kind": "unit",
+      "bookingUrl": "https://paylessforstorage.co.uk/get-a-quote/?loc_id=100&unit_id=212",
+      "coversDurham": true,
+      "areas": ["Langley Moor DH7 8XD"],
+      "prices": null,
+      "unitPrice": { "amountGBP": 140, "per": "month", "size": "20ft container" },
+      "minimumChargeGBP": null,
+      "collectionFeeGBP": null,
+      "minTermWeeks": null,
+      "studentDiscount": null,
+      "source": "https://paylessforstorage.co.uk/self-storage/durham/",
+      "quote": "20ft Storage Container £140/mo (inc VAT)",
+      "notes": "Only 20ft container listed; no 10ft or lockers. FAQ on same page says £130/month inc VAT - inconsistent. Self drop-off, no collection."
+    }
+  ]
+}
