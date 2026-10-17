@@ -9,7 +9,7 @@ import { ItemCard, ProgressPill } from './ItemCard'
 import { replaceInspection } from './helpers'
 
 export default function InspectionPage() {
-  const { moveIn, tasks } = useAppState()
+  const { moveIn, tasks, demoMode } = useAppState()
   const progress = inspectionProgress(moveIn, CHECKLIST)
   const [triedFinish, setTriedFinish] = useState(false)
   const complete = progress.done === progress.total
@@ -39,9 +39,9 @@ export default function InspectionPage() {
       actions={
         <>
           <ProgressPill done={progress.done} total={progress.total} />
-          <Button variant="secondary" size="md" onClick={loadDemo}>
+          {!demoMode && <Button variant="secondary" size="md" onClick={loadDemo}>
             <Wand2 size={18} /> Load demo house
-          </Button>
+          </Button>}
         </>
       }
     >

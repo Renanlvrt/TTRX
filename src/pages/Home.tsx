@@ -67,6 +67,7 @@ function TaskList({ stage }: { stage: Stage }) {
 }
 
 export default function Home() {
+  const { demoMode } = useAppState()
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-12">
       <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
@@ -107,12 +108,12 @@ export default function Home() {
 
       <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
         <Fine>Free to use. Some recommended providers may pay us a commission in future; it never changes the numbers.</Fine>
-        <button
+        {!demoMode && <button
           onClick={() => confirm('Clear all demo data on this device?') && resetState()}
           className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline"
         >
           Reset demo data
-        </button>
+        </button>}
       </div>
     </div>
   )

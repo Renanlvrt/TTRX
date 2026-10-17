@@ -1,6 +1,8 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { useEffect } from 'react'
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
 import { Home as HomeIcon } from 'lucide-react'
 import Home, { StagePage } from './pages/Home'
+import { enterDemoMode, resetToNewUser } from './lib/demoMode'
 import BillsPage from './pages/bills/BillsPage'
 import InspectionPage from './pages/inspection/InspectionPage'
 import EmailPage from './pages/email/EmailPage'
@@ -21,9 +23,30 @@ export const ROUTES = {
   cleaning: '/move-out/cleaning',
 } as const
 
+/** Alt+D = presenter demo house, Alt+R = brand-new user. Uses e.code so it works on any keyboard layout. */
+function DemoHotkeys() {
+  const navigate = useNavigate()
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (!e.altKey || e.ctrlKey || e.metaKey) return
+      if (e.code === 'KeyD') {
+        e.preventDefault()
+        enterDemoMode()
+      } else if (e.code === 'KeyR') {
+        e.preventDefault()
+        resetToNewUser().then(() => navigate('/'))
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [navigate])
+  return null
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <DemoHotkeys />
       <div className="min-h-screen bg-white">
         <header className="no-print border-b border-line">
           <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">

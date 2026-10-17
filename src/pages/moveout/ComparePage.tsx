@@ -12,7 +12,7 @@ import type { ItemRecord } from '../../lib/types'
 const roomLabel = (id: string) => ROOMS.find((r) => r.id === id)?.label ?? ''
 
 export default function ComparePage() {
-  const { moveIn, moveOut, tasks } = useAppState()
+  const { moveIn, moveOut, tasks, demoMode } = useAppState()
   const progress = inspectionProgress(moveOut, CHECKLIST)
   const missingIds = new Set(progress.missing.map((m) => m.id))
 
@@ -37,9 +37,9 @@ export default function ComparePage() {
       actions={
         <>
           <ProgressPill done={progress.done} total={progress.total} />
-          <Button variant="secondary" size="md" onClick={loadDemo}>
+          {!demoMode && <Button variant="secondary" size="md" onClick={loadDemo}>
             <Wand2 size={18} /> Load demo move-out (8 done)
-          </Button>
+          </Button>}
         </>
       }
     >

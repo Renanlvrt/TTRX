@@ -6,6 +6,7 @@ import { Button, OptionTile, cx } from '../../components/ui'
 import { AREAS } from '../../lib/types'
 import type { AreaId, BillsSurvey, HeatingPattern, WaterUse } from '../../lib/types'
 import { DEFAULT_TENANCY_WEEKS, areasForPostcode } from '../../lib/bills'
+import { useAppState } from '../../lib/store'
 
 interface Draft {
   hasPackage: boolean | null
@@ -43,6 +44,7 @@ const TOTAL = 7
 const ICON = 26
 
 export default function Survey({ initial, onStart, onFinish, onDemo }: { initial: BillsSurvey | null; onStart: () => void; onFinish: (s: BillsSurvey) => void; onDemo: () => void }) {
+  const { demoMode } = useAppState()
   const [d, setD] = useState<Draft>(() => toDraft(initial))
   const [step, setStep] = useState(0)
   const set = (patch: Partial<Draft>) => setD((prev) => ({ ...prev, ...patch }))
@@ -235,7 +237,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
         </Button>
       </div>
 
-      {step === 0 && (
+      {step === 0 && !demoMode && (
         <div className="mt-8 text-center">
           <button data-nav type="button" onClick={onDemo} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">
             Use demo answers

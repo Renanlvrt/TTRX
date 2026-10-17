@@ -139,6 +139,8 @@ export interface AppState {
   moveIn: Inspection
   moveOut: Inspection
   emailDraft: string | null
+  /** Presenter mode (Alt+D): real demo house loaded, demo shortcuts hidden. Alt+R clears it. */
+  demoMode: boolean
   storageArea: AreaId | null
   /** Storage recommender answers: box counts by size + weeks. */
   storageNeeds: { boxes: Record<'small' | 'medium' | 'large', number>; weeks: number }
