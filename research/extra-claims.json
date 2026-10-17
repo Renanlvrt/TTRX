@@ -1,0 +1,84 @@
+{
+  "checkedDate": "2026-10-17",
+  "councilTax": {
+    "studentExemption": {
+      "verdict": "VERIFIED",
+      "applyUrl": "https://openportal.durham.gov.uk/scripts/OPENPortal-Live.wsc/common/login.p",
+      "applyUrlNotes": "Online council tax account (sign in/register) is the web route. Alternatives listed on the council page: PDF form https://durham.gov.uk/media/2747/Student-and-student-nurse-council-tax-discount-form/pdf/CouncilTaxStudentEnquiryForm.pdf, or email/phone via https://durham.gov.uk/article/3590/Contact-Council-Tax (counciltax@durham.gov.uk, 03000 26 4000). Only one application needed per household. No dedicated standalone online student-exemption form was found.",
+      "infoUrl": "https://durham.gov.uk/article/4376/Money-off-Council-Tax-for-students",
+      "quote": "You are only exempt from paying Council Tax if all the people living in a property are full-time students ... If there is one person who is not a student, you will only a receive a 25% discount. ... If there are two people who are not students, you will not receive a discount at all."
+    },
+    "bands": [
+      { "band": "A", "annualGBP": 1748.10, "verdict": "PARTLY", "councilBaseExclParishGBP": 1666.64, "cityOfDurhamParishGBP": 1712.18 },
+      { "band": "B", "annualGBP": 2039.45, "verdict": "PARTLY", "councilBaseExclParishGBP": 1944.42, "cityOfDurhamParishGBP": 1997.55 },
+      { "band": "C", "annualGBP": 2330.80, "verdict": "PARTLY", "councilBaseExclParishGBP": 2222.19, "cityOfDurhamParishGBP": 2282.91 },
+      { "band": "D", "annualGBP": 2622.15, "verdict": "PARTLY", "councilBaseExclParishGBP": 2499.97, "cityOfDurhamParishGBP": 2568.28 }
+    ],
+    "source": "https://www.durham.gov.uk/counciltaxbands",
+    "secondarySource": "https://housecheckup.co.uk/council-tax/durham (cites MHCLG 'Council Tax levels set by local authorities in England 2026 to 2027', Table 9)",
+    "notes": "Claimed figures are real but are the MHCLG area-AVERAGE Band D (£2,622.15) INCLUDING average parish precepts, with other bands derived by statutory ratios (6/9, 7/9, 8/9). councildata.co.uk itself was not found. They are NOT what a Durham City student house would be billed. Council's own bands page (no year label on page; inferred 2026/27 because the council's 'Last year's council tax' page covers 2025/26 with unparished Band D £2,436.06) gives base totals excl. parish: A £1,666.64, B £1,944.42, C £2,222.19, D £2,499.97 (County Council £2,071.11 + Police £300.74 + Fire £128.12 at Band D). City of Durham parish (incl. Charter Trustees) row: A £1,712.18, B £1,997.55, C £2,282.91, D £2,568.28. Unparished former City of Durham area: A £1,668.44, D £2,502.67. Belmont D £2,539.80; Framwellgate Moor D £2,545.36. Recommend using City of Durham row for central Durham student houses. Irrelevant to all-student houses (exempt, £0)."
+  },
+  "contentsInsurance": {
+    "averages": [
+      {
+        "claim": "Average student contents insurance ~£74.11/yr (MoneySuperMarket)",
+        "verdict": "VERIFIED (but dated: based on July-Sept 2023 purchases)",
+        "evidenceUrl": "https://www.moneysupermarket.com/home-insurance/students/",
+        "quote": "The average price of student contents insurance is £74.11 per year*, but the exact cost will depend on factors including:"
+      },
+      {
+        "claim": "Renters median ~£53/yr (GoCompare)",
+        "verdict": "PARTLY",
+        "evidenceUrl": "https://www.gocompare.com/home-insurance/tenants-insurance/",
+        "quote": "According to our data, you'll pay a median annual price of £53 for your tenants contents insurance if you rent a bungalow, £54 if you live in a flat and £61 if you rent a house.",
+        "notes": "£53 is GoCompare's median for renters of BUNGALOWS only; a rented house is £61. Data period reported as 1 Sep 2025 - 28 Feb 2026. GoCompare pages blocked direct fetch (bot interstitial), quote obtained via search-result extract. Search extract also reports GoCompare student-living-away-from-home median of £69/yr (£84 paying monthly) on https://www.gocompare.com/home-insurance/student-insurance/ - not directly confirmed."
+      }
+    ],
+    "insurers": [
+      {
+        "name": "Howden (formerly Endsleigh) - Student Contents Insurance via studentGuard",
+        "url": "https://www.howdeninsurance.co.uk/personal/student/student-contents-insurance/",
+        "notes": "Loads. 'Howden are delighted to introduce student contents insurance via studentGuard.' Covers students 'living in a student house or halls without cover'; includes £5,000 tenant's liability. Endsleigh's student page (https://www.endsleigh.co.uk/endsleigh-students/) says 'We've moved!' - 'our student offering has now become fully Howden branded.' So Endsleigh no longer sells student contents under its own brand."
+      },
+      {
+        "name": "studentGuard (Guardcover)",
+        "url": "https://www.guardcover.co.uk/studentguard",
+        "notes": "Loads (studentguard.co.uk 301-redirects here). Heading 'Student contents insurance'; 'Whether it's the contents in your student accommodation or cover for the stuff you take out and about.'"
+      },
+      {
+        "name": "Cover4Insurance - Student Insurance",
+        "url": "https://www.cover4insurance.com/student-insurance/",
+        "notes": "Loads. Heading 'Student Insurance'; covers 'all your contents and gadgets' including when 'sharing a house or flat in private rented accommodation'."
+      }
+    ]
+  },
+  "packageBenchmark": {
+    "verdict": "VERIFIED",
+    "examples": [
+      {
+        "address": "20 Ellis Leazes, Durham, DH1 (4-bed three-storey mid terrace, agent Robinsons Durham, available 01/07/2027, 'Reduced on 14/10/2026')",
+        "exclBills": 175,
+        "inclBills": 195,
+        "impliedPackagePPPW": 20,
+        "url": "https://www.rightmove.co.uk/properties/167827430",
+        "quote": "£175PPPW BILLS EXCLUDED OR £195PPPW INCLUDING BILLS"
+      },
+      {
+        "address": "152a Gilesgate, Durham (5-bed, agent Robinsons Durham)",
+        "exclBills": 175,
+        "inclBills": 195,
+        "impliedPackagePPPW": 20,
+        "url": "https://www.rightmove.co.uk/properties/167827436",
+        "quote": "£175PPPW BILLS EXCLUDED OR £195PPPW INCLUDING BILLS (per Rightmove search-results snippet on https://www.rightmove.co.uk/property-to-rent/Gilesgate.html)"
+      }
+    ],
+    "notes": "Listing does not state which bills are included in the £195 figure. accommodationforstudents.com/durham/claypath: St Hilds Lane 8-bed flats 'From £215/week' marked Bills included (VERIFIED as listed), other St Hilds Lane flats £175/£195 with bills status not stated; that page shows no property priced both ways and does not explicitly say pppw. Mayorswell Field (Claypath, Bridgfords) £110pppw without bills, 'Bill-inclusive packages available, call for details' (no price). Rightmove listings change frequently - re-check before demo."
+  },
+  "tvLicence": {
+    "verdict": "VERIFIED",
+    "evidenceUrl": "https://www.gov.uk/tv-licence",
+    "quote": "A TV Licence costs £180 (£60.50 for black and white TV sets) for both homes and businesses. ... You need one if you 'watch or record live TV on any channel or service' or 'use BBC iPlayer'.",
+    "secondaryEvidenceUrl": "https://www.gov.uk/government/news/cost-of-tv-licence-fee-set-for-202627",
+    "secondaryQuote": "The annual cost of a TV licence will rise to £180 from 1 April 2026."
+  }
+}

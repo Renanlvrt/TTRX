@@ -1,0 +1,86 @@
+{
+  "checkedDate": "2026-10-17",
+  "energy": [
+    {
+      "id": "fuse",
+      "name": "Fuse Energy",
+      "signupUrl": "https://www.fuseenergy.com/app/boarding",
+      "movingHomeUrl": "https://www.fuseenergy.com/blog/moving-home",
+      "claim": "24-month fixed tariff about 0.9% below the October 2026 price cap, £50-per-fuel exit fees (source: MoneySavingExpert)",
+      "verdict": "VERIFIED",
+      "priceText": "Exclusive October 2026 Fixed (24m) V5: about 0.9% below the Oct-Dec 2026 price cap on average (MSE, correct as of 16 Oct 2026)",
+      "evidenceUrl": "https://www.moneysavingexpert.com/utilities/are-there-any-cheap-fixed-energy-deals-currently-worth-it/",
+      "quote": "Exclusive October 2026 Fixed (24m) V5 ... 24 month fix ... 0.9% LESS [than the Price Cap] ... £50 per fuel exit fees (table 'Correct as of 16 October 2026'; cap period '1 October 2026 to 31 December 2026')",
+      "notes": "MSE page (HTTP 200, updated 16 Oct 2026) lists it under 'Top standalone fixed tariffs'. Fuse's own homepage lists Variable, Fixed and Multi-rate tariffs but does not show the length or exit fee in static text. Sign-up: the homepage 'Get a quote' links to /app/boarding and 'Sign up' links to /app/boarding/premises. Both are app pages that need JavaScript (HTTP 200). There is no dedicated moving-home product page. The movingHomeUrl is a Fuse blog guide (HTTP 200), which says you can 'often take your existing tariff with you to your new property ... avoiding potential exit fees'. The in-app route is 'Add Property'. 'Exclusive' may mean the deal is only available through MSE's own comparison tool, not direct sign-up."
+    },
+    {
+      "id": "outfox",
+      "name": "Outfox Energy",
+      "signupUrl": "https://signup.outfox.energy/#/get-a-quote",
+      "movingHomeUrl": null,
+      "claim": "Ranked 1st (4.03/5) in Citizens Advice energy supplier rankings for April-June 2026; E.ON Next highest large supplier at 3.71",
+      "verdict": "PARTLY",
+      "priceText": null,
+      "evidenceUrl": "https://www.citizensadvice.org.uk/consumer/energy/energy-supply/get-a-better-energy-deal/compare-domestic-energy-suppliers-customer-service/",
+      "quote": "Scores for April to June 2026 ... Outfox Energy: rank 1, 4.03 out of 5 ... E.ON Next: rank 3, 3.71 out of 5 (100Green 2nd at 3.90)",
+      "notes": "Confirmed: Outfox is 1st with 4.03 and E.ON Next scores 3.71. Wrong: the claim that E.ON Next is the 'highest large supplier'. Citizens Advice's main table covers only 'the largest suppliers' (more than 25,000 accounts), and in that same table Outfox is 1st, 100Green 2nd and E.ON Next 3rd. E.ON Next is only the highest of the traditional 'big' brands, which is an informal reading, not a Citizens Advice category. The table for the next quarter is due in December 2026. outfoxthemarket.co.uk redirects (301) to outfox.energy, a JavaScript-only app. Its 'Quote Me' and 'Get a Quote' buttons open https://signup.outfox.energy/#/get-a-quote (HTTP 200, a Flutter app titled 'Get a quote | Outfox Energy'). No moving-home page was found on outfox.energy or its help centre (help.outfox.energy). Phone 0800 103 2702 is listed on Trustpilot only, not on Outfox's own site, so it is unverified."
+    }
+  ],
+  "broadband": [
+    {
+      "id": "plusnet",
+      "name": "Plusnet",
+      "signupUrl": "https://www.plus.net/broadband/",
+      "priceText": "Full Fibre from £24.99 a month + £9.99 one-off activation fee (rising to £28.99 from 31 March 2027, £32.99 from 31 March 2028)",
+      "contract": "24 months",
+      "verdict": "VERIFIED",
+      "evidenceUrl": "https://www.plus.net/broadband/",
+      "quote": "from £24.99 a month ... 24 month contract ... £9.99 one-off activation fee ... £28.99 from 31 March 2027 then £32.99 from 31 March 2028",
+      "notes": "HTTP 200. The headline price comes with a £50 Plusnet Reward Card on selected plans. Availability depends on the address."
+    },
+    {
+      "id": "bt",
+      "name": "BT",
+      "signupUrl": "https://www.bt.com/broadband/deals",
+      "priceText": "Full Fibre 300 £30.99 a month (£34.99 from 31 March 2027, £38.99 from 31 March 2028)",
+      "contract": "24 months",
+      "verdict": "VERIFIED",
+      "evidenceUrl": "https://www.bt.com/broadband/deals",
+      "quote": "BT Full Fibre 300 for £30.99 a month ... 24 month contract ... From 31 March 2027 £34.99 ... From 31 March 2028 £38.99",
+      "notes": "HTTP 200. The page has no 'from £X' headline. The cheapest plans listed are Fibre Essential and Fibre 1 (not full fibre) at £28.99 a month. Full Fibre 300 is the plan in the headline banner."
+    },
+    {
+      "id": "talktalk",
+      "name": "TalkTalk",
+      "signupUrl": "https://www.talktalk.co.uk/shop/broadband",
+      "priceText": "Full Fibre from £25 per month, no setup fee (increasing to £29 from April 2027, then £33 in April 2028)",
+      "contract": "24 months",
+      "verdict": "VERIFIED",
+      "evidenceUrl": "https://www.talktalk.co.uk/shop/broadband",
+      "quote": "£25 per month ... 24-month contract ... Increasing to £29 from April 2027 then to £33 in April 2028",
+      "notes": "This price is for the U Smart Wi-Fi and Fixed Speed Wi-Fi Full Fibre plans. The page loaded and showed content through the fetch tool. With a plain curl user agent it redirected to https://www.talktalk.co.uk/. As a fallback, https://www.talktalk.co.uk/broadband returns HTTP 200."
+    },
+    {
+      "id": "sky",
+      "name": "Sky",
+      "signupUrl": "https://www.sky.com/broadband",
+      "priceText": null,
+      "contract": "24 months",
+      "verdict": "PARTLY",
+      "evidenceUrl": "https://www.sky.com/broadband",
+      "quote": "Separate 24-month minimum terms apply to Sky Broadband, Sky Talk, Sky Broadband Boost, and Sky WiFi Max ... Prices may change during minimum terms ... [end of term] plus £5. Bundle cards: Essential TV & Full Fibre 150/Gigafast £35/month, Ultimate TV & Gigafast £41/month ('Prices may change during 24 month contract')",
+      "notes": "HTTP 200, but broadband-only prices are rendered by JavaScript and were not visible in the static page or the fetch. The 24-month term is confirmed. £35 is the Essential TV + broadband bundle price, not broadband only. A broadband-only 'Full Fibre 100 £24/month' appears only in a third-party tracker from July 2026, not on Sky's own site. Do not show a broadband-only price as verified."
+    },
+    {
+      "id": "virgin",
+      "name": "Virgin Media",
+      "signupUrl": "https://www.virginmedia.com/broadband",
+      "priceText": "M125 Fibre Broadband (broadband only) £23.99 a month for 24 months, then £36.79 a month; no setup fee",
+      "contract": "24 months",
+      "verdict": "NOT FOUND",
+      "evidenceUrl": "https://www.virginmedia.com/broadband",
+      "quote": "24 month minimum term product: £23.99* a month for 24 months, then £36.79* a month thereafter ... Prices and terms subject to change during contract",
+      "notes": "The claimed ~£18.99/month (from Durham comparison-site results) was not found on Virgin's own site. The cheapest broadband-only price Virgin shows is £23.99. £18.99 may have been a comparison-site-only or postcode-specific offer and could not be checked. Virgin's network coverage of student streets in Durham was not checked, so availability needs a postcode check. The page also lists social tariffs from £12.50 a month for people on Universal Credit and certain other benefits. HTTP 200."
+    }
+  ]
+}

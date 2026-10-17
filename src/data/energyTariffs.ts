@@ -19,7 +19,7 @@ export interface EnergyTariff {
   /** null = price only via the supplier's quote. */
   rates: EnergyRates | null
   /** 'published' = the supplier's own rates; 'capMax' = Ofgem cap, the most a standard variable tariff can charge. */
-  basis: 'published' | 'capMax' | 'quote'
+  basis: 'published' | 'capMax' | 'approx' | 'quote'
   source: string
   checkedDate: string
 }
@@ -60,6 +60,19 @@ export const ENERGY_TARIFFS: EnergyTariff[] = [
   ...capped('edf', 'Standard Variable'),
   ...capped('eon-next', 'Next Flex'),
   ...capped('ovo', 'Simpler Energy'),
+  // Fuse: MoneySavingExpert (updated 16 Oct 2026) lists its 24m fix at ~0.9% below the Oct–Dec 2026 cap, £50/fuel exit fees.
+  // Exact NE rates aren't published, so we approximate as cap × 0.991 and label it "≈".
+  {
+    supplierId: 'fuse',
+    name: 'Fuse 24M Fixed',
+    kind: 'fixed',
+    months: 24,
+    rates: { elecUnit: CAP.elecUnit * 0.991, elecStanding: CAP.elecStanding * 0.991, gasUnit: CAP.gasUnit * 0.991, gasStanding: CAP.gasStanding * 0.991 },
+    basis: 'approx',
+    source: 'https://www.moneysavingexpert.com/utilities/are-there-any-cheap-fixed-energy-deals-currently-worth-it/',
+    checkedDate: CHECKED,
+  },
+  ...capped('outfox', 'Standard Variable'),
 ]
 
 export const tariffsFor = (supplierId: string) => ENERGY_TARIFFS.filter((t) => t.supplierId === supplierId)

@@ -108,6 +108,7 @@ White background, **green** buttons, **pale yellow** highlights, `text-slate-900
 | 19 | Phone home | Phone shows two big buttons (Moving in / Moving out) → stage page with its 3 tasks. Desktop keeps both stages side by side. |
 | 20 | Bills links | Link **directly to providers** to sign up / pay (energy suppliers' moving-in pages, Northumbrian Water account + pay, broadband sign-up, TV Licensing). No comparison sites. Sources in `research/direct-links.json`. |
 | 22 | Energy prices | Each energy card lists tariff options costed for the household (£/person/wk + £/yr house). Octopus = live published NE rates (public API); others = "up to" Ofgem cap for standard variable, fixed = Get a quote. Cheapest highlighted. |
+| 23 | Extra verified data | From the user's Durham costs doc, only claims verified on 17 Oct were added: Fuse (≈0.9% under cap, 24m) & Outfox (#1 service), Plusnet/TalkTalk/Sky, BT FF300 £30.99, Council Tax £0 student exemption + apply link, contents insurers, Ellis Leazes £175/£195 = £20 pppw benchmark. Rejected: Virgin £18.99 (not found), E.ON "top large supplier" (false), Sky price (unconfirmed). Evidence in research/extra-*.json. |
 | 21 | Restart bills | Small "Reset compare bills" text link on results restarts the survey. |
 
 ## 10. Git workflow

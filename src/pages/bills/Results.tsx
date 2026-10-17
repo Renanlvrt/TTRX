@@ -7,6 +7,7 @@ import { AREAS } from '../../lib/types'
 import type { BillId, BillsSurvey } from '../../lib/types'
 import { energyCostFor, estimateBills } from '../../lib/bills'
 import { ENERGY_TARIFFS, tariffsFor } from '../../data/energyTariffs'
+import { EXTRAS, PACKAGE_BENCHMARK } from '../../data/extras'
 import { providersFor } from '../../data/billProviders'
 import type { BillGroup } from '../../data/billProviders'
 import { RATES_CHECKED } from '../../data/rates'
@@ -52,6 +53,12 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       <Card highlight>
         <p className="text-3xl font-extrabold leading-tight tracking-tight">{r.verdictText}</p>
         <Fine className="mt-2 text-slate-600">Estimate under the assumptions below. Prices checked {fmtDate(RATES_CHECKED)}.</Fine>
+        {r.package && (
+          <Fine className="mt-1 text-slate-600">
+            {PACKAGE_BENCHMARK.text}{' '}
+            <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
+          </Fine>
+        )}
       </Card>
 
       <div className={cx('mt-4 grid gap-4', r.package && 'md:grid-cols-2')}>
@@ -123,7 +130,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
             </div>
           ))}
         </div>
-        <Fine className="mt-3">Links checked {fmtDate(RATES_CHECKED)}. Energy costs are for your answers: Octopus uses its published North East rates; “up to” = Ofgem price cap, the most a standard variable tariff can charge. We earn nothing from these links.</Fine>
+        <Fine className="mt-3">Links checked {fmtDate(RATES_CHECKED)}. Energy costs are for your answers: Octopus uses its published North East rates; “up to” = Ofgem price cap, the most a standard variable tariff can charge; “≈” = estimated from the supplier’s advertised saving vs the cap. We earn nothing from these links.</Fine>
       </section>
 
       <section className="mt-8">
@@ -186,6 +193,34 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       </details>
 
 
+      <section className="mt-8">
+        <h2 className="mb-3 text-xl font-bold">Don&apos;t forget</h2>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {EXTRAS.map((x) => (
+            <div key={x.id} className={cx('flex flex-col justify-between gap-3 rounded-2xl border p-5', x.id === 'councilTax' ? 'border-highlight-strong bg-highlight' : 'border-line')}>
+              <div>
+                <div className="text-sm font-bold uppercase tracking-wide text-slate-500">{x.title}</div>
+                <div className="mt-1 text-lg font-bold">{x.headline}</div>
+                <p className="mt-1 text-sm text-slate-600">{x.detail}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {x.links.map((l, i) => (
+                  <a
+                    key={l.url}
+                    href={l.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={cx('inline-flex h-10 items-center gap-1.5 rounded-xl px-4 text-sm font-semibold transition', i === 0 ? 'bg-brand text-white hover:bg-brand-hover' : 'border border-line bg-white hover:bg-slate-50')}
+                  >
+                    {l.label} <ExternalLink size={14} />
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <div className="no-print mt-10 text-center">
         <button type="button" onClick={onReset} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">
           Reset compare bills
@@ -212,7 +247,7 @@ function TariffOptions({ survey, supplierId }: { survey: BillsSurvey; supplierId
             </span>
             {cost ? (
               <span className="shrink-0 text-right leading-tight">
-                <span className="block font-bold">{t.basis === 'capMax' ? 'up to ' : ''}{gbp(cost.perPersonWeek)}/wk</span>
+                <span className="block font-bold">{t.basis === 'capMax' ? 'up to ' : t.basis === 'approx' ? '≈ ' : ''}{gbp(cost.perPersonWeek)}/wk</span>
                 <span className="block text-xs text-slate-500">{gbp(cost.householdAnnual)}/yr house</span>
               </span>
             ) : (
