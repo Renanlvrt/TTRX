@@ -5,7 +5,8 @@ import { ChevronDown, Droplets, ExternalLink, Flame, Pencil, Tv, Wifi, Zap } fro
 import { Button, Card, Fine, Page, Stat, cx, gbp } from '../../components/ui'
 import { AREAS } from '../../lib/types'
 import type { BillId, BillsSurvey } from '../../lib/types'
-import { estimateBills } from '../../lib/bills'
+import { energyCostFor, estimateBills } from '../../lib/bills'
+import { ENERGY_TARIFFS, tariffsFor } from '../../data/energyTariffs'
 import { providersFor } from '../../data/billProviders'
 import type { BillGroup } from '../../data/billProviders'
 import { RATES_CHECKED } from '../../data/rates'
@@ -92,8 +93,9 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                   <div key={p.id} className="flex flex-col justify-between gap-3 rounded-2xl border border-line p-5">
                     <div>
                       <div className="text-lg font-semibold">{p.name}</div>
-                      <div className="mt-0.5 text-sm text-slate-500">{p.tags.join(' · ')}</div>
-                      {p.priceText && <div className="mt-2 text-base font-semibold">{p.priceText}</div>}
+                      {p.group !== 'energy' && <div className="mt-0.5 text-sm text-slate-500">{p.tags.join(' · ')}</div>}
+                      {p.group !== 'energy' && (p.priceText ? <div className="mt-2 text-base font-semibold">{p.priceText}</div> : <div className="mt-2 text-base font-semibold text-slate-400">Price shown after postcode</div>)}
+                      {p.group === 'energy' && <TariffOptions survey={survey} supplierId={p.id} />}
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
                       <a
@@ -121,7 +123,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
             </div>
           ))}
         </div>
-        <Fine className="mt-3">Links checked {fmtDate(RATES_CHECKED)}. Prices shown only where the provider states them; we earn nothing from these links.</Fine>
+        <Fine className="mt-3">Links checked {fmtDate(RATES_CHECKED)}. Energy costs are for your answers: Octopus uses its published North East rates; “up to” = Ofgem price cap, the most a standard variable tariff can charge. We earn nothing from these links.</Fine>
       </section>
 
       <section className="mt-8">
@@ -190,6 +192,36 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
         </button>
       </div>
     </Page>
+  )
+}
+
+/** Tariff rows for one energy supplier, costed for this household. Cheapest published/capped option overall is highlighted. */
+function TariffOptions({ survey, supplierId }: { survey: BillsSurvey; supplierId: string }) {
+  const costs = ENERGY_TARIFFS.filter((t) => t.rates).map((t) => energyCostFor(survey, t.rates!).perPersonWeek)
+  const cheapest = Math.min(...costs)
+  return (
+    <ul className="mt-3 space-y-1.5">
+      {tariffsFor(supplierId).map((t) => {
+        const cost = t.rates ? energyCostFor(survey, t.rates) : null
+        const best = cost && cost.perPersonWeek === cheapest
+        return (
+          <li key={t.name} className={cx('flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm', best ? 'bg-highlight' : 'bg-slate-50')}>
+            <span className="min-w-0">
+              <span className="font-semibold">{t.name}</span>
+              {best && <span className="ml-2 rounded-full bg-highlight-strong px-2 py-0.5 text-xs font-bold">Cheapest</span>}
+            </span>
+            {cost ? (
+              <span className="shrink-0 text-right leading-tight">
+                <span className="block font-bold">{t.basis === 'capMax' ? 'up to ' : ''}{gbp(cost.perPersonWeek)}/wk</span>
+                <span className="block text-xs text-slate-500">{gbp(cost.householdAnnual)}/yr house</span>
+              </span>
+            ) : (
+              <span className="shrink-0 text-slate-400">Get a quote</span>
+            )}
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 

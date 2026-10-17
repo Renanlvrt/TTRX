@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { BillsSurvey } from './types'
-import { DEFAULT_RATES, DEMO_SURVEY, areaFromPostcode, areasForPostcode, estimateBills, householdScale } from './bills'
+import { DEFAULT_RATES, DEMO_SURVEY, areaFromPostcode, areasForPostcode, energyCostFor, estimateBills, householdScale } from './bills'
 
 const line = (r: ReturnType<typeof estimateBills>, id: string) => r.lines.find((l) => l.id === id)
 const total = (r: ReturnType<typeof estimateBills>) => r.lines.reduce((s, l) => s + (l.householdAnnualGBP ?? 0), 0)
@@ -117,5 +117,25 @@ describe('postcode → area', () => {
     expect(areasForPostcode('DH1 1AA')).toEqual(['gilesgate', 'cityCentre'])
     expect(areaFromPostcode('SW1A 1AA')).toBeNull()
     expect(areaFromPostcode('DH')).toBeNull()
+  })
+})
+
+describe('energyCostFor', () => {
+  const cap = { elecUnit: 0.2546, elecStanding: 0.6158, gasUnit: 0.0792, gasStanding: 0.2979 }
+
+  it('matches the electricity + gas lines of estimateBills at cap rates', () => {
+    const r = estimateBills(DEMO_SURVEY)
+    const energyLines = r.lines.filter((l) => l.id === 'electricity' || l.id === 'gas')
+    const fromLines = energyLines.reduce((s, l) => s + (l.householdAnnualGBP ?? 0), 0)
+    expect(energyCostFor(DEMO_SURVEY, cap).householdAnnual).toBeCloseTo(fromLines, 0)
+  })
+
+  it('ignores gas rates for an all-electric house', () => {
+    const s = { ...DEMO_SURVEY, hasGas: false }
+    expect(energyCostFor(s, cap).householdAnnual).toBe(energyCostFor(s, { ...cap, gasUnit: 9, gasStanding: 9 }).householdAnnual)
+  })
+
+  it('a pricier tariff costs more', () => {
+    expect(energyCostFor(DEMO_SURVEY, { ...cap, elecUnit: 0.2976 }).perPersonWeek).toBeGreaterThan(energyCostFor(DEMO_SURVEY, cap).perPersonWeek)
   })
 })

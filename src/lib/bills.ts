@@ -217,3 +217,29 @@ export function areaFromPostcode(input: string): AreaId | null {
   const m = areasForPostcode(input)
   return m.length === 1 ? m[0] : null
 }
+
+// ---------- Energy tariff comparison ----------
+
+export interface TariffRates {
+  elecUnit: number
+  elecStanding: number
+  gasUnit: number
+  gasStanding: number
+}
+
+/** Annual household kWh for this survey (gas = 0 when the house is all-electric). */
+export function energyKwh(survey: BillsSurvey): { elec: number; gas: number } {
+  const people = Math.max(1, Math.round(survey.people))
+  const base = electricityKwh(people)
+  const gas = gasKwh(people, survey.heating)
+  return survey.hasGas ? { elec: base, gas } : { elec: base + gas * ASSUMED.boilerEfficiency, gas: 0 }
+}
+
+/** Estimated energy cost on a given tariff: whole house per year and per person per week. */
+export function energyCostFor(survey: BillsSurvey, r: TariffRates): { householdAnnual: number; perPersonWeek: number } {
+  const { elec, gas } = energyKwh(survey)
+  const people = Math.max(1, Math.round(survey.people))
+  let total = elec * r.elecUnit + 365 * r.elecStanding
+  if (survey.hasGas) total += gas * r.gasUnit + 365 * r.gasStanding
+  return { householdAnnual: round2(total), perPersonWeek: round2(total / ASSUMED.weeksPerYear / people) }
+}

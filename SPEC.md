@@ -107,6 +107,7 @@ White background, **green** buttons, **pale yellow** highlights, `text-slate-900
 | 18 | UI polish | "Really good" UI now: white, clean, very compact, big elements, as concise as possible. |
 | 19 | Phone home | Phone shows two big buttons (Moving in / Moving out) → stage page with its 3 tasks. Desktop keeps both stages side by side. |
 | 20 | Bills links | Link **directly to providers** to sign up / pay (energy suppliers' moving-in pages, Northumbrian Water account + pay, broadband sign-up, TV Licensing). No comparison sites. Sources in `research/direct-links.json`. |
+| 22 | Energy prices | Each energy card lists tariff options costed for the household (£/person/wk + £/yr house). Octopus = live published NE rates (public API); others = "up to" Ofgem cap for standard variable, fixed = Get a quote. Cheapest highlighted. |
 | 21 | Restart bills | Small "Reset compare bills" text link on results restarts the survey. |
 
 ## 10. Git workflow
