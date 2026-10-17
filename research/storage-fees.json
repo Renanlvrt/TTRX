@@ -1,0 +1,408 @@
+{
+  "checkedDate": "2026-10-17",
+  "scenario": "1 small + 1 medium + 1 large box, collected from and returned to Durham DH1 (same address, i.e. within every provider's free/local return radius), weekday collection/return, ground floor / halls reception.",
+  "packagingRule": "Each worked totalGBP EXCLUDES buying boxes, because Seven Seas, Student Storage Box and DUmove's pricing include or supply boxes but The Box Co. and LOVESPACE sell theirs separately. Where boxes cost extra, the 'withPackaging' total is given inside 'arithmetic' too. Students can use their own sturdy double-walled boxes at Box Co./LOVESPACE.",
+  "durationRule": "Monthly-plan providers: 4w -> 1-month plan, 15w -> 4-month plan (3.45 months rounded up), 26w -> 6-month plan, 52w -> 12-month plan. Seven Seas prices by exact dates (quote tool) so no rounding.",
+  "providers": [
+    {
+      "id": "seven-seas-durham",
+      "name": "Seven Seas Worldwide - Student Storage Durham",
+      "bookingUrl": "https://account.sevenseasworldwide.com/getquote?lang=en-gb&rs=585850",
+      "sizes": [
+        {
+          "appSize": "small",
+          "providerName": "Standard Box (no smaller box offered; mapped up)",
+          "dims": "51 x 41 x 31 cm, 30 kg max",
+          "priceGBP": 1.30,
+          "per": "week",
+          "evidenceUrl": "https://www.sevenseasworldwide.com/students/storage/",
+          "quote": "£1.30 per week ... *based on storage for our Standard size box, please note a minimum £84 charge applies."
+        },
+        {
+          "appSize": "medium",
+          "providerName": "Standard Box",
+          "dims": "51 x 41 x 31 cm, 30 kg max",
+          "priceGBP": 1.30,
+          "per": "week",
+          "evidenceUrl": "https://www.sevenseasworldwide.com/students/storage/",
+          "quote": "£1.30 per week ... *based on storage for our Standard size box"
+        },
+        {
+          "appSize": "large",
+          "providerName": "Large Box",
+          "dims": "61 x 51 x 41 cm, 30 kg max",
+          "priceGBP": 2.60,
+          "per": "week",
+          "evidenceUrl": "https://globalapi.sevenseasworldwide.com/api/QuoteCalculatorState/GetQuoteSimple (live quote tool behind https://account.sevenseasworldwide.com/getquote, Durham DH1 -> Durham DH1, run 2026-10-17)",
+          "quote": "Derived, not published: 1 Large Box 02/11/2026-30/11/2026 \"price\":220.50 vs 1 Standard Box same dates \"price\":215.30; 1 Large 02/11/2026-03/05/2027 \"price\":277.70 (277.70-220.50 = 57.20 = 22 wks x 2.60). Large = 2 x Standard rate."
+        }
+      ],
+      "fees": {
+        "collectionGBP": null,
+        "returnGBP": 0,
+        "depositGBP": 84,
+        "depositRefundable": false,
+        "minimumChargeGBP": 84,
+        "packagingGBP": 0,
+        "insurance": "Optional 'Basic or Premier insurance package' (prices not published). Quote tool page mentions 'Loss of individual boxes, bags, and suitcases cover'.",
+        "other": [
+          "DURHAM FIXED CHARGE: live quotes for Durham DH1 contain a fixed ~£210.10 per order on top of storage (no breakdown given; collection is not itemised so collectionGBP = null). Same 1 Standard Box / 4 weeks: Durham DH1 £215.30, Gilesgate DH1 £215.30, Newcastle NE1 £224.75, but York YO10 £84.01 and London SW12 £84.01. The advertised '£84 minimum' badly understates the Durham cost.",
+          "Deposit £84 (£70 + VAT) charged at booking is a part-payment of the total, not an extra: 'we'll charge you a deposit of GBP£84 (£70 + VAT). Then ... you'll only be charged for the balance of your storage when you're ready for us to redeliver your boxes.' (https://www.sevenseasworldwide.com/students/storage/)",
+          "Return free within 50 km of collection address: 'we'll deliver your goods anywhere within 50km of the collection address at no extra cost.' Beyond that 'an additional charge' (amount not published).",
+          "Packaging included: 'Parcel tape, bubble wrap and purpose-built shipping boxes.' Unused undamaged boxes collected free.",
+          "Min 4 weeks ('you can store for less, but the charge will remain the same'); max 26 weeks, then 'we'll invoice you for an extra four weeks of storage' auto-renewing every 4 weeks 'without the discount'.",
+          "£30 off orders storing at least three Large boxes - did NOT appear in API quotes for 3 Large boxes (discountApplied:false, £241.30); may apply at checkout.",
+          "Quotes outside 4-26 weeks carry an extra £26.65 vs the linear model (1 week quote £241.95; 52 week quote £507.15).",
+          "Pricing model that reproduces all ten 4-26 week Durham quotes exactly: total = 210.10 + weeks x (1.30 x nStandard + 2.60 x nLarge)."
+        ]
+      },
+      "maxWeeks": 26,
+      "worked": [
+        {
+          "weeks": 4,
+          "totalGBP": 230.90,
+          "arithmetic": "Live quote (2 Standard + 1 Large, 02/11/2026-30/11/2026, Durham DH1): £230.90 = 210.10 fixed + 4 x (1.30+1.30+2.60). Includes £84 deposit, collection, return within 50 km, boxes/packaging.",
+          "confidence": "high"
+        },
+        {
+          "weeks": 15,
+          "totalGBP": 288.10,
+          "arithmetic": "Live quote (02/11/2026-15/02/2027): £288.10 = 210.10 + 15 x 5.20.",
+          "confidence": "high"
+        },
+        {
+          "weeks": 26,
+          "totalGBP": 345.30,
+          "arithmetic": "Live quote (02/11/2026-03/05/2027): £345.30 = 210.10 + 26 x 5.20.",
+          "confidence": "high"
+        },
+        {
+          "weeks": 52,
+          "totalGBP": 507.15,
+          "arithmetic": "Live quote (02/11/2026-01/11/2027): £507.15 (= 210.10 + 52 x 5.20 + 26.65 unexplained). Site says max 26 weeks then 4-weekly auto-renewal 'without the discount', so the real bill could differ.",
+          "confidence": "medium"
+        }
+      ],
+      "notes": "Quote-tool API used: getsessionid -> setoriginanddestination (UK 211, town 21794 'Durham DH1 (Durham)', Storage:true, dates dd/mm/yyyy) -> addhouseholditem (299 Standard Box, 300 Large Box) -> Quote/generate -> GetQuoteSimple. Prices include VAT (London 1 box/4 wks = £84.01 = the '£84 (£70+VAT)' minimum). Small mapped up to Standard (only Standard and Large exist). Most expensive option in Durham for short stays because of the ~£210 fixed charge."
+    },
+    {
+      "id": "lovespace",
+      "name": "LOVESPACE (storage by the box)",
+      "bookingUrl": "https://lovespace.co.uk/apps/order/",
+      "sizes": [
+        {
+          "appSize": "small",
+          "providerName": "Small Box (combined L+W+H up to 110 cm)",
+          "dims": "LOVESPACE small box 29 x 40 x 34 cm (any double-walled box with L+W+H <= 110 cm)",
+          "priceGBP": 9.65,
+          "per": "month (1-month plan); 5.35 on 4-month plan; 4.40 on 6-month plan; 3.25 on 12-month plan",
+          "evidenceUrl": "https://uk-live-api.lovespace.com/storage/prices/user/null (price matrix used by lovespace.co.uk/apps/order/, boxType 48 'Small Box')",
+          "quote": "\"48\":{\"1\":{\"1\":9.65,\"2\":7.75,\"3\":5.8,\"4\":5.35,\"5\":5.35,\"6\":4.4,...,\"12\":3.25}} (boxType -> numBoxes -> planMonths -> £ per box per month)"
+        },
+        {
+          "appSize": "medium",
+          "providerName": "Medium Box (combined L+W+H 110-130 cm)",
+          "dims": "LOVESPACE medium box 41 x 41 x 41 cm",
+          "priceGBP": 12.10,
+          "per": "month (1-month plan); 6.70 on 4-month plan; 5.45 on 6- and 12-month plans",
+          "evidenceUrl": "https://uk-live-api.lovespace.com/storage/prices/user/null (boxType 14 'Medium Box')",
+          "quote": "\"14\":{\"1\":{\"1\":12.1,\"2\":9.65,\"3\":7.25,\"4\":6.7,\"5\":6.7,\"6\":5.45,...,\"12\":5.45}}"
+        },
+        {
+          "appSize": "large",
+          "providerName": "Large Box (combined L+W+H 130-150 cm)",
+          "dims": "LOVESPACE large box 57 x 45 x 40 cm",
+          "priceGBP": 21.50,
+          "per": "month (1-month plan); 11.85 on 4-month plan; 9.70 on 6- and 12-month plans",
+          "evidenceUrl": "https://uk-live-api.lovespace.com/storage/prices/user/null (boxType 19 'Large Box')",
+          "quote": "\"19\":{\"1\":{\"1\":21.5,\"2\":17.2,\"3\":12.95,\"4\":11.85,\"5\":11.85,\"6\":9.7,...,\"12\":9.7}}"
+        }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": 23.85,
+        "depositGBP": 0,
+        "depositRefundable": null,
+        "minimumChargeGBP": null,
+        "packagingGBP": 19.80,
+        "insurance": "Included: 'Every box and other item is covered for up to £100'. Upgrade: '£1.45 per box or other item per month ... up to £200' or '£2.95 ... up to £500'. (FAQ via https://uk-live-strapi-api.lovespace.com/api/faqs)",
+        "other": [
+          "Collection: 'Our standard collection is free for our by-the-box service! In some areas, you can upgrade to a collection from the doorstep if you live above the ground floor, which is an extra £30.' Standard collection is from the ground floor; halls = leave at ground floor/reception. Friday/Saturday/first-available-day collections cost extra.",
+          "Return: 'Our standard delivery service is £7.95 per box or other item from 7am to 7pm Monday to Friday' -> 3 x 7.95 = £23.85. +£7 per item per extra 25 miles beyond 25 miles. API surcharges: Friday +£8.50, Saturday +£6.00 (https://uk-live-api.lovespace.com/return/days/surcharges).",
+          "Packaging (optional, own double-walled boxes allowed): Small box £2.95 + Medium box £3.95 + Large box £5.95 = £12.85 (https://uk-live-api.lovespace.com/materials) + materials delivery 'starts at £6.95' = £19.80.",
+          "Fees: boxes over 25 kg '£40 on collection and £40 on delivery'; non-box bags '£50'; missed collection '£50'.",
+          "Storage charged monthly in advance; plan price per box per month depends on plan length (1-12 months). '40% off 3 months+' marketing matches matrix (Small 9.65 -> 5.80 at 3 months).",
+          "Durham DH1 is an in-house collection postcode: GET /courier/isInHouseCollectionPostcode/DH13LE/basketType/BTB -> {\"isInHouseCollectionPostcode\":true}."
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        {
+          "weeks": 4,
+          "totalGBP": 67.10,
+          "arithmetic": "1-month plan: (9.65 + 12.10 + 21.50) x 1 = 43.25 storage + 0 collection + 3 x 7.95 return = 23.85 -> £67.10. With LOVESPACE boxes (+19.80): £86.90.",
+          "confidence": "medium"
+        },
+        {
+          "weeks": 15,
+          "totalGBP": 119.45,
+          "arithmetic": "4-month plan: (5.35 + 6.70 + 11.85) = 23.90/month x 4 = 95.60 + 23.85 return -> £119.45. With boxes: £139.25.",
+          "confidence": "medium"
+        },
+        {
+          "weeks": 26,
+          "totalGBP": 141.15,
+          "arithmetic": "6-month plan: (4.40 + 5.45 + 9.70) = 19.55/month x 6 = 117.30 + 23.85 -> £141.15. With boxes: £160.95.",
+          "confidence": "medium"
+        },
+        {
+          "weeks": 52,
+          "totalGBP": 244.65,
+          "arithmetic": "12-month plan: (3.25 + 5.45 + 9.70) = 18.40/month x 12 = 220.80 + 23.85 -> £244.65. With boxes: £264.45.",
+          "confidence": "medium"
+        }
+      ],
+      "notes": "Prices come from LOVESPACE's own public pricing API used by the order app (same storagePricePlanId for any visitor); the 12-month Small Box rate (£3.25) matches the advertised 'from £3.25 per box per month', which validates the mapping. Medium confidence because the final basket (doorstep upgrade, day surcharges, promotions) was not checked out. Return assumed Mon-Thu within 25 miles."
+    },
+    {
+      "id": "theboxco-durham",
+      "name": "The Box Co. - Durham Student Storage",
+      "bookingUrl": "https://booking.theboxco.co.uk/?postcode=DH1",
+      "sizes": [
+        {
+          "appSize": "small",
+          "providerName": "Small Box",
+          "dims": "45 x 30 x 30 cm, L+W+H up to 107 cm, 20 kg max",
+          "priceGBP": 9.60,
+          "per": "month (1-month); 4.80 (4-month plan); 4.42 (6-month); 3.84 (12-month)",
+          "evidenceUrl": "https://theboxco.co.uk/products.json (Shopify variants used by the booking cart; product small-box-monthly-storage-zone-5)",
+          "quote": "\"Small Box (Monthly Storage)\" variants: \"1 month\" 9.60, \"discount for 4 months\" 4.80, \"discount for 6 months\" 4.42, \"discount for 12 months\" 3.84"
+        },
+        {
+          "appSize": "medium",
+          "providerName": "Medium Box",
+          "dims": "approx. 50 x 40 x 40 cm, L+W+H up to 132 cm, 20 kg max",
+          "priceGBP": 14.95,
+          "per": "month (1-month); 7.48 (4-month); 6.88 (6-month); 5.98 (12-month)",
+          "evidenceUrl": "https://theboxco.co.uk/products.json (medium-box-monthly-storage-zone-5)",
+          "quote": "\"Medium Box (Monthly Storage)\" variants: \"1 month\" 14.95, \"discount for 4 months\" 7.48, \"discount for 6 months\" 6.88, \"discount for 12 months\" 5.98"
+        },
+        {
+          "appSize": "large",
+          "providerName": "Large Box",
+          "dims": "approx. 50 x 50 x 50 cm, L+W+H up to 150 cm, 20 kg max",
+          "priceGBP": 19.95,
+          "per": "month (1-month); 9.98 (4-month); 9.18 (6-month); 7.98 (12-month)",
+          "evidenceUrl": "https://theboxco.co.uk/products.json (large-box-monthly-storage-zone-5)",
+          "quote": "\"Large Box (Monthly Storage)\" variants: \"1 month\" 19.95, \"discount for 4 months\" 9.98, \"discount for 6 months\" 9.18, \"discount for 12 months\" 7.98"
+        }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": 44.85,
+        "depositGBP": 0,
+        "depositRefundable": null,
+        "minimumChargeGBP": null,
+        "packagingGBP": 18.15,
+        "insurance": "Included: 'We offer complimentary coverage of £100 per box.' Upgrades (products.json 'Coverage'): up to £250/box £0.95, up to £500/box £2.95.",
+        "other": [
+          "DH1 -> zone E -> /pages/zone-5 (postcode routing JS on https://theboxco.co.uk/pages/durham-student-storage). Zones 2-6 have identical box prices.",
+          "Return: booking app text 'Based on single box/suitcase delivered locally to ground floor @ £14.95/box, within 20 miles of collection address.' and 'Return charges apply*'; products.json 'Return' product: 'Box or Suitcase (price per item)' 14.95, 'E.g. if you have 3 boxes the total price is £44.85'. Contradicts site meta 'Free collection and returns'.",
+          "Collection: 'Free* Collection' (asterisk unexplained); booking cart shows FREE when the collection line is £0. A 'Day Charge' product (£29.95) is added for certain annotated collection dates - avoid those dates.",
+          "Distance surcharge beyond 20 miles: page says '58p* per mile of the total distance' but products.json 'Distance Surcharge' variant is £0.78 - inconsistent.",
+          "Packaging (optional; own boxes must be double-walled): Small £4.65 + Medium £6.25 + Large £7.25 = £18.15 (products.json Packaging Materials); tape £4.85.",
+          "Subscription 1-12 months: booking JS validation 'Minimum 1 month allowed' / 'Maximum 12 months allowed'.",
+          "Headline 'from £3.56 per box per month' is lower than the lowest catalogue price found (£3.84, 12-month small box); a 24-months-upfront small box product exists at £70.59 (= £2.94/month).",
+          "Other fees: missed return £75, missed collection £149.90, items over 75 cm £50, late payment £50."
+        ]
+      },
+      "maxWeeks": 52,
+      "worked": [
+        {
+          "weeks": 4,
+          "totalGBP": 89.35,
+          "arithmetic": "1-month plan: 9.60 + 14.95 + 19.95 = 44.50 + 0 collection + 3 x 14.95 return = 44.85 -> £89.35. With Box Co. boxes (+18.15): £107.50.",
+          "confidence": "medium"
+        },
+        {
+          "weeks": 15,
+          "totalGBP": 133.89,
+          "arithmetic": "4-month plan: (4.80 + 7.48 + 9.98) = 22.26/month x 4 = 89.04 + 44.85 -> £133.89. With boxes: £152.04.",
+          "confidence": "medium"
+        },
+        {
+          "weeks": 26,
+          "totalGBP": 167.73,
+          "arithmetic": "6-month plan: (4.42 + 6.88 + 9.18) = 20.48/month x 6 = 122.88 + 44.85 -> £167.73. With boxes: £185.88.",
+          "confidence": "medium"
+        },
+        {
+          "weeks": 52,
+          "totalGBP": 258.45,
+          "arithmetic": "12-month plan: (3.84 + 5.98 + 7.98) = 17.80/month x 12 = 213.60 + 44.85 -> £258.45. With boxes: £276.60.",
+          "confidence": "medium"
+        }
+      ],
+      "notes": "Prices are the Shopify variants the booking cart uses (merchandiseId = variantId), so they are checkout prices, but the full basket was not checked out. Medium confidence because 'Free collection and returns' marketing conflicts with the £14.95/box return line, and Day Charges may apply on busy dates."
+    },
+    {
+      "id": "dumove-du-storage",
+      "name": "DUmove - DU Storage",
+      "bookingUrl": "https://www.dumove.co.uk/store/p/du-storage-box",
+      "sizes": [
+        {
+          "appSize": "small",
+          "providerName": "DU Storage Box (one size only; mapped down)",
+          "dims": "up to 60 x 40 x 40 cm (~96 L), 20 kg max",
+          "priceGBP": 44,
+          "per": "summer term (flat, includes pickup, storage and redelivery)",
+          "evidenceUrl": "https://www.dumove.co.uk/du-storage",
+          "quote": "DU Storage® Box £44.00 ... Remember, this price includes picking up your boxes, collection, storage and redelivery!"
+        },
+        {
+          "appSize": "medium",
+          "providerName": "DU Storage Box",
+          "dims": "up to 60 x 40 x 40 cm, 20 kg max",
+          "priceGBP": 44,
+          "per": "summer term",
+          "evidenceUrl": "https://www.dumove.co.uk/store/p/du-storage-box",
+          "quote": "£44.00 ... Your box must be the below dimensions or smaller ... L = 60cm, W = 40cm, D = 40cm ... 20kg"
+        },
+        {
+          "appSize": "large",
+          "providerName": "DU Storage Box (60x40x40 ~96 L covers the app's ~95 L large box)",
+          "dims": "up to 60 x 40 x 40 cm, 20 kg max",
+          "priceGBP": 44,
+          "per": "summer term",
+          "evidenceUrl": "https://www.dumove.co.uk/du-storage",
+          "quote": "DU Storage® Box £44.00 ... a single cost per box"
+        }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": 0,
+        "depositGBP": 0,
+        "depositRefundable": null,
+        "minimumChargeGBP": null,
+        "packagingGBP": null,
+        "insurance": null,
+        "other": [
+          "Return window: 'Our scheduled return dates fall between the 28th of September and the 11th of October.' (https://www.dumove.co.uk/du-storage)",
+          "Early retrieval outside the window: 'a fee of £35 will be applied to cover the costs of early item retrieval' - not stated whether per item or per order.",
+          "Late: 'for every five days beyond the final delivery date (11th October), a charge of £25 will be incurred.'",
+          "Alternatives: 'Your Suitcase / Bag' £49 (60x40x40, 25 kg); 'Specialist Item' £53.50 (<=100 cm per side, 30 kg); Stockton campus add-on 'Delivery (within 25 miles)' £85.",
+          "Whether the box itself is supplied is not stated ('Your box must be the below dimensions or smaller' suggests you provide it). Booking deadline and collection dates not published."
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        {
+          "weeks": 4,
+          "totalGBP": 167,
+          "arithmetic": "3 x 44 = 132 + 35 early-retrieval fee (assumed once per order) -> £167. If the £35 is per item: 132 + 105 = £237. Only possible if 4 weeks ends early in the summer; DUmove is a summer service.",
+          "confidence": "low"
+        },
+        {
+          "weeks": 15,
+          "totalGBP": 132,
+          "arithmetic": "3 x £44 flat (collection + summer storage + redelivery included) = £132, assuming the 15 weeks is the summer period ending in the 28 Sep - 11 Oct return window. (If large mapped to suitcase/bag: 44 + 44 + 49 = £137.)",
+          "confidence": "medium"
+        },
+        {
+          "weeks": 26,
+          "totalGBP": null,
+          "arithmetic": "Not offered: price covers summer storage only, with returns between 28 Sep and 11 Oct. Late fee of £25 per 5 days would apply beyond 11 Oct, which is not a real storage plan.",
+          "confidence": "low"
+        },
+        {
+          "weeks": 52,
+          "totalGBP": null,
+          "arithmetic": "Not offered (summer-only service).",
+          "confidence": "low"
+        }
+      ],
+      "notes": "Durham University-focused summer storage: flat price per item, not per week. Best value for a standard summer (~15 weeks) but useless for term-time or year-long storage. Box supply, collection dates and booking deadline not stated on the site."
+    },
+    {
+      "id": "student-storage-box-durham",
+      "name": "Student Storage Box (SSB) - Durham",
+      "bookingUrl": "https://www.studentstoragebox.co.uk/secure/StorageQuote.php?source=durham",
+      "sizes": [
+        {
+          "appSize": "small",
+          "providerName": "Small Box (Free) (dims not published) / Book Box",
+          "dims": "Book Box 55 x 38 x 27 cm, 25 kg max (Small Box dims not published)",
+          "priceGBP": null,
+          "per": null,
+          "evidenceUrl": "https://www.studentstoragebox.co.uk/ourboxes.php",
+          "quote": "Book box Dimensions: Height 27cm Length: 55cm Width 38cm Max load 25kg. No per-box storage price published."
+        },
+        {
+          "appSize": "medium",
+          "providerName": "Standard Box (Free)",
+          "dims": "55 x 38 x 37 cm, 25 kg max",
+          "priceGBP": null,
+          "per": null,
+          "evidenceUrl": "https://www.studentstoragebox.co.uk/ourboxes.php",
+          "quote": "Standard Box Dimensions: Height 37cm Length: 55cm Width 38cm Max load 25kg. No per-box storage price published."
+        },
+        {
+          "appSize": "large",
+          "providerName": "Large Box (Free)",
+          "dims": "55 x 38 x 55 cm, 25 kg max",
+          "priceGBP": null,
+          "per": null,
+          "evidenceUrl": "https://www.studentstoragebox.co.uk/ourboxes.php",
+          "quote": "Large Box Dimensions: Height 55cm Length: 55cm Width 38cm Max load 25kg. No per-box storage price published."
+        }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": null,
+        "depositGBP": 65,
+        "depositRefundable": false,
+        "minimumChargeGBP": 65,
+        "packagingGBP": 0,
+        "insurance": "'Up to GBP 150 per box cover for loss in transit is free.' T&Cs: loss only, not damage.",
+        "other": [
+          "Advance payment: '£65 advance storage payment' in all Durham examples; T&Cs clause 23: 'All storage bookings are subject to a non-refundable advance payment. This is followed by and in addition to remaining weekly/monthly storage payments, in addition to a charge for return delivery or stored items.' (https://www.studentstoragebox.co.uk/Documents/termsandconditions.pdf)",
+          "Published Durham examples (3 Standard boxes): '12 Weeks Summer Storage ... £65 advance storage payment £15.10 per month remaining storage payments'; '6 months ... £65 ... £17.32 per month'; '2 weeks ... £65 ... £9.22 per week'. Each says '(Return delivery charges apply)' - amount not published anywhere found (page, FAQ, T&Cs).",
+          "Collection: 'Free premium doorstop collection' or 'Drop Off and get 5% off'.",
+          "Boxes and tape free; unused boxes £2.88 each (T&Cs clause 17).",
+          "Minimum storage 2 weeks; 'We have no maximum storage period.' (FAQ)",
+          "Return to another city free: 'our return delivery charge covers all cities in the country.'",
+          "Failed collection re-attempts £20; manual changes £20 each (T&Cs).",
+          "Quote engine (session-based PHP at /CommonCode/php/OurCode/PriceCalcs2/GeneralPriceCalc3AJAX.php) was attempted but returned 0 without the full UI session state, so no S/M/L quote obtained."
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        {
+          "weeks": 4,
+          "totalGBP": null,
+          "arithmetic": "Cannot compute: no per-box prices, number of remaining payments after the £65 advance is unclear, return delivery charge unpublished. Floor only: >= £65 advance + return charge.",
+          "confidence": "low"
+        },
+        {
+          "weeks": 15,
+          "totalGBP": null,
+          "arithmetic": "Cannot compute. Context only (3 Standard boxes, 12 weeks): £65 + £15.10/month remaining payments + unknown return charge; if 2 remaining monthly payments, ~£95.20 + return. Not the S/M/L mix.",
+          "confidence": "low"
+        },
+        {
+          "weeks": 26,
+          "totalGBP": null,
+          "arithmetic": "Cannot compute. Context only (3 Standard boxes, 6 months): £65 + £17.32/month remaining + unknown return; if 5 remaining payments, ~£151.60 + return. Not the S/M/L mix.",
+          "confidence": "low"
+        },
+        {
+          "weeks": 52,
+          "totalGBP": null,
+          "arithmetic": "Cannot compute: no 12-month example or rate published.",
+          "confidence": "low"
+        }
+      ],
+      "notes": "Only bundle examples are published; quote requires their online quote tool. Map small -> Small/Book box, medium -> Standard, large -> Large. Treat as 'quote required' in the app."
+    }
+  ]
+}

@@ -88,7 +88,7 @@ export default function StoragePage() {
       </section>
 
       <Fine className="mt-6">
-        Estimates from each provider's published prices, checked {new Date(STORAGE_CHECKED).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}. Box sizes vary by provider; confirm the final quote with them. No booking happens here.
+        All-in estimates (storage + collection + return) from each provider's own prices, checked {new Date(STORAGE_CHECKED).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}. Box sizes vary by provider; confirm the final quote with them. No booking happens here.
       </Fine>
     </Page>
   )
@@ -158,7 +158,7 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
         </div>
         <div className="text-right">
           <div className="text-4xl font-extrabold tracking-tight">{gbp(option.total!)}</div>
-          <div className="text-sm text-slate-600">total{unit ? ' · split it with housemates' : ''}</div>
+          <div className="text-sm text-slate-600">all-in{unit ? ' · split it with housemates' : ''}</div>
         </div>
       </div>
       <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
@@ -168,7 +168,19 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
               <span key={t} className="rounded-full bg-white px-3 py-1 text-sm font-medium">{t}</span>
             ))}
           </div>
-          <p className="mt-2 text-sm text-slate-600">{option.breakdown}</p>
+          <dl className="mt-3 space-y-0.5 text-sm text-slate-700">
+            <div className="flex gap-2">
+              <dt>Storage</dt>
+              <dd className="font-semibold">{gbp(option.storageGBP!)}</dd>
+            </div>
+            {option.feeLines.map((f) => (
+              <div key={f.label} className="flex gap-2">
+                <dt>+ {f.label}</dt>
+                <dd className="font-semibold">{f.amountGBP === 0 ? 'free' : gbp(f.amountGBP)}</dd>
+              </div>
+            ))}
+          </dl>
+          {item.note && <p className="mt-2 text-sm text-slate-600">{item.note}</p>}
         </div>
         <BookLink item={item} primary />
       </div>
@@ -188,10 +200,14 @@ function AltRow({ option, item }: { option: StorageOption; item: StorageListing 
           {option.total != null ? (
             <span className="shrink-0 text-xl font-bold">{gbp(option.total)}</span>
           ) : (
-            <span className="shrink-0 text-sm font-semibold text-slate-400">Get a quote</span>
+            <span className="shrink-0 text-sm font-semibold text-slate-400">{option.breakdown.startsWith('Only covers') ? 'Not available' : 'Get a quote'}</span>
           )}
         </div>
-        <div className="text-sm text-slate-500">{option.total != null ? option.breakdown : (item.priceText ?? option.breakdown)}</div>
+        <div className="text-sm text-slate-500">
+          {option.total != null
+            ? [`storage £${option.storageGBP!.toFixed(2)}`, ...option.feeLines.map((f) => `${f.label.toLowerCase()} £${f.amountGBP.toFixed(2)}`)].join(' + ')
+            : option.breakdown.startsWith('Only covers') ? `${option.breakdown} (summer only)` : (item.priceText ?? option.breakdown)}
+        </div>
       </div>
       <BookLink item={item} />
     </div>

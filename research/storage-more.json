@@ -1,0 +1,350 @@
+{
+  "checkedDate": "2026-10-17",
+  "scopeNote": "Additional Durham storage options beyond Kit Keeper, Seven Seas Worldwide, LOVESPACE, The Box Co., DUmove, Student Storage Box, Yard Self Storage, Payless For Storage. Most box services below publish only a headline 'from' rate (not per size), so totals for those are FLOORS that assume the headline rate applies to every box size. Self-storage units have no collection: the student must transport the boxes.",
+  "providers": [
+    {
+      "id": "one-stop-worldwide",
+      "name": "One Stop Worldwide",
+      "kind": "box",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://www.onestopworldwide.com/student-storage-shipping-durham.php",
+        "quote": "Our student storage services in Durham include free boxes, collection, storage, insurance, and return delivery to any address in the UK."
+      },
+      "bookingUrl": "https://www.onestopworldwide.com/student-storage-shipping-durham.php",
+      "sizes": [
+        {
+          "appSize": "any (headline only)",
+          "providerName": "unspecified (headline 'from' rate)",
+          "dims": null,
+          "priceGBP": 1.55,
+          "per": "week (unit not stated; assumed per box)",
+          "evidenceUrl": "https://www.onestopworldwide.com/student-storage-shipping-durham.php",
+          "quote": "\"priceRange\": \"From £1.55 per week\""
+        }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": 0,
+        "minimumChargeGBP": null,
+        "other": [
+          "Collection and return included per page: \"include free boxes, collection, storage, insurance, and return delivery to any address in the UK\"",
+          "\"Unused boxes are £2.88 each\"",
+          "\"Drop Off and get 5% off\"",
+          "Minimum term 2 weeks: \"You can store your belongings for as little as 2 weeks, and there's no upper time limit\"",
+          "Halls: collects only from staffed ground-floor reception"
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": 18.6, "arithmetic": "3 boxes × £1.55 × 4 wk = £18.60 FLOOR; assumes headline rate is per box for every size; collection/return claimed included", "confidence": "low" },
+        { "weeks": 15, "totalGBP": 69.75, "arithmetic": "3 × £1.55 × 15 = £69.75 FLOOR; same assumption", "confidence": "low" },
+        { "weeks": 26, "totalGBP": 120.9, "arithmetic": "3 × £1.55 × 26 = £120.90 FLOOR; same assumption", "confidence": "low" },
+        { "weeks": 52, "totalGBP": 241.8, "arithmetic": "3 × £1.55 × 52 = £241.80 FLOOR; same assumption", "confidence": "low" }
+      ],
+      "notes": "Booking text is identical to the already-known Student Storage Box (studentstoragebox.co.uk): 'Unused boxes are £2.88 each', 'Drop Off and get 5% off', £150 loss-in-transit cover, 'Save around £40 on Boxes'. Likely the same booking platform; do not present as an independent competitor without confirmation. Real per-size prices only appear in the JS quote flow."
+    },
+    {
+      "id": "easystorage-by-the-box",
+      "name": "easyStorage (Storage By-The-Box)",
+      "kind": "box",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://easystorage.com/students-storage/durham-university",
+        "quote": "Available nationwide Storage By-The-Box from £1.73 per week Safe and secure, ideal for storing small items and great for students. Comes with FREE Boxes, and FREE collection."
+      },
+      "bookingUrl": "https://easystorage.com/students-storage/durham-university",
+      "sizes": [
+        {
+          "appSize": "any (headline only)",
+          "providerName": "Storage By-The-Box (size not stated)",
+          "dims": null,
+          "priceGBP": 1.73,
+          "per": "week (unit not stated; assumed per box)",
+          "evidenceUrl": "https://easystorage.com/students-storage/durham-university",
+          "quote": "Storage By-The-Box from £1.73 per week"
+        }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": null,
+        "minimumChargeGBP": null,
+        "other": [
+          "\"Comes with FREE Boxes, and FREE collection.\"",
+          "Return cost not published: \"We will confirm all collection, storage, and return costs upfront\"",
+          "Promo on Durham self-storage page: \"Get 50% off storage for 2 months\" / \"50% off for your first 8 weeks on selected storage units\" (units, not clearly by-the-box)",
+          "Alternative: \"Self Storage with collection from £10.50 per week\""
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": 20.76, "arithmetic": "3 × £1.73 × 4 = £20.76 FLOOR; assumes per box for every size; return fee unknown, excluded", "confidence": "low" },
+        { "weeks": 15, "totalGBP": 77.85, "arithmetic": "3 × £1.73 × 15 = £77.85 FLOOR; return fee excluded", "confidence": "low" },
+        { "weeks": 26, "totalGBP": 134.94, "arithmetic": "3 × £1.73 × 26 = £134.94 FLOOR; return fee excluded", "confidence": "low" },
+        { "weeks": 52, "totalGBP": 269.88, "arithmetic": "3 × £1.73 × 52 = £269.88 FLOOR; return fee excluded", "confidence": "low" }
+      ],
+      "notes": "Durham coverage confidence LOW-MEDIUM: the 'Student Storage at Durham University' page body text is about Cambridge (template); coverage rests on 'Available nationwide' plus a separate Durham self-storage page (https://easystorage.com/self-storage/durham) naming a Durham team ('Nigel and Jordan lead the team at easyStorage Durham')."
+    },
+    {
+      "id": "student-storage-company",
+      "name": "Student Storage Company",
+      "kind": "box",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://www.studentstoragecompany.co.uk/StudentStoragePages/Cities/student-storage-durham.php",
+        "quote": "We serve students at all of the universities, schools, and colleges in Durham."
+      },
+      "bookingUrl": "https://www.studentstoragecompany.co.uk/secure/StorageQuote.php?dc=8OUSX0XGYT",
+      "sizes": [
+        { "appSize": "small", "providerName": "Small Box", "dims": "38x28x28cm, max 25kg", "priceGBP": null, "per": "week", "evidenceUrl": "https://www.studentstoragecompany.co.uk/secure/StorageQuote.php?dc=8OUSX0XGYT", "quote": "Small Box (38x28x28cm) Price of box: Free" },
+        { "appSize": "medium", "providerName": "Standard Box", "dims": "37x55x38cm, max 25kg", "priceGBP": null, "per": "week", "evidenceUrl": "https://www.studentstoragecompany.co.uk/secure/StorageQuote.php?dc=8OUSX0XGYT", "quote": "Standard Box (37x55x38cm) Price of box: Free" },
+        { "appSize": "large", "providerName": "Large Box", "dims": "55x55x38cm, max 25kg", "priceGBP": null, "per": "week", "evidenceUrl": "https://www.studentstoragecompany.co.uk/secure/StorageQuote.php?dc=8OUSX0XGYT", "quote": "Large Box (55x55x38cm) Price of box: Free" },
+        { "appSize": "any (headline only)", "providerName": "headline 'from' rate", "dims": null, "priceGBP": 1.65, "per": "week (unit not stated; assumed per box)", "evidenceUrl": "https://www.studentstoragecompany.co.uk/StudentStoragePages/Cities/student-storage-durham.php", "quote": "Prices start from £1.65 / week." }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": null,
+        "minimumChargeGBP": null,
+        "other": [
+          "Collection free: quote page \"Collection £ Free A driver comes to you to collect. First collection attempt Free.\"",
+          "Return: claimed free but conflicting. Durham page packages say \"Free relocation to a new city after storage\"; sibling site Student Storage Box says \"(Return delivery charges apply)\". Quote-page '£ 0.00' values are blank JS template fields, not evidence.",
+          "Plans listed: 12, 16, 26 and 52 weeks",
+          "\"Unused boxes are £2.88 each\"; \"Drop Off and get 5% off\"; £150 loss-in-transit cover per box free",
+          "\"Students in Durham receive a dedicated storage discount.\" (amount not stated)"
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": 59.4, "arithmetic": "Shortest listed plan is 12 wk: 3 × £1.65 × 12 = £59.40 FLOOR; assumes headline rate per box for every size; return assumed free (conflicting)", "confidence": "low" },
+        { "weeks": 15, "totalGBP": 79.2, "arithmetic": "16-week plan: 3 × £1.65 × 16 = £79.20 FLOOR; same assumptions", "confidence": "low" },
+        { "weeks": 26, "totalGBP": 128.7, "arithmetic": "3 × £1.65 × 26 = £128.70 FLOOR", "confidence": "low" },
+        { "weeks": 52, "totalGBP": 257.4, "arithmetic": "3 × £1.65 × 52 = £257.40 FLOOR", "confidence": "low" }
+      ],
+      "notes": "Same booking engine/text as the already-known Student Storage Box and One Stop Worldwide (identical £2.88 unused-box charge, 5% drop-off discount, £150 cover, StorageQuote.php flow). Treat as one offer family. Per-size prices are only computed server-side via session AJAX; not extractable."
+    },
+    {
+      "id": "obrien-birtley",
+      "name": "O'Brien Self Storage – Birtley Container Storage (Chester-le-Street)",
+      "kind": "unit",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://obrienselfstorage.co.uk/self-storage-chester-le-street/",
+        "quote": "Birtley Container Storage: Durham Road, Chester-Le-Street DH3 2TB"
+      },
+      "bookingUrl": "https://obrienselfstorage.co.uk/fast-quote-2/",
+      "sizes": [
+        { "appSize": "unit (size unspecified)", "providerName": "smallest advertised (unspecified)", "dims": "Small room: 20-35sqft (no per-size price)", "priceGBP": 8.08, "per": "week", "evidenceUrl": "https://obrienselfstorage.co.uk/self-storage-chester-le-street/", "quote": "Prices from £8.08 per week! *Prices guaranteed for the first year" }
+      ],
+      "fees": {
+        "collectionGBP": null,
+        "returnGBP": null,
+        "minimumChargeGBP": null,
+        "other": [
+          "Also states \"Flexible contracts from as little as £7.49 per week\" (unit not stated)",
+          "No collection: student must transport boxes (~7 miles from Durham city)",
+          "VAT, deposit, insurance not stated"
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": 32.32, "arithmetic": "£8.08 × 4 = £32.32 FLOOR; one unit holds all 3 boxes; unit size/site for 'from' price not stated; transport excluded", "confidence": "low" },
+        { "weeks": 15, "totalGBP": 121.2, "arithmetic": "£8.08 × 15 = £121.20 FLOOR", "confidence": "low" },
+        { "weeks": 26, "totalGBP": 210.08, "arithmetic": "£8.08 × 26 = £210.08 FLOOR", "confidence": "low" },
+        { "weeks": 52, "totalGBP": 420.16, "arithmetic": "£8.08 × 52 = £420.16 FLOOR", "confidence": "low" }
+      ],
+      "notes": "Birtley site appears to be container storage; the 'from £8.08' price may apply to an indoor room at a different branch (Sunderland). Get INSTANT QUOTE to confirm."
+    },
+    {
+      "id": "storebox-chester-le-street",
+      "name": "Storebox Self Storage – Chester le Street",
+      "kind": "unit",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://www.comparethestorage.com/self-storage-finder.php?store=Storebox+Self+Storage+-+Chester+le+Street",
+        "quote": "Unit 25, Second Ave, Drum industrial estate, Chester le Street, DH2 1AG"
+      },
+      "bookingUrl": "https://www.comparethestorage.com/self-storage-finder.php?store=Storebox+Self+Storage+-+Chester+le+Street",
+      "sizes": [
+        { "appSize": "unit 25 sq ft", "providerName": "25 ft²", "dims": "25 sq ft", "priceGBP": 75.7, "per": "month (inc. VAT if applicable)", "evidenceUrl": "https://www.comparethestorage.com/self-storage-finder.php?store=Storebox+Self+Storage+-+Chester+le+Street", "quote": "25 ft²: £75.70 ... Prices shown are PCM (inc. VAT if applicable)" }
+      ],
+      "fees": {
+        "collectionGBP": null,
+        "returnGBP": null,
+        "minimumChargeGBP": null,
+        "other": [
+          "Price from aggregator comparethestorage.com, not Storebox's own site; listing date not shown",
+          "No collection: student must transport boxes (7.29 miles from DH1 per comparethestorage)",
+          "Minimum term and admin fees not stated"
+        ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": 75.7, "arithmetic": "Billing assumed whole calendar months, rounded up: 4 wk → 1 month × £75.70 = £75.70; transport excluded", "confidence": "medium" },
+        { "weeks": 15, "totalGBP": 302.8, "arithmetic": "15 wk = 3.45 months → 4 billed months × £75.70 = £302.80 (pro-rata would be 3.45 × 75.70 ≈ £261.17)", "confidence": "medium" },
+        { "weeks": 26, "totalGBP": 454.2, "arithmetic": "26 wk = 5.98 months → 6 × £75.70 = £454.20", "confidence": "medium" },
+        { "weeks": 52, "totalGBP": 908.4, "arithmetic": "52 wk = 11.96 months → 12 × £75.70 = £908.40", "confidence": "medium" }
+      ],
+      "notes": "Aggregator listing also says 'From £2.50 a day!'. Overkill for 3 boxes; included as the only Durham-area unit with a per-size published price."
+    },
+    {
+      "id": "storage-north-east-chester-le-street",
+      "name": "Storage North East – Chester le Street (Stella Gill)",
+      "kind": "unit",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://bookings.storage-northeast.com/sites/storage-ne-chester-le-street-self-storage-units",
+        "quote": "Storage North East Ltd, Stella Gill Industrial Est, Chester Le Street, DH2 2RJ"
+      },
+      "bookingUrl": "https://bookings.storage-northeast.com/sites/storage-ne-chester-le-street-self-storage-units",
+      "sizes": [
+        { "appSize": "unit 10ft container", "providerName": "10ft Container", "dims": "10ft", "priceGBP": 24.23, "per": "week (inc. tax)", "evidenceUrl": "https://bookings.storage-northeast.com/sites/storage-ne-chester-le-street-self-storage-units", "quote": "10ft Container ... £24.23/week(inc. tax) £20.19/week(ex. tax)" },
+        { "appSize": "unit 20ft container", "providerName": "20 Ft Container", "dims": "20ft", "priceGBP": 34.89, "per": "week (inc. tax)", "evidenceUrl": "https://bookings.storage-northeast.com/sites/storage-ne-chester-le-street-self-storage-units", "quote": "20 Ft Container ... £34.89/week(inc. tax)" }
+      ],
+      "fees": {
+        "collectionGBP": null,
+        "returnGBP": null,
+        "minimumChargeGBP": null,
+        "other": [ "\"Flexible contract\"; 24h access", "No collection: student must transport boxes", "Deposit/admin/insurance not stated" ]
+      },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": 96.92, "arithmetic": "£24.23 × 4 = £96.92 (smallest storage unit; transport excluded)", "confidence": "high" },
+        { "weeks": 15, "totalGBP": 363.45, "arithmetic": "£24.23 × 15 = £363.45", "confidence": "high" },
+        { "weeks": 26, "totalGBP": 629.98, "arithmetic": "£24.23 × 26 = £629.98", "confidence": "high" },
+        { "weeks": 52, "totalGBP": 1259.96, "arithmetic": "£24.23 × 52 = £1,259.96", "confidence": "high" }
+      ],
+      "notes": "Price certain, but a 10ft container is far larger than 3 boxes; poor value. Useful only as a 'shared with housemates' option."
+    },
+    {
+      "id": "trevelyan-college-room",
+      "name": "Trevelyan College – leave belongings in room (vacations within licence)",
+      "kind": "college",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://www.durham.ac.uk/colleges-and-student-experience/colleges/trevelyan/accommodation-catering-and-facilities/",
+        "quote": "In the main college building your licence agreement covers vacation periods, so you are welcome to stay over the holidays or leave your belongings in your room."
+      },
+      "bookingUrl": null,
+      "sizes": [],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": 0,
+        "minimumChargeGBP": 0,
+        "other": [
+          "Licence runs \"from the beginning of freshers week to the last day of Easter term (September - June)\" so this covers Christmas/Easter vacations only, NOT summer",
+          "Eligibility: Trevelyan first-years in the main college building"
+        ]
+      },
+      "maxWeeks": 5,
+      "worked": [
+        { "weeks": 4, "totalGBP": 0, "arithmetic": "Already paid via residence licence; £0 extra — only for Christmas/Easter vacations, Trevelyan main building", "confidence": "high" },
+        { "weeks": 15, "totalGBP": null, "arithmetic": "Not available: summer is outside the Sept–June licence", "confidence": "high" },
+        { "weeks": 26, "totalGBP": null, "arithmetic": "Not available", "confidence": "high" },
+        { "weeks": 52, "totalGBP": null, "arithmetic": "Not available", "confidence": "high" }
+      ],
+      "notes": "maxWeeks 5 is an approximation of a Christmas/Easter vacation length, not a published figure. Similar: South College FAQ — 'Your license to occupy allows you to stay in College over the vacation periods but not the summer holiday' (https://www.durham.ac.uk/colleges-and-student-experience/colleges/south-college/prospective-students/frequently-asked-questions/). Collingwood standard rooms are '38-weeks lets which means you keep your room for the vacations' (per search result; page body not re-verified). No Durham college or SU summer box-storage scheme for individuals was found."
+    },
+    {
+      "id": "door2door-student-storage",
+      "name": "Door2Door Student Storage (By-The-Box)",
+      "kind": "box",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://door2doorstudentstorage.com/pages/student-storage-durham",
+        "quote": "By-The-Box Student Storage Durham | From £2.95/mo ... We are available in all UK Mainland cities"
+      },
+      "bookingUrl": "https://door2doorstudentstorage.com/pages/book-now-page",
+      "sizes": [
+        { "appSize": "any (headline only)", "providerName": "storage plan", "dims": null, "priceGBP": 2.95, "per": "month (per plan; unit unclear)", "evidenceUrl": "https://door2doorstudentstorage.com/pages/student-storage-durham", "quote": "STORAGE PLANS START FROM £2.95 PER MONTH | PRICE INCLUDES BOXES, COLLECTION, STORAGE AND REDELIVERY- NO HIDDEN COSTS!" }
+      ],
+      "fees": {
+        "collectionGBP": 0,
+        "returnGBP": 0,
+        "minimumChargeGBP": null,
+        "other": [ "\"Our prices are based on the number and weight of items\"", "\"whether its 1 month or 2 years!\"", "Separate 'Return Charges' page exists but showed no figures" ]
+      },
+      "maxWeeks": 104,
+      "worked": [
+        { "weeks": 4, "totalGBP": null, "arithmetic": "Cannot compute: £2.95/month is a plan floor, not tied to a box/size", "confidence": "none" },
+        { "weeks": 15, "totalGBP": null, "arithmetic": "Cannot compute", "confidence": "none" },
+        { "weeks": 26, "totalGBP": null, "arithmetic": "Cannot compute", "confidence": "none" },
+        { "weeks": 52, "totalGBP": null, "arithmetic": "Cannot compute", "confidence": "none" }
+      ],
+      "notes": "Durham only named in page title; body says all UK mainland cities. Quote required."
+    },
+    {
+      "id": "lmd-logistics",
+      "name": "LMD Logistics (Birtley)",
+      "kind": "box",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://lmdlogistics.net/guides/student-storage-costs",
+        "quote": "We collect from halls and shared houses in Newcastle, Durham and Sunderland and store everything at our yard in Birtley."
+      },
+      "bookingUrl": "https://lmdlogistics.net/guides/student-storage-costs",
+      "sizes": [],
+      "fees": { "collectionGBP": null, "returnGBP": null, "minimumChargeGBP": null, "other": [ "\"Give us your move-out date and a rough box count for a straight answer on price\"; phone 07376 293540" ] },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" },
+        { "weeks": 15, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" },
+        { "weeks": 26, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" },
+        { "weeks": 52, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" }
+      ],
+      "notes": "Local North East operator; no published prices."
+    },
+    {
+      "id": "yorkshire-storage-co",
+      "name": "The Yorkshire Storage Co. (Durham student storage)",
+      "kind": "box",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://www.theyorkshirestoragecompany.com/durham-student-storage",
+        "quote": "Durham Students ... You pack it and we will collect, store, and return it!"
+      },
+      "bookingUrl": "https://www.theyorkshirestoragecompany.com/durham-student-storage",
+      "sizes": [],
+      "fees": { "collectionGBP": null, "returnGBP": null, "minimumChargeGBP": null, "other": [ "\"As long as the address is in the same city, we will return to a different location free of charge.\"", "\"bulk collection service to reduce your delivery fee\"", "Contact: yorkshirestorageco@gmail.com" ] },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" },
+        { "weeks": 15, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" },
+        { "weeks": 26, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" },
+        { "weeks": 52, "totalGBP": null, "arithmetic": "Quote only", "confidence": "none" }
+      ],
+      "notes": "Small operator; no published prices."
+    },
+    {
+      "id": "storeease",
+      "name": "StoreEase (Darlington / Teesside)",
+      "kind": "unit",
+      "coversDurham": {
+        "value": true,
+        "evidenceUrl": "https://www.storeease.co.uk/sites/student-storage-durham",
+        "quote": "customers across Teesside and County Durham ... We collect your items for free"
+      },
+      "bookingUrl": "https://www.storeease.co.uk/#locations",
+      "sizes": [],
+      "fees": { "collectionGBP": 0, "returnGBP": null, "minimumChargeGBP": null, "other": [ "\"a free collection service on smaller units\"", "\"50% Off 8 Weeks\"", "Units \"range from small 25 sq ft rooms to large 160 sq ft containers\"; sites in Middlesbrough, Thornaby, Darlington" ] },
+      "maxWeeks": null,
+      "worked": [
+        { "weeks": 4, "totalGBP": null, "arithmetic": "No prices on page", "confidence": "none" },
+        { "weeks": 15, "totalGBP": null, "arithmetic": "No prices on page", "confidence": "none" },
+        { "weeks": 26, "totalGBP": null, "arithmetic": "No prices on page", "confidence": "none" },
+        { "weeks": 52, "totalGBP": null, "arithmetic": "No prices on page", "confidence": "none" }
+      ],
+      "notes": "Unit storage ~20 miles away (Darlington) with free collection on small units; price via 'See Prices' per site."
+    }
+  ],
+  "rejected": [
+    { "name": "StorageCollect (storagecollect.com)", "reason": "Durham not in its city list (lists Newcastle, Sunderland, Middlesbrough); same platform text as Student Storage Box ('Unused boxes are £2.88 each', 5% drop-off). Headline 'from just £1.50 per box per week'." },
+    { "name": "Durham Self Store (Littleburn Business Centre, Mill Road, Langley Moor DH7 8ET)", "reason": "Quote-only (no prices on student page or calculator); same Langley Moor area as the already-known Payless For Storage, may be the same site. Offers 'STUDENT OFFER - Free collection and drop off of your storage items'. https://www.durhamselfstore.com/page/student-storage/" },
+    { "name": "Durham Students' Union storage", "reason": "Dunelm House storage is for registered student groups' equipment only, not individuals (https://ask.durhamsu.com/support/solutions/articles/202000107014-where-can-we-store-our-student-group-equipment-)." },
+    { "name": "Uni Baggage / My Baggage", "reason": "unibaggage.com/student-storage 301-redirects to mybaggage.com/student-storage which returns 404; My Baggage is a shipping service (from £22 UK shipment), not storage." },
+    { "name": "Boxbutler, Stuffstore, Student Storage UK", "reason": "Combined search returned no Durham evidence or pages for these brands; not verified as serving DH1." },
+    { "name": "Bizzie Box, Shipitbox, Storage Boost, Send My Bag", "reason": "Searches returned no results for these brands in Durham; not verified." },
+    { "name": "Barnes Storage (Birtley)", "reason": "Price (£20/week 20ft container) only seen in a search summary, not fetched; omitted." },
+    { "name": "comparethestorage DH1 'from £x a day' listings (QC Space Peterlee, Kinsway Bishop Auckland, Quick Storage Gateshead etc.)", "reason": "Aggregator 'from' daily rates without unit size; most facilities 'Contact store for price'; 8+ miles away." },
+    { "name": "Collingwood / South College vacation arrangements", "reason": "Cover Christmas/Easter vacations only, not summer; captured as notes under the Trevelyan entry." }
+  ]
+}

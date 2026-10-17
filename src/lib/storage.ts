@@ -20,12 +20,32 @@ export interface StoragePricing {
   kind: 'box' | 'unit'
   /** Box services: price per box by size (null = size not offered / not published). */
   perBox?: Record<BoxSize, Price | null>
+  /** Box services with plan pricing: monthly price per box falls with plan length. The shortest plan covering the period is used. */
+  plans?: Record<BoxSize, Plan[] | null>
   /** Self-storage units: flat price, regardless of box count. */
   unit?: Price & { label: string }
+  /** Minimum charge for the storage itself (before fees). */
   minimumChargeGBP?: number | null
-  collectionFeeGBP?: number | null
+  /** One-off charges on top of storage, e.g. collection and return. perItem = charged per box. */
+  fees?: Fee[]
   /** Longest period the price covers (e.g. a summer-only service). */
   maxWeeks?: number
+}
+
+export interface Plan {
+  months: number
+  monthlyGBP: number
+}
+
+export interface Fee {
+  label: string
+  amountGBP: number
+  /** Charged per box. */
+  perItem?: boolean
+  /** Charged per box at a size-specific price (amountGBP ignored). */
+  bySize?: Record<BoxSize, number>
+  /** Only charged when storing for fewer weeks than this (e.g. early retrieval). */
+  onlyIfWeeksUnder?: number
 }
 
 export interface StorageOption {
@@ -35,6 +55,9 @@ export interface StorageOption {
   perWeek: number | null
   /** What the total is made of, in plain English. */
   breakdown: string
+  /** Storage part of the total (after any minimum charge), and each fee added on top. */
+  storageGBP: number | null
+  feeLines: { label: string; amountGBP: number }[]
   kind: 'box' | 'unit'
 }
 
@@ -53,7 +76,7 @@ export const totalBoxes = (n: StorageNeeds) => BOX_SIZES.reduce((s, k) => s + Ma
 
 export function costOption(needs: StorageNeeds, p: StoragePricing): StorageOption {
   const weeks = Math.max(1, needs.weeks)
-  const none = (breakdown: string): StorageOption => ({ providerId: p.providerId, total: null, perWeek: null, breakdown, kind: p.kind })
+  const none = (breakdown: string): StorageOption => ({ providerId: p.providerId, total: null, perWeek: null, breakdown, kind: p.kind, storageGBP: null, feeLines: [] })
 
   if (p.maxWeeks && weeks > p.maxWeeks) return none(`Only covers up to ${p.maxWeeks} weeks`)
 
@@ -66,8 +89,19 @@ export function costOption(needs: StorageNeeds, p: StoragePricing): StorageOptio
     total = n * p.unit.amountGBP
     parts.push(`${p.unit.label}: ${unitWord(p.unit.per, n)} × £${p.unit.amountGBP.toFixed(2)}`)
   } else {
-    if (!p.perBox) return none('Price on quote')
-    for (const size of BOX_SIZES) {
+    if (p.plans) {
+      const months = periods('month', weeks)
+      for (const size of BOX_SIZES) {
+        const count = Math.max(0, needs.boxes[size])
+        if (!count) continue
+        const plans = p.plans[size]
+        if (!plans?.length) return none(`No published ${size} box price`)
+        const plan = [...plans].sort((a, b) => a.months - b.months).find((pl) => pl.months >= months) ?? plans[plans.length - 1]
+        total += count * months * plan.monthlyGBP
+        parts.push(`${count} ${size} × ${months} month${months === 1 ? '' : 's'} × £${plan.monthlyGBP.toFixed(2)} (${plan.months}-month plan)`)
+      }
+    } else if (!p.perBox) return none('Price on quote')
+    else for (const size of BOX_SIZES) {
       const count = Math.max(0, needs.boxes[size])
       if (!count) continue
       const price = p.perBox[size]
@@ -76,17 +110,28 @@ export function costOption(needs: StorageNeeds, p: StoragePricing): StorageOptio
       total += count * n * price.amountGBP
       parts.push(`${count} ${size} × ${unitWord(price.per, n)} × £${price.amountGBP.toFixed(2)}`)
     }
-    if (p.collectionFeeGBP) {
-      total += p.collectionFeeGBP
-      parts.push(`collection £${p.collectionFeeGBP.toFixed(2)}`)
-    }
     if (p.minimumChargeGBP && total < p.minimumChargeGBP) {
       total = p.minimumChargeGBP
-      parts.push(`minimum charge £${p.minimumChargeGBP.toFixed(2)} applies`)
+      parts.push(`minimum £${p.minimumChargeGBP.toFixed(2)} applies`)
     }
   }
+  const storageGBP = round2(total)
+  const items = totalBoxes(needs)
+  const feeLines = (p.fees ?? [])
+    .filter((f) => !f.onlyIfWeeksUnder || weeks < f.onlyIfWeeksUnder)
+    .map((f) => {
+      if (f.bySize) return { label: f.label, amountGBP: round2(BOX_SIZES.reduce((sum, k) => sum + Math.max(0, needs.boxes[k]) * f.bySize![k], 0)) }
+      return {
+        label: f.perItem ? `${f.label} (${items} × £${f.amountGBP.toFixed(2)})` : f.label,
+        amountGBP: round2(f.perItem ? f.amountGBP * items : f.amountGBP),
+      }
+    })
+  for (const f of feeLines) {
+    total += f.amountGBP
+    parts.push(`${f.label} £${f.amountGBP.toFixed(2)}`)
+  }
   total = round2(total)
-  return { providerId: p.providerId, total, perWeek: round2(total / weeks), breakdown: parts.join(' + '), kind: p.kind }
+  return { providerId: p.providerId, total, perWeek: round2(total / weeks), breakdown: parts.join(' + '), kind: p.kind, storageGBP, feeLines }
 }
 
 /** Cheapest priced option is `best`; the rest (priced first, cheapest first; then quote-only) are alternatives. */

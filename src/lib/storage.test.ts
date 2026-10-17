@@ -67,3 +67,55 @@ describe('recommendStorage', () => {
     expect(recommendStorage(needs(0, 0, 0, 15), [box]).best).toBeNull()
   })
 })
+
+describe('fees', () => {
+  const withFees: StoragePricing = {
+    ...box,
+    minimumChargeGBP: null,
+    fees: [
+      { label: 'Collection', amountGBP: 20 },
+      { label: 'Return', amountGBP: 5, perItem: true },
+    ],
+  }
+  it('adds order and per-item fees on top of storage', () => {
+    const o = costOption(needs(1, 1, 1, 4), withFees)
+    expect(o.storageGBP).toBeCloseTo(4 * (1 + 1.3 + 2))
+    expect(o.feeLines.map((f) => f.amountGBP)).toEqual([20, 15])
+    expect(o.total).toBeCloseTo(4 * 4.3 + 35)
+  })
+  it('minimum charge applies to storage before fees', () => {
+    const o = costOption(needs(1, 0, 0, 4), { ...box, fees: [{ label: 'Return', amountGBP: 10 }] })
+    expect(o.storageGBP).toBe(84)
+    expect(o.total).toBe(94)
+  })
+})
+
+describe('plans and conditional fees', () => {
+  const planned: StoragePricing = {
+    providerId: 'plan',
+    kind: 'box',
+    plans: {
+      small: [{ months: 1, monthlyGBP: 10 }, { months: 4, monthlyGBP: 5 }, { months: 12, monthlyGBP: 3 }],
+      medium: [{ months: 1, monthlyGBP: 12 }, { months: 4, monthlyGBP: 6 }, { months: 12, monthlyGBP: 4 }],
+      large: null,
+    },
+    fees: [
+      { label: 'Boxes', amountGBP: 0, bySize: { small: 2, medium: 3, large: 4 } },
+      { label: 'Early retrieval', amountGBP: 35, onlyIfWeeksUnder: 12 },
+    ],
+  }
+  it('uses the shortest plan covering the period', () => {
+    // 15 weeks = 4 months -> 4-month plan
+    expect(costOption(needs(1, 1, 0, 15), planned).storageGBP).toBe(4 * 5 + 4 * 6)
+    // 26 weeks = 6 months -> 12-month plan rate
+    expect(costOption(needs(1, 0, 0, 26), planned).storageGBP).toBe(6 * 3)
+  })
+  it('size-priced and conditional fees', () => {
+    const short = costOption(needs(2, 1, 0, 4), planned)
+    expect(short.feeLines).toEqual([{ label: 'Boxes', amountGBP: 7 }, { label: 'Early retrieval', amountGBP: 35 }])
+    expect(costOption(needs(2, 1, 0, 15), planned).feeLines.map((f) => f.label)).toEqual(['Boxes'])
+  })
+  it('missing size in plans = quote', () => {
+    expect(costOption(needs(0, 0, 1, 4), planned).total).toBeNull()
+  })
+})
