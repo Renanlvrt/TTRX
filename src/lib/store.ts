@@ -1,7 +1,8 @@
-// Tiny global store: app state in localStorage, photos in IndexedDB.
+// Tiny global store: app state in memory (+ localStorage mirror), photos in IndexedDB.
+// Demo build: every page load starts from the demo-ready house, so a reload always resets the demo.
 // UI reads/writes through useAppState() and the photo helpers only.
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { get, set, del } from 'idb-keyval'
+import { get, set, del, clear } from 'idb-keyval'
 import type { AppState, TaskId, TaskStatus } from './types'
 import { DEMO_PROPERTY, demoHouseMoveIn, demoHouseMoveOut } from '../data/demoHouse'
 
@@ -52,12 +53,13 @@ export function demoState(): AppState {
 }
 
 function load(): AppState {
+  // Reload = fresh demo: forget saved state and photos uploaded in the last session.
   try {
-    const raw = localStorage.getItem(KEY)
-    if (raw) return { ...initialState(), ...JSON.parse(raw) }
+    localStorage.removeItem(KEY)
   } catch {
-    // corrupt or blocked storage: fall back to the demo house
+    // storage blocked: nothing to forget
   }
+  clear().catch(() => {})
   return demoState()
 }
 

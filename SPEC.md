@@ -76,7 +76,8 @@ White background, **green** buttons, **pale yellow** highlights, `text-slate-900
 ### Presenter shortcuts
 - **Alt+D** — demo house loaded, demo controls hidden. **Alt+R** — reset to a brand-new user.
 - **Phone:** press and hold the RentReady logo ~1s: turns demo mode on; hold again to reset to a new user.
-- **Default:** a first visit (no saved data) opens in demo mode, so any device shows the demo house straight away.
+- **Default:** every page load (and reload) opens the demo-ready house: move-in 10/10, move-out 9/10 with Oven & Hob left for the live upload. Nothing persists across reloads.
+- **Live link:** https://renanlvrt.github.io/TTRX/ (GitHub Pages, auto-deploys on push to main).
 
 ## 8. Acceptance criteria
 - [ ] Bills survey works with and without a package; numbers come from dated, sourced data; unverified = "unavailable".
