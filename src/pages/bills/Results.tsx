@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronDown, Droplets, ExternalLink, Flame, Pencil, Tv, Wifi, Zap } from 'lucide-react'
@@ -20,6 +20,7 @@ const BILL_ICON: Record<BillId, ReactNode> = {
 export default function Results({ survey, onEdit, onTenancyChange }: { survey: BillsSurvey; onEdit: () => void; onTenancyChange: (weeks: number) => void }) {
   const r = useMemo(() => estimateBills(survey), [survey])
   const weeks = survey.tenancyWeeks
+  const [weeksText, setWeeksText] = useState(String(weeks))
   const area = AREAS.find((a) => a.id === survey.area)
   const providers = providersFor(survey.area, survey)
   const sub = (m: { perMonth: number; tenancy: number }) => `${gbp(m.perMonth)}/month · ${gbp(m.tenancy)} over ${weeks} wks`
@@ -56,11 +57,13 @@ export default function Results({ survey, onEdit, onTenancyChange }: { survey: B
           type="number"
           min={1}
           max={104}
-          value={weeks}
+          value={weeksText}
           onChange={(e) => {
-            const n = Math.round(Number(e.target.value))
-            if (n >= 1 && n <= 104) onTenancyChange(n)
+            setWeeksText(e.target.value)
+            const n = Number(e.target.value)
+            if (Number.isInteger(n) && n >= 1 && n <= 104) onTenancyChange(n)
           }}
+          onBlur={() => setWeeksText(String(weeks))}
           className="h-10 w-20 rounded-xl border-2 border-line px-3 text-center font-semibold text-slate-900 outline-none focus:border-brand"
         />
         weeks

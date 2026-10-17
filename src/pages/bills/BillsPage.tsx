@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { setState, setTask, useAppState } from '../../lib/store'
 import type { BillsSurvey } from '../../lib/types'
 import { DEMO_SURVEY } from '../../lib/bills'
@@ -8,6 +8,11 @@ import Results from './Results'
 export default function BillsPage() {
   const saved = useAppState().bills.survey
   const [editing, setEditing] = useState(!saved)
+
+  // Results on screen = task done (also when returning after an abandoned edit).
+  useEffect(() => {
+    if (!editing && saved) setTask('bills', 'done')
+  }, [editing, saved])
 
   function finish(survey: BillsSurvey) {
     setState((s) => ({ ...s, bills: { survey } }))

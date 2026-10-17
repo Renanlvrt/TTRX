@@ -75,14 +75,14 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
     })
   }
 
-  // Enter = Next (buttons handle their own Enter, so skip when one is focused).
+  // Enter = Next everywhere except links and the nav buttons themselves (they handle Enter natively).
   const nextRef = useRef(next)
   useEffect(() => {
     nextRef.current = next
   })
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Enter' || (e.target as HTMLElement)?.tagName === 'BUTTON') return
+      if (e.key !== 'Enter' || (e.target as HTMLElement | null)?.closest?.('a,[data-nav]')) return
       e.preventDefault()
       nextRef.current()
     }
@@ -226,18 +226,18 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
             <ArrowLeft size={20} /> Home
           </Link>
         ) : (
-          <Button variant="ghost" onClick={() => setStep(step - 1)}>
+          <Button data-nav variant="ghost" onClick={() => setStep(step - 1)}>
             <ArrowLeft size={20} /> Back
           </Button>
         )}
-        <Button onClick={next} disabled={!answered}>
+        <Button data-nav onClick={next} disabled={!answered}>
           {step === TOTAL - 1 ? 'See my estimate' : 'Next'} <ArrowRight size={20} />
         </Button>
       </div>
 
       {step === 0 && (
         <div className="mt-8 text-center">
-          <button type="button" onClick={onDemo} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">
+          <button data-nav type="button" onClick={onDemo} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">
             Use demo answers
           </button>
         </div>
