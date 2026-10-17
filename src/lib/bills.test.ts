@@ -39,7 +39,7 @@ describe('estimateBills: SPEC demo case', () => {
     expect(r.separate.tenancy).toBeCloseTo((total(r) / 52 / 5) * 51, 1)
     expect(r.differenceTenancy).toBeCloseTo(1275 - r.separate.tenancy, 1)
     expect(r.verdict).toBe('separate')
-    expect(r.verdictText).toMatch(/cheaper per person over 51 weeks/)
+    expect(r.verdictText).toMatch(/^You save £[\d,]+ by doing it yourself \(over 51 weeks\)\.$/)
     expect(r.assumptions.some((a) => /fair-use/.test(a))).toBe(true)
   })
 })

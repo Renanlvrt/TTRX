@@ -174,12 +174,12 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
       ),
     },
     {
-      title: 'When is the heating on?',
+      title: 'How warm do you keep the house?',
       body: (
         <div className="space-y-3">
-          <OptionTile selected={d.heating === 'allDay'} onClick={() => set({ heating: 'allDay' })} title="All day in winter" icon={<Sun size={ICON} />} />
-          <OptionTile selected={d.heating === 'nights'} onClick={() => set({ heating: 'nights' })} title="Only at night" icon={<Moon size={ICON} />} />
-          <OptionTile selected={d.heating === 'coldMonths'} onClick={() => set({ heating: 'coldMonths' })} title="Only in the coldest months" icon={<Snowflake size={ICON} />} />
+          <OptionTile selected={d.heating === 'allDay'} onClick={() => set({ heating: 'allDay' })} title="Warm and cozy" caption="T-shirt indoors in January · heating on most of the day" icon={<Sun size={ICON} />} />
+          <OptionTile selected={d.heating === 'nights'} onClick={() => set({ heating: 'nights' })} title="Only when I'm really cold" caption="Hoodie first, heating in the evenings" icon={<Moon size={ICON} />} />
+          <OptionTile selected={d.heating === 'coldMonths'} onClick={() => set({ heating: 'coldMonths' })} title="I could live in an igloo" caption="Three duvets · heating only in the coldest weeks" icon={<Snowflake size={ICON} />} />
         </div>
       ),
     },

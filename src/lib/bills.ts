@@ -166,16 +166,16 @@ export function estimateBills(survey: BillsSurvey, rates: BillRates = DEFAULT_RA
     const perWeekDiff = pkg.perWeek - separatePppw
     if (Math.abs(perWeekDiff) < 1) {
       verdict = 'similar'
-      verdictText = `Both options cost about the same: within £1 a week each.`
+      verdictText = `About the same either way.`
     } else if (perWeekDiff > 0) {
       verdict = 'separate'
-      verdictText = `Arranging bills yourself looks ${fmt(differenceTenancy)} cheaper per person over ${weeks} weeks.`
+      verdictText = `You save ${fmt(differenceTenancy)} by doing it yourself (over ${weeks} weeks).`
     } else {
       verdict = 'package'
-      verdictText = `The bills package looks ${fmt(-differenceTenancy)} cheaper per person over ${weeks} weeks.`
+      verdictText = `The package saves you ${fmt(-differenceTenancy)} (over ${weeks} weeks).`
     }
   } else {
-    verdictText = `Expect about ${fmt(separate.perWeek)} per person per week if you arrange bills yourself.`
+    verdictText = `About ${fmt(separate.perWeek)} a week each if you do it yourself.`
   }
 
   const unavailable = lines.filter((l) => l.householdAnnualGBP == null).map((l) => l.label)

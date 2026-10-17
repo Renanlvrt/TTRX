@@ -1,15 +1,14 @@
 import { useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 import { ChevronDown, Droplets, ExternalLink, Flame, Pencil, Tv, Wifi, Zap } from 'lucide-react'
-import { Button, Card, Fine, Page, Stat, cx, gbp } from '../../components/ui'
+import { Button, Fine, Page, cx, gbp } from '../../components/ui'
 import { AREAS } from '../../lib/types'
-import type { BillId, BillsSurvey } from '../../lib/types'
+import type { BillId, BillsSurvey, Money } from '../../lib/types'
 import { energyCostFor, estimateBills } from '../../lib/bills'
 import { ENERGY_TARIFFS, tariffsFor } from '../../data/energyTariffs'
 import { EXTRAS, PACKAGE_BENCHMARK } from '../../data/extras'
 import { providersFor } from '../../data/billProviders'
-import type { BillGroup } from '../../data/billProviders'
+import type { BillGroup, BillProvider } from '../../data/billProviders'
 import { RATES_CHECKED } from '../../data/rates'
 
 const GROUP_ICON: Record<BillGroup, ReactNode> = {
@@ -33,61 +32,30 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
   const [weeksText, setWeeksText] = useState(String(weeks))
   const area = AREAS.find((a) => a.id === survey.area)
   const providers = providersFor(survey.area, survey)
-  const sub = (m: { perMonth: number; tenancy: number }) => `${gbp(m.perMonth)}/month · ${gbp(m.tenancy)} over ${weeks} wks`
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+  const toggleGroup = (g: string) => setExpanded((prev) => { const next = new Set(prev); if (next.has(g)) next.delete(g); else next.add(g); return next })
 
   return (
     <Page
       title="Your bills"
       subtitle={`${area?.label} · ${survey.people} ${survey.people === 1 ? 'person' : 'people'} · per person`}
-      actions={
-        <>
-          <Button variant="secondary" size="md" onClick={onEdit}>
-            <Pencil size={16} /> Edit answers
-          </Button>
-          <Link to="/" className="inline-flex h-11 items-center justify-center rounded-2xl bg-brand px-5 text-base font-semibold text-white transition hover:bg-brand-hover">
-            Done
-          </Link>
-        </>
-      }
     >
-      <Card highlight>
-        <p className="text-3xl font-extrabold leading-tight tracking-tight">{r.verdictText}</p>
-        <Fine className="mt-2 text-slate-600">Estimate under the assumptions below. Prices checked {fmtDate(RATES_CHECKED)}.</Fine>
-        {r.package && (
-          <Fine className="mt-1 text-slate-600">
-            {PACKAGE_BENCHMARK.text}{' '}
-            <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
-          </Fine>
-        )}
-      </Card>
-
-      <div className={cx('mt-4 grid gap-4', r.package && 'md:grid-cols-2')}>
-        {r.package && <Stat label={r.verdict === 'package' ? 'Bills package · cheaper' : 'Bills package'} value={`${gbp(r.package.perWeek)}/wk`} sub={sub(r.package)} />}
-        <Stat label={r.verdict === 'separate' ? 'Arrange yourself (est.) · cheaper' : 'Arrange yourself (est.)'} value={`${gbp(r.separate.perWeek)}/wk`} sub={sub(r.separate)} />
+      <div className="rounded-3xl border border-highlight-strong bg-highlight p-5">
+        <p className="text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">{r.verdictText}</p>
+        <div className={cx('mt-4 grid gap-3', r.package && 'grid-cols-2')}>
+          {r.package && <WeekTile label="Bills package" money={r.package} weeks={weeks} cheaper={r.verdict === 'package'} />}
+          <WeekTile label="Do it yourself" money={r.separate} weeks={weeks} cheaper={r.verdict === 'separate'} estimate />
+        </div>
       </div>
-
-      <div className="mt-4 flex items-center justify-end gap-2 text-base text-slate-500">
-        <label htmlFor="weeks">Tenancy length</label>
-        <input
-          id="weeks"
-          type="number"
-          min={1}
-          max={104}
-          value={weeksText}
-          onChange={(e) => {
-            setWeeksText(e.target.value)
-            const n = Number(e.target.value)
-            if (Number.isInteger(n) && n >= 1 && n <= 104) onTenancyChange(n)
-          }}
-          onBlur={() => setWeeksText(String(weeks))}
-          className="h-10 w-20 rounded-xl border-2 border-line px-3 text-center font-semibold text-slate-900 outline-none focus:border-brand"
-        />
-        weeks
+      <div className="mt-2 text-right">
+        <Button variant="ghost" size="md" onClick={onEdit}>
+          <Pencil size={16} /> Edit answers
+        </Button>
       </div>
 
       <section className="mt-8">
         <h2 className="text-xl font-bold">{r.verdict === 'package' ? 'Prefer to set bills up yourself?' : 'Set up & pay your bills'}</h2>
-        <Fine className="mb-4">Straight to each provider. Moving in? Use their moving-in page, not "switch".</Fine>
+        <Fine className="mb-4">Cheapest first. One tap to each provider.</Fine>
         <div className="space-y-5">
           {providers.map((g) => (
             <div key={g.group}>
@@ -96,41 +64,40 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                 {g.label}
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                {g.providers.map((p) => (
-                  <div key={p.id} className="flex flex-col justify-between gap-3 rounded-2xl border border-line p-5">
+                {sortCheapestFirst(g.providers, survey).filter((_, i) => i === 0 || expanded.has(g.group)).map((p, i) => {
+                  const best = i === 0 && g.providers.length > 1 && cheapestKnown(p, survey) != null
+                  const link = primaryLink(p)
+                  return (
+                  <div key={p.id} className={cx('flex flex-col justify-between gap-3 rounded-2xl border p-5', best ? 'border-highlight-strong bg-highlight' : 'border-line')}>
                     <div>
-                      <div className="text-lg font-semibold">{p.name}</div>
+                      <div className="flex items-center gap-2 text-lg font-semibold">
+                        {p.name}
+                        {best && <span className="rounded-full bg-highlight-strong px-2 py-0.5 text-xs font-bold">Cheapest</span>}
+                      </div>
                       {p.group !== 'energy' && <div className="mt-0.5 text-sm text-slate-500">{p.tags.join(' · ')}</div>}
                       {p.group !== 'energy' && (p.priceText ? <div className="mt-2 text-base font-semibold">{p.priceText}</div> : <div className="mt-2 text-base font-semibold text-slate-400">Price shown after postcode</div>)}
                       {p.group === 'energy' && <TariffOptions survey={survey} supplierId={p.id} />}
                     </div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <a
-                        href={p.website}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex h-11 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition hover:bg-brand-hover"
-                      >
-                        {p.cta} <ExternalLink size={14} />
-                      </a>
-                      {p.secondary && (
-                        <a
-                          href={p.secondary.url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex h-11 items-center gap-1.5 rounded-xl border border-line px-4 text-sm font-semibold transition hover:bg-slate-50"
-                        >
-                          {p.secondary.label} <ExternalLink size={14} />
-                        </a>
-                      )}
-                    </div>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-11 w-fit items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition hover:bg-brand-hover"
+                    >
+                      {link.label} <ExternalLink size={14} />
+                    </a>
                   </div>
-                ))}
+                  )
+                })}
               </div>
+              {g.providers.length > 1 && (
+                <button type="button" onClick={() => toggleGroup(g.group)} className="mt-2 text-sm font-semibold text-slate-500 underline-offset-4 hover:text-slate-900 hover:underline">
+                  {expanded.has(g.group) ? 'Show only the cheapest' : `Show all ${g.providers.length} options`}
+                </button>
+              )}
             </div>
           ))}
         </div>
-        <Fine className="mt-3">Links checked {fmtDate(RATES_CHECKED)}. Energy costs are for your answers: Octopus uses its published North East rates; “up to” = Ofgem price cap, the most a standard variable tariff can charge; “≈” = estimated from the supplier’s advertised saving vs the cap. We earn nothing from these links.</Fine>
       </section>
 
       <section className="mt-8">
@@ -170,6 +137,28 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
           How we estimated
           <ChevronDown size={20} className="text-slate-400 transition group-open:rotate-180" />
         </summary>
+        <div className="mt-3 flex items-center gap-2 text-base text-slate-600">
+          <label htmlFor="weeks">Tenancy length</label>
+          <input
+            id="weeks"
+            type="number"
+            min={1}
+            max={104}
+            value={weeksText}
+            onChange={(e) => {
+              setWeeksText(e.target.value)
+              const n = Number(e.target.value)
+              if (Number.isInteger(n) && n >= 1 && n <= 104) onTenancyChange(n)
+            }}
+            onBlur={() => setWeeksText(String(weeks))}
+            className="h-10 w-20 rounded-xl border-2 border-line px-3 text-center font-semibold text-slate-900 outline-none focus:border-brand"
+          />
+          weeks
+        </div>
+        <Fine className="mt-3">
+          Prices and links checked {fmtDate(RATES_CHECKED)}. Energy: Octopus uses its published North East rates; “up to” = Ofgem price cap, the most a standard variable tariff can charge; “≈” = estimated from the supplier’s advertised saving vs the cap. We earn nothing from these links. {PACKAGE_BENCHMARK.text}{' '}
+          <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
+        </Fine>
         <ul className="mt-3 list-disc space-y-1.5 pl-5">
           {r.assumptions.map((a) => (
             <li key={a} className="text-sm leading-relaxed text-slate-500">
@@ -243,7 +232,6 @@ function TariffOptions({ survey, supplierId }: { survey: BillsSurvey; supplierId
           <li key={t.name} className={cx('flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm', best ? 'bg-highlight' : 'bg-slate-50')}>
             <span className="min-w-0">
               <span className="font-semibold">{t.name}</span>
-              {best && <span className="ml-2 rounded-full bg-highlight-strong px-2 py-0.5 text-xs font-bold">Cheapest</span>}
             </span>
             {cost ? (
               <span className="shrink-0 text-right leading-tight">
@@ -258,6 +246,44 @@ function TariffOptions({ survey, supplierId }: { survey: BillsSurvey; supplierId
       })}
     </ul>
   )
+}
+
+/** Weekly cost per person; the cheaper side is solid green so it stands out. */
+function WeekTile({ label, money, weeks, cheaper, estimate }: { label: string; money: Money; weeks: number; cheaper: boolean; estimate?: boolean }) {
+  return (
+    <div className={cx('min-w-0 rounded-2xl p-3 sm:p-4', cheaper ? 'bg-brand text-white' : 'bg-white')}>
+      <div className={cx('text-xs font-bold uppercase tracking-wide', cheaper ? 'text-white/80' : 'text-slate-500')}>{label}</div>
+      {cheaper && <div className="text-xs font-bold uppercase tracking-wide text-white">✓ Cheaper</div>}
+      <div className="mt-1 whitespace-nowrap text-2xl font-extrabold tracking-tight sm:text-3xl">
+        {estimate && <span className={cx('text-lg', cheaper ? 'text-white/70' : 'text-slate-400')}>~</span>}
+        {gbp(money.perWeek)}
+        <span className={cx('text-sm font-semibold', cheaper ? 'text-white/80' : 'text-slate-500')}>/wk</span>
+      </div>
+      <div className={cx('text-sm', cheaper ? 'text-white/80' : 'text-slate-500')}>{gbp(money.tenancy)} / {weeks} wks</div>
+    </div>
+  )
+}
+
+/** Cheapest known weekly price for a provider (energy: best tariff for this house; others: their advertised monthly price). */
+function cheapestKnown(p: BillProvider, survey: BillsSurvey): number | null {
+  if (p.group === 'energy') {
+    const costs = tariffsFor(p.id).filter((t) => t.rates).map((t) => energyCostFor(survey, t.rates!).perPersonWeek)
+    return costs.length ? Math.min(...costs) : null
+  }
+  const m = p.priceText?.match(/£([\d.]+)/)
+  return m ? Number(m[1]) : null
+}
+
+function sortCheapestFirst(list: BillProvider[], survey: BillsSurvey): BillProvider[] {
+  const key = (p: BillProvider) => cheapestKnown(p, survey) ?? Infinity
+  return [...list].sort((a, b) => key(a) - key(b))
+}
+
+/** One link per provider: the quote page when there is one, otherwise their sign-up/setup page. */
+function primaryLink(p: BillProvider): { url: string; label: string } {
+  if (p.secondary && /quote/i.test(p.secondary.label)) return { url: p.secondary.url, label: 'Get a quote' }
+  if (p.group === 'energy') return { url: p.website, label: 'Get a quote' }
+  return { url: p.website, label: p.cta }
 }
 
 function fmtDate(iso: string) {
