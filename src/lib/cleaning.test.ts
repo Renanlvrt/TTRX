@@ -28,8 +28,7 @@ describe('cleaningAdvice', () => {
     const a = cleaningAdvice({ ...base, dirtyItems: 4 })
     expect(a.verdict).toBe('hire')
     expect(a.perPersonCostGBP).toBe(80)
-    expect(a.headline).toContain('£80 each')
-    expect(a.headline).toContain('£400')
+    expect(a.headline).toBe('Book a cleaner. It costs less than your deposit.')
   })
   it('many items but deposit smaller than cleaner share = DIY is cheaper', () => {
     expect(cleaningAdvice({ ...base, dirtyItems: 4, depositPerPersonGBP: 50 }).verdict).toBe('diyCheaper')

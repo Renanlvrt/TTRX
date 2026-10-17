@@ -56,7 +56,7 @@ export function cleaningAdvice(input: {
     return {
       ...base,
       verdict: 'nothing',
-      headline: 'Nothing new to clean. Do a quick tidy yourself.',
+      headline: 'Nothing to clean. Just a quick tidy.',
       detail: `Your move-out photos match move-in. Use the checklist and keep the ${gbp(houseCostGBP)} a cleaner would cost.`,
     }
   }
@@ -64,7 +64,7 @@ export function cleaningAdvice(input: {
     return {
       ...base,
       verdict: 'diy',
-      headline: `Only ${input.dirtyItems} thing${input.dirtyItems === 1 ? '' : 's'} to fix. Clean it yourself.`,
+      headline: `Only ${input.dirtyItems} thing${input.dirtyItems === 1 ? '' : 's'} to clean. Do it yourself.`,
       detail: `That's an afternoon's work. A cleaner would cost ${each}; tick through the checklist instead.`,
     }
   }
@@ -72,14 +72,14 @@ export function cleaningAdvice(input: {
     return {
       ...base,
       verdict: 'hire',
-      headline: `Book a cleaner: about ${each}, less than the ${gbp(deposit)} deposit at risk.`,
+      headline: 'Book a cleaner. It costs less than your deposit.',
       detail: `${input.dirtyItems} items need serious cleaning, which is too much to do well yourself. Left dirty, the landlord can deduct cleaning costs from your deposit.`,
     }
   }
   return {
     ...base,
     verdict: 'diyCheaper',
-    headline: `A cleaner (${each}) costs more than your ${gbp(deposit)} deposit. Clean it yourselves.`,
+    headline: 'Clean it yourselves. A cleaner costs more than your deposit.',
     detail: `${input.dirtyItems} items need cleaning. Split them between housemates using the checklist.`,
   }
 }

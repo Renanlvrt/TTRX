@@ -1,220 +1,199 @@
-import type { ReactNode } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AlertTriangle, ArrowUpRight, Check, Minus, Plus } from 'lucide-react'
-import { Fine, Page, cx, gbp } from '../../components/ui'
+import { ArrowUpRight, Camera, Check, ChevronDown } from 'lucide-react'
+import { ButtonLink, Fine, Page, cx } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
-import { cleaningAdvice, DIY_MAX_ITEMS } from '../../lib/cleaning'
+import { cleaningAdvice } from '../../lib/cleaning'
 import { compareInspections, hasAnyRecord } from '../../lib/inspection'
 import { CHECKLIST } from '../../data/checklist'
 import { CLEANING_BANDS, CLEANING_BANDS_SOURCE, CLEANING_FACTS } from '../../data/cleaningPrices'
-import { CLEANERS, CLEANING_CHECKLIST, CLEANING_CHECKLIST_SOURCE, DEPOSIT_LINKS } from '../../data/services'
+import { CLEANERS, CLEANING_CHECKLIST, DEPOSIT_LINKS } from '../../data/services'
+import { Photo } from '../inspection/ItemCard'
 import type { AppState } from '../../lib/types'
 
-const total = CLEANING_CHECKLIST.length
 const key = (i: number) => `clean-${i}`
-
 const setCleaning = (patch: Partial<AppState['cleaning']>) => setState((s) => ({ ...s, cleaning: { ...s.cleaning, ...patch } }))
+// Tenancy.Cleaning's published Durham prices are the ones our estimate uses, so it's the main quote link.
+const MAIN_CLEANER = CLEANERS.find((c) => c.id === 'tenancy-cleaning-nationwide') ?? CLEANERS[0]
 
 export default function CleaningPage() {
   const { cleaningDone, cleaning, bills, moveIn, moveOut } = useAppState()
+  const [editing, setEditing] = useState(false)
 
-  // Automatic inputs: bedrooms from the bills survey, dirty items = NEW ISSUES in the move-out photos.
-  const photosDone = hasAnyRecord(moveOut)
-  const newIssues = compareInspections(CHECKLIST, moveIn, moveOut).filter((r) => r.flag === 'newIssue')
+  if (!hasAnyRecord(moveOut)) {
+    return (
+      <Page title="Move-out cleaning">
+        <div className="rounded-3xl border-2 border-dashed border-line p-8 text-center">
+          <Camera size={32} className="mx-auto text-slate-400" />
+          <p className="mt-3 text-xl font-bold">Do your move-out photos first</p>
+          <p className="mt-1 text-slate-500">We use them to work out what needs cleaning.</p>
+          <ButtonLink to="/move-out/compare" className="mt-5">Take move-out photos</ButtonLink>
+        </div>
+      </Page>
+    )
+  }
+
+  // Everything comes from the report: NEW ISSUES = things to clean.
+  const issues = compareInspections(CHECKLIST, moveIn, moveOut).filter((r) => r.flag === 'newIssue')
   const bedrooms = cleaning.bedrooms ?? bills.survey?.people ?? 4
-  const dirtyItems = cleaning.dirtyItems ?? newIssues.length
-  const advice = cleaningAdvice({ bedrooms, people: bedrooms, depositPerPersonGBP: cleaning.depositPerPerson, dirtyItems, bands: CLEANING_BANDS })
+  const deposit = cleaning.depositPerPerson
+  const advice = cleaningAdvice({ bedrooms, people: bedrooms, depositPerPersonGBP: deposit, dirtyItems: issues.length, bands: CLEANING_BANDS })
+  const hire = advice.verdict === 'hire'
+  const each = Math.round(advice.perPersonCostGBP)
 
   const done = new Set(cleaningDone)
-  const count = CLEANING_CHECKLIST.filter((_, i) => done.has(key(i))).length
   const toggle = (id: string) => {
     const next = done.has(id) ? cleaningDone.filter((x) => x !== id) : [...cleaningDone, id]
     setState((s) => ({ ...s, cleaningDone: next }))
     const n = CLEANING_CHECKLIST.filter((_, i) => next.includes(key(i))).length
-    setTask('cleaning', n === total ? 'done' : n > 0 ? 'inProgress' : 'notStarted')
+    setTask('cleaning', n === CLEANING_CHECKLIST.length ? 'done' : n > 0 ? 'inProgress' : 'notStarted')
   }
-  const hire = advice.verdict === 'hire'
 
   return (
-    <Page title="Move-out cleaning" subtitle="Clean it yourself, or pay a pro?">
-      {/* Three inputs */}
-      <div className="grid gap-3 sm:grid-cols-3">
-        <InputTile label="Bedrooms" hint={cleaning.bedrooms == null && bills.survey ? 'From your bills answers' : 'Splits the cost'}>
-          <Stepper value={bedrooms} min={1} max={10} onChange={(v) => setCleaning({ bedrooms: v })} label="bedrooms" />
-        </InputTile>
-        <InputTile label="Deposit each" hint="What you paid">
-          <div className="flex items-center rounded-xl border-2 border-line px-3 focus-within:border-brand">
-            <span className="text-2xl font-extrabold text-slate-400">£</span>
-            <input
-              type="number"
-              inputMode="numeric"
-              min={0}
-              aria-label="Deposit per person in pounds"
-              value={cleaning.depositPerPerson}
-              onChange={(e) => setCleaning({ depositPerPerson: Math.max(0, Number(e.target.value) || 0) })}
-              className="h-12 w-full bg-transparent px-1 text-2xl font-extrabold outline-none"
-            />
-          </div>
-        </InputTile>
-        <InputTile
-          label="Things to clean"
-          hint={cleaning.dirtyItems == null ? (photosDone ? 'New issues in your move-out photos' : 'Do your move-out photos to count') : 'Set by you'}
-        >
-          <Stepper value={dirtyItems} min={0} max={10} onChange={(v) => setCleaning({ dirtyItems: v })} label="things to clean" />
-        </InputTile>
-      </div>
-
-      {/* Verdict */}
-      <div className="mt-6 rounded-3xl border border-highlight-strong bg-highlight p-6">
+    <Page title="Move-out cleaning">
+      {/* The answer */}
+      <div className="rounded-3xl border border-highlight-strong bg-highlight p-5">
         <p className="text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">{advice.headline}</p>
-        <p className="mt-2 text-base text-slate-700">{advice.detail}</p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          <Figure label={`Pro clean · ${bedrooms}-bed house`} value={`£${Math.round(advice.perPersonCostGBP)} each`} sub={`${gbp(advice.houseCostGBP)} for the house`} strong={hire} />
-          <Figure label="Deposit at risk" value={`${gbp(cleaning.depositPerPerson)} each`} sub="Landlord can deduct reasonable cleaning costs" strong={!hire && advice.verdict === 'diyCheaper'} />
+
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className={cx('rounded-2xl p-3 sm:p-4', hire ? 'bg-brand text-white' : 'bg-white')}>
+            <div className={cx('text-xs font-bold uppercase tracking-wide', hire ? 'text-white/80' : 'text-slate-500')}>Cleaner</div>
+            <div className="mt-1 text-2xl font-extrabold sm:text-3xl">£{each}<span className={cx('text-sm font-semibold', hire ? 'text-white/80' : 'text-slate-500')}> each</span></div>
+            <div className={cx('text-sm', hire ? 'text-white/80' : 'text-slate-500')}>£{advice.houseCostGBP} for a {bedrooms}-bed</div>
+          </div>
+          <div className={cx('rounded-2xl p-3 sm:p-4', !hire ? 'bg-brand text-white' : 'bg-white')}>
+            <div className={cx('text-xs font-bold uppercase tracking-wide', !hire ? 'text-white/80' : 'text-slate-500')}>Your deposit</div>
+            <div className="mt-1 text-2xl font-extrabold sm:text-3xl">£{deposit}<span className={cx('text-sm font-semibold', !hire ? 'text-white/80' : 'text-slate-500')}> each</span></div>
+            <div className={cx('text-sm', !hire ? 'text-white/80' : 'text-slate-500')}>{hire ? 'at risk if left dirty' : 'keep it by cleaning'}</div>
+          </div>
         </div>
-        <p className="mt-4 text-sm text-slate-700">
-          {CLEANING_FACTS.disputes.text}{' '}
-          <a href={CLEANING_FACTS.disputes.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Source</a>
-          {' · '}
-          {CLEANING_FACTS.noProRequired.text}{' '}
-          <a href={CLEANING_FACTS.noProRequired.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Shelter</a>
-        </p>
-        {newIssues.length > 0 && cleaning.dirtyItems == null && (
-          <p className="mt-4 text-sm text-slate-700">
-            From your photos: {newIssues.map((r) => r.item.label).join(', ')}.{' '}
-            <Link to="/move-out/report" className="font-semibold underline underline-offset-2">See report</Link>
-          </p>
+
+        {hire ? (
+          <a
+            href={MAIN_CLEANER.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setTask('cleaning', 'done')}
+            className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-brand text-lg font-semibold text-white hover:bg-brand-hover sm:w-auto sm:px-6"
+          >
+            Get a cleaner quote <ArrowUpRight size={20} />
+          </a>
+        ) : (
+          <a href="#diy" className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-2xl bg-brand text-lg font-semibold text-white hover:bg-brand-hover sm:w-auto sm:px-6">
+            Open the cleaning checklist
+          </a>
+        )}
+
+        <button type="button" onClick={() => setEditing((e) => !e)} className="mt-3 block text-sm font-semibold text-slate-600 underline-offset-4 hover:underline">
+          {editing ? 'Done' : 'Not a ' + bedrooms + '-bed, or a different deposit? Change'}
+        </button>
+        {editing && (
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <label className="rounded-2xl bg-white p-3 text-sm font-semibold text-slate-600">
+              Bedrooms
+              <input
+                type="number"
+                min={1}
+                max={10}
+                value={bedrooms}
+                onChange={(e) => setCleaning({ bedrooms: Math.min(10, Math.max(1, Number(e.target.value) || 1)) })}
+                className="mt-1 block h-11 w-full rounded-xl border-2 border-line px-3 text-xl font-bold text-slate-900 outline-none focus:border-brand"
+              />
+            </label>
+            <label className="rounded-2xl bg-white p-3 text-sm font-semibold text-slate-600">
+              Deposit each (£)
+              <input
+                type="number"
+                inputMode="numeric"
+                min={0}
+                value={deposit}
+                onChange={(e) => setCleaning({ depositPerPerson: Math.max(0, Number(e.target.value) || 0) })}
+                className="mt-1 block h-11 w-full rounded-xl border-2 border-line px-3 text-xl font-bold text-slate-900 outline-none focus:border-brand"
+              />
+            </label>
+          </div>
         )}
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[3fr_2fr]">
-        {/* DIY checklist */}
-        <section className={cx(hire && 'lg:order-2')}>
-          <div className="mb-3 flex items-baseline justify-between">
-            <h2 className="text-xl font-bold">{dirtyItems > DIY_MAX_ITEMS ? 'If you do it yourself' : 'Your cleaning checklist'}</h2>
-            <span className="text-lg font-extrabold tabular-nums">
-              {count} <span className="text-slate-400">/ {total}</span>
-            </span>
-          </div>
-          <ul className="space-y-2">
-            {CLEANING_CHECKLIST.map((text, i) => {
-              const id = key(i)
-              const on = done.has(id)
-              const [head, ...rest] = text.split(': ')
-              const hasHead = rest.length > 0
-              return (
-                <li key={id}>
-                  <button
-                    type="button"
-                    role="checkbox"
-                    aria-checked={on}
-                    onClick={() => toggle(id)}
-                    className={cx('flex w-full items-start gap-3 rounded-2xl border p-3 text-left transition', on ? 'border-brand bg-brand-soft' : 'border-line hover:border-slate-300')}
-                  >
-                    <span className={cx('mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border-2', on ? 'border-brand bg-brand text-white' : 'border-slate-300')}>
-                      {on && <Check size={14} strokeWidth={3} />}
-                    </span>
-                    <span className={cx('text-sm leading-snug', on && 'text-slate-500 line-through')}>
-                      {hasHead ? (
-                        <>
-                          <span className="font-semibold">{head}:</span> {rest.join(': ')}
-                        </>
-                      ) : (
-                        text
-                      )}
-                    </span>
-                  </button>
-                </li>
-              )
-            })}
-          </ul>
-          <Fine className="mt-2">
-            Source:{' '}
-            <a href={CLEANING_CHECKLIST_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
-              {CLEANING_CHECKLIST_SOURCE.label}
-            </a>
-          </Fine>
-        </section>
-
-        {/* Cleaners */}
-        <section className={cx(hire && 'lg:order-1')}>
-          <h2 className="mb-3 text-xl font-bold">Cleaners in Durham</h2>
-          <div className="divide-y divide-line rounded-3xl border border-line">
-            {CLEANERS.map((c) => (
-              <div key={c.id} className="flex items-center gap-3 px-5 py-4">
-                <div className="min-w-0 flex-1">
-                  <div className="text-base font-semibold">{c.name}</div>
-                  <div className={cx('text-sm', c.priceText ? 'text-slate-600' : 'text-slate-400')}>{c.priceText ?? 'Price on quote'}</div>
-                </div>
-                <a
-                  href={c.website}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setTask('cleaning', 'done')}
-                  className={cx(
-                    'inline-flex h-10 shrink-0 items-center gap-1.5 rounded-xl px-4 text-sm font-semibold transition',
-                    hire ? 'bg-brand text-white hover:bg-brand-hover' : 'border border-line hover:bg-slate-50',
-                  )}
-                >
-                  Quote <ArrowUpRight size={16} />
-                </a>
+      {/* What the report found */}
+      <section className="mt-8">
+        <div className="mb-3 flex items-baseline justify-between gap-3">
+          <h2 className="text-xl font-bold">
+            {issues.length === 0 ? 'Your report: nothing new to clean' : `Your report: ${issues.length} thing${issues.length === 1 ? '' : 's'} to clean`}
+          </h2>
+          <Link to="/move-out/report" className="shrink-0 text-sm font-semibold text-slate-500 underline-offset-4 hover:underline">
+            See report
+          </Link>
+        </div>
+        {issues.length > 0 && (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {issues.map((r) => (
+              <div key={r.item.id}>
+                <Photo photoId={r.moveOut?.photoId ?? null} alt={`${r.item.label} at move-out`} />
+                <div className="mt-1 text-sm font-semibold">{r.item.label}</div>
               </div>
             ))}
           </div>
-          <Fine className="mt-2">
-            House estimate from{' '}
-            <a href={CLEANING_BANDS_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
-              {CLEANING_BANDS_SOURCE.label}
-            </a>
-            . Durham jobs typically £196–£352. Get a quote for your exact house.
-          </Fine>
-        </section>
-      </div>
+        )}
+      </section>
 
-      <div className="mt-8 flex items-start gap-3 rounded-2xl border border-line p-4">
-        <AlertTriangle size={20} className="mt-0.5 shrink-0 text-slate-500" />
-        <Fine>
-          Cleaning won't fix mould, damp or leaks: report those to your landlord. A professional clean doesn't guarantee your deposit back.{' '}
-          <a href={DEPOSIT_LINKS[0].url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
-            Deposit rules on GOV.UK
-          </a>
-        </Fine>
-      </div>
+      {/* DIY checklist: open by default when DIY is the answer */}
+      <details id="diy" className="group mt-8 rounded-3xl border border-line px-5 py-4" open={!hire}>
+        <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
+          Clean it yourself: checklist
+          <ChevronDown size={20} className="text-slate-400 transition group-open:rotate-180" />
+        </summary>
+        <ul className="mt-3 space-y-2">
+          {CLEANING_CHECKLIST.map((text, i) => {
+            const id = key(i)
+            const on = done.has(id)
+            return (
+              <li key={id}>
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={on}
+                  onClick={() => toggle(id)}
+                  className={cx('flex w-full items-start gap-3 rounded-xl border p-3 text-left text-sm transition', on ? 'border-brand bg-brand-soft text-slate-500 line-through' : 'border-line hover:border-slate-300')}
+                >
+                  <span className={cx('mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2', on ? 'border-brand bg-brand text-white' : 'border-slate-300')}>
+                    {on && <Check size={12} strokeWidth={3} />}
+                  </span>
+                  {text}
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </details>
+
+      {/* Other cleaners */}
+      <details className="group mt-3 rounded-3xl border border-line px-5 py-4">
+        <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
+          Other cleaners in Durham
+          <ChevronDown size={20} className="text-slate-400 transition group-open:rotate-180" />
+        </summary>
+        <div className="mt-3 divide-y divide-line">
+          {CLEANERS.map((c) => (
+            <div key={c.id} className="flex items-center gap-3 py-3">
+              <div className="min-w-0 flex-1">
+                <div className="font-semibold">{c.name}</div>
+                <div className="text-sm text-slate-500">{c.priceText ?? 'Price on quote'}</div>
+              </div>
+              <a href={c.website} target="_blank" rel="noopener noreferrer" onClick={() => setTask('cleaning', 'done')} className="inline-flex h-10 shrink-0 items-center gap-1 rounded-xl border border-line px-3 text-sm font-semibold hover:bg-slate-50">
+                Quote <ArrowUpRight size={14} />
+              </a>
+            </div>
+          ))}
+        </div>
+      </details>
+
+      <Fine className="mt-6">
+        Estimate from{' '}
+        <a href={CLEANING_BANDS_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{CLEANING_BANDS_SOURCE.label}</a>.{' '}
+        {CLEANING_FACTS.noProRequired.text} Cleaning won't fix mould or damp; report those.{' '}
+        <a href={DEPOSIT_LINKS[0].url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Deposit rules</a>
+      </Fine>
     </Page>
-  )
-}
-
-function InputTile({ label, hint, children }: { label: string; hint: string; children: ReactNode }) {
-  return (
-    <div className="rounded-2xl border border-line p-4">
-      <div className="text-sm font-bold uppercase tracking-wide text-slate-500">{label}</div>
-      <div className="mt-2">{children}</div>
-      <div className="mt-2 text-xs text-slate-500">{hint}</div>
-    </div>
-  )
-}
-
-function Stepper({ value, min, max, onChange, label }: { value: number; min: number; max: number; onChange: (v: number) => void; label: string }) {
-  const btn = 'flex h-12 w-12 items-center justify-center rounded-xl border border-line transition hover:bg-slate-50 disabled:opacity-30'
-  return (
-    <div className="flex items-center justify-between gap-2">
-      <button type="button" aria-label={`Fewer ${label}`} className={btn} disabled={value <= min} onClick={() => onChange(value - 1)}>
-        <Minus size={18} />
-      </button>
-      <span className="text-3xl font-extrabold tabular-nums">{value}</span>
-      <button type="button" aria-label={`More ${label}`} className={btn} disabled={value >= max} onClick={() => onChange(value + 1)}>
-        <Plus size={18} />
-      </button>
-    </div>
-  )
-}
-
-function Figure({ label, value, sub, strong }: { label: string; value: string; sub: string; strong?: boolean }) {
-  return (
-    <div className={cx('rounded-2xl bg-white p-4', strong && 'ring-2 ring-brand')}>
-      <div className="text-xs font-bold uppercase tracking-wide text-slate-500">{label}</div>
-      <div className="mt-1 text-3xl font-extrabold tracking-tight">{value}</div>
-      <div className="text-sm text-slate-500">{sub}</div>
-    </div>
   )
 }
