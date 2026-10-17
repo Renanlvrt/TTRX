@@ -3,8 +3,10 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { get, set, del } from 'idb-keyval'
 import type { AppState, TaskId, TaskStatus } from './types'
+import { DEMO_PROPERTY, demoHouseMoveIn, demoHouseMoveOut } from '../data/demoHouse'
 
-const KEY = 'rentready:v1'
+// v2: first visit now opens in demo mode, so old saved data is ignored.
+const KEY = 'rentready:v2'
 
 export function initialState(): AppState {
   return {
@@ -36,14 +38,27 @@ export function initialState(): AppState {
   }
 }
 
+/** Presenter demo house: real photos loaded, demo controls hidden. This is what a first visit opens. */
+export function demoState(): AppState {
+  const s = initialState()
+  return {
+    ...s,
+    demoMode: true,
+    property: DEMO_PROPERTY,
+    moveIn: demoHouseMoveIn(),
+    moveOut: demoHouseMoveOut(),
+    tasks: { ...s.tasks, inspection: 'done', comparison: 'inProgress' },
+  }
+}
+
 function load(): AppState {
   try {
     const raw = localStorage.getItem(KEY)
     if (raw) return { ...initialState(), ...JSON.parse(raw) }
   } catch {
-    // corrupt or blocked storage: fall back to a fresh state
+    // corrupt or blocked storage: fall back to the demo house
   }
-  return initialState()
+  return demoState()
 }
 
 let state: AppState = load()
