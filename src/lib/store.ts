@@ -12,7 +12,7 @@ export function initialState(): AppState {
       label: '12 Example Street, Gilesgate',
       area: 'gilesgate',
       moveInDate: '2025-07-01',
-      moveOutDate: '2026-06-20',
+      moveOutDate: '2026-06-18',
       tenantName: 'Alex',
       landlordName: 'Landlord',
     },
