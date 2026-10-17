@@ -170,7 +170,7 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
           </div>
           <dl className="mt-3 space-y-0.5 text-sm text-slate-700">
             <div className="flex gap-2">
-              <dt>Storage</dt>
+              <dt>Storage{option.rate && <span className="text-slate-500"> ({option.rate})</span>}</dt>
               <dd className="font-semibold">{gbp(option.storageGBP!)}</dd>
             </div>
             {option.feeLines.map((f) => (
@@ -180,6 +180,9 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
               </div>
             ))}
           </dl>
+          {option.rate?.includes('/month') && (
+            <p className="mt-2 text-sm font-medium text-slate-700">Billed monthly, so their checkout shows {option.rate.split('/')[0]} due today. Return is paid when you get your boxes back.</p>
+          )}
           {item.note && <p className="mt-2 text-sm text-slate-600">{item.note}</p>}
         </div>
         <BookLink item={item} primary />
@@ -205,7 +208,7 @@ function AltRow({ option, item }: { option: StorageOption; item: StorageListing 
         </div>
         <div className="text-sm text-slate-500">
           {option.total != null
-            ? [`storage £${option.storageGBP!.toFixed(2)}`, ...option.feeLines.map((f) => `${f.label.toLowerCase()} £${f.amountGBP.toFixed(2)}`)].join(' + ')
+            ? [`storage £${option.storageGBP!.toFixed(2)}${option.rate ? ` (${option.rate})` : ''}`, ...option.feeLines.map((f) => `${f.label.toLowerCase()} £${f.amountGBP.toFixed(2)}`)].join(' + ')
             : option.breakdown.startsWith('Only covers') ? `${option.breakdown} (summer only)` : (item.priceText ?? option.breakdown)}
         </div>
       </div>

@@ -57,6 +57,8 @@ export interface StorageOption {
   breakdown: string
   /** Storage part of the total (after any minimum charge), and each fee added on top. */
   storageGBP: number | null
+  /** How storage is billed, matching the provider's own checkout, e.g. "£23.90/month × 4". null when mixed or a minimum applies. */
+  rate: string | null
   feeLines: { label: string; amountGBP: number }[]
   kind: 'box' | 'unit'
 }
@@ -76,17 +78,29 @@ export const totalBoxes = (n: StorageNeeds) => BOX_SIZES.reduce((s, k) => s + Ma
 
 export function costOption(needs: StorageNeeds, p: StoragePricing): StorageOption {
   const weeks = Math.max(1, needs.weeks)
-  const none = (breakdown: string): StorageOption => ({ providerId: p.providerId, total: null, perWeek: null, breakdown, kind: p.kind, storageGBP: null, feeLines: [] })
+  const none = (breakdown: string): StorageOption => ({ providerId: p.providerId, total: null, perWeek: null, breakdown, kind: p.kind, storageGBP: null, rate: null, feeLines: [] })
 
   if (p.maxWeeks && weeks > p.maxWeeks) return none(`Only covers up to ${p.maxWeeks} weeks`)
 
   let total = 0
   const parts: string[] = []
   const unitWord = (per: Price['per'], n: number) => (per === 'term' ? 'whole summer' : `${n} ${per}${n === 1 ? '' : 's'}`)
+  // Combined billing rate across all boxes (e.g. £23.90 per month), when every box bills the same way.
+  let rateGBP = 0
+  let ratePer: Price['per'] | null = null
+  let rateN = 0
+  let rateOk = true
+  const addRate = (amount: number, per: Price['per'], n: number) => {
+    if (ratePer && (ratePer !== per || rateN !== n)) rateOk = false
+    ratePer = per
+    rateN = n
+    rateGBP += amount
+  }
   if (p.kind === 'unit') {
     if (!p.unit) return none('Price on quote')
     const n = periods(p.unit.per, weeks)
     total = n * p.unit.amountGBP
+    addRate(p.unit.amountGBP, p.unit.per, n)
     parts.push(`${p.unit.label}: ${unitWord(p.unit.per, n)} × £${p.unit.amountGBP.toFixed(2)}`)
   } else {
     if (p.plans) {
@@ -98,6 +112,7 @@ export function costOption(needs: StorageNeeds, p: StoragePricing): StorageOptio
         if (!plans?.length) return none(`No published ${size} box price`)
         const plan = [...plans].sort((a, b) => a.months - b.months).find((pl) => pl.months >= months) ?? plans[plans.length - 1]
         total += count * months * plan.monthlyGBP
+        addRate(count * plan.monthlyGBP, 'month', months)
         parts.push(`${count} ${size} × ${months} month${months === 1 ? '' : 's'} × £${plan.monthlyGBP.toFixed(2)} (${plan.months}-month plan)`)
       }
     } else if (!p.perBox) return none('Price on quote')
@@ -108,14 +123,22 @@ export function costOption(needs: StorageNeeds, p: StoragePricing): StorageOptio
       if (!price) return none(`No published ${size} box price`)
       const n = periods(price.per, weeks)
       total += count * n * price.amountGBP
+      addRate(count * price.amountGBP, price.per, n)
       parts.push(`${count} ${size} × ${unitWord(price.per, n)} × £${price.amountGBP.toFixed(2)}`)
     }
     if (p.minimumChargeGBP && total < p.minimumChargeGBP) {
       total = p.minimumChargeGBP
+      rateOk = false
       parts.push(`minimum £${p.minimumChargeGBP.toFixed(2)} applies`)
     }
   }
   const storageGBP = round2(total)
+  const rate =
+    rateOk && ratePer
+      ? ratePer === 'term'
+        ? `£${rateGBP.toFixed(2)} for the summer`
+        : `£${rateGBP.toFixed(2)}/${ratePer} × ${rateN}`
+      : null
   const items = totalBoxes(needs)
   const feeLines = (p.fees ?? [])
     .filter((f) => !f.onlyIfWeeksUnder || weeks < f.onlyIfWeeksUnder)
@@ -131,7 +154,7 @@ export function costOption(needs: StorageNeeds, p: StoragePricing): StorageOptio
     parts.push(`${f.label} £${f.amountGBP.toFixed(2)}`)
   }
   total = round2(total)
-  return { providerId: p.providerId, total, perWeek: round2(total / weeks), breakdown: parts.join(' + '), kind: p.kind, storageGBP, feeLines }
+  return { providerId: p.providerId, total, perWeek: round2(total / weeks), breakdown: parts.join(' + '), kind: p.kind, storageGBP, rate, feeLines }
 }
 
 /** Cheapest priced option is `best`; the rest (priced first, cheapest first; then quote-only) are alternatives. */

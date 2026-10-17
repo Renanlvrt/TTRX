@@ -22,3 +22,12 @@ describe('storage data matches research', () => {
     expect(recommendStorage(one(4), STORAGE_LISTINGS.map((l) => l.pricing)).best?.providerId).toBe('lovespace')
   })
 })
+
+describe('billing rate matches the provider checkout', () => {
+  it('LOVESPACE summer shows £23.90/month × 4 (their "total due today" is one month)', () => {
+    expect(costOption(one(15), p('lovespace')).rate).toBe('£23.90/month × 4')
+  })
+  it('DUmove shows a flat summer price', () => {
+    expect(costOption(one(15), p('dumove')).rate).toBe('£132.00 for the summer')
+  })
+})
