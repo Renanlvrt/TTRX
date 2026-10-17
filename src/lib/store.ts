@@ -5,8 +5,8 @@ import { get, set, del } from 'idb-keyval'
 import type { AppState, TaskId, TaskStatus } from './types'
 import { DEMO_PROPERTY, demoHouseMoveIn, demoHouseMoveOut } from '../data/demoHouse'
 
-// v2: first visit now opens in demo mode, so old saved data is ignored.
-const KEY = 'rentready:v2'
+// v3: every device starts fresh in the demo state (move-out 9/10, oven left for the live upload).
+const KEY = 'rentready:v3'
 
 export function initialState(): AppState {
   return {
@@ -136,7 +136,11 @@ export function usePhotoUrl(photoId: string | null): string | null {
   const [url, setUrl] = useState<string | null>(null)
   useEffect(() => {
     if (!photoId) return setUrl(null)
-    if (photoId.startsWith('url:')) return setUrl(photoId.slice(4))
+    if (photoId.startsWith('url:')) {
+      // Bundled demo photos: resolve against the app's base path (e.g. /TTRX/ on GitHub Pages).
+      const path = photoId.slice(4)
+      return setUrl(path.startsWith('/') ? import.meta.env.BASE_URL + path.slice(1) : path)
+    }
     let objectUrl: string | null = null
     let cancelled = false
     get<Blob>(photoId).then((blob) => {

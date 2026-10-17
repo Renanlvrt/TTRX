@@ -88,7 +88,7 @@ function LogoLink() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <DemoHotkeys />
       <div className="min-h-screen bg-white">
         <header className="no-print border-b border-line">
