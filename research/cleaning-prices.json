@@ -1,0 +1,167 @@
+{
+  "checkedDate": "2026-10-17",
+  "notes": "bedrooms 0 = studio. priceType: 'fixed' = published fixed price; 'from' = starting price; 'average' = provider's own average of completed jobs; 'rangeLow'/'rangeHigh' in lowGBP/highGBP where a range is published. No provider publishes a 6-bedroom price; Tenancy.Cleaning '5 bed or more: from £475' is the only figure covering 6 beds. Fantastic national prices are not Durham-specific.",
+  "providers": [
+    {
+      "id": "tenancy-cleaning",
+      "name": "Tenancy.Cleaning",
+      "url": "https://tenancy.cleaning/areas/county-durham/end-of-tenancy-cleaning/",
+      "prices": [
+        { "bedrooms": 0, "priceGBP": 135, "priceType": "fixed", "includes": "Studio: all appliances included (oven and fridge covered)", "evidenceUrl": "https://tenancy.cleaning/prices/", "quote": "Studio flat | £135 ... All appliances included, so the oven and fridge are covered." },
+        { "bedrooms": 1, "priceGBP": 175, "priceType": "fixed", "includes": "1 bed, 1 bath; oven NOT included (extra)", "evidenceUrl": "https://tenancy.cleaning/prices/", "quote": "1 bed, 1 bath | £175" },
+        { "bedrooms": 2, "priceGBP": 230, "priceType": "fixed", "includes": "2 bed, 1 bath (2 bath: £270); oven extra", "evidenceUrl": "https://tenancy.cleaning/prices/", "quote": "2 bed, 1 bath | £230 ; 2 bed, 2 bath | £270" },
+        { "bedrooms": 3, "priceGBP": 325, "priceType": "fixed", "includes": "3 bed, 1 bath (2 bath: £360); oven extra", "evidenceUrl": "https://tenancy.cleaning/prices/", "quote": "3 bed, 1 bath | £325 ; 3 bed, 2 bath | £360" },
+        { "bedrooms": 4, "priceGBP": 390, "priceType": "fixed", "includes": "4 bed, 1 bath (2 bath: £435); oven extra", "evidenceUrl": "https://tenancy.cleaning/prices/", "quote": "4 bed, 1 bath | £390 ; 4 bed, 2 bath | £435" },
+        { "bedrooms": 5, "priceGBP": 475, "priceType": "from", "includes": "5 bed or more (also covers 6 bed); oven extra", "evidenceUrl": "https://tenancy.cleaning/prices/", "quote": "5 bed or more | From £475" },
+        { "bedrooms": 6, "priceGBP": 475, "priceType": "from", "includes": "Same '5 bed or more' band; no specific 6-bed price published", "evidenceUrl": "https://tenancy.cleaning/prices/", "quote": "5 bed or more | From £475" }
+      ],
+      "extras": [
+        { "item": "Single oven", "priceGBP": 35 },
+        { "item": "Double oven", "priceGBP": 45 },
+        { "item": "Range cooker", "priceGBP": 60 },
+        { "item": "Fridge freezer", "priceGBP": 40 },
+        { "item": "Washing machine", "priceGBP": 30 },
+        { "item": "Dishwasher", "priceGBP": 30 },
+        { "item": "Carpet cleaning, per room or area", "priceGBP": 30 },
+        { "item": "Rug", "priceGBP": 25 },
+        { "item": "Stairs, per flight", "priceGBP": 25 },
+        { "item": "Key collection from agent", "priceGBP": 20 }
+      ],
+      "notes": "County Durham page: 'For larger properties, ovens and fridge freezers are extras priced in the calculator.' Local customers typically paid '£247 for an end of tenancy clean, including extras'; middle half paid '£196–£352'. Prices page: 'No VAT is currently added to our prices.' Carpets are extra (£30/room)."
+    },
+    {
+      "id": "tenancy-cleaner",
+      "name": "Tenancy Cleaner (tenancycleaner.com)",
+      "url": "https://tenancycleaner.com/end-of-tenancy-cleaning/end-of-tenancy-cleaning-durham/",
+      "prices": [
+        { "bedrooms": 1, "priceGBP": 228, "fromGBP": 207, "priceType": "average", "includes": "Average of 3 Durham jobs (last 12 months); kitchen appliances not included by default", "evidenceUrl": "https://tenancycleaner.com/end-of-tenancy-cleaning/end-of-tenancy-cleaning-durham/", "quote": "1 bedroom | 3 | £207 | £228 (Jobs | From | Average)" },
+        { "bedrooms": 2, "priceGBP": 268, "fromGBP": 209, "priceType": "average", "includes": "Average of 7 Durham jobs; some include appliances/carpet steam cleaning", "evidenceUrl": "https://tenancycleaner.com/end-of-tenancy-cleaning/end-of-tenancy-cleaning-durham/", "quote": "2 bedrooms | 7 | £209 | £268 (Jobs | From | Average)" },
+        { "bedrooms": 3, "priceGBP": 376, "priceType": "average", "includes": "County Durham average, 3 jobs; mixed add-ons", "evidenceUrl": "https://tenancycleaner.com/end-of-tenancy-cleaning/end-of-tenancy-cleaning-county-durham/", "quote": "3 bedrooms: £376 (3 jobs)" }
+      ],
+      "extras": [],
+      "notes": "Durham page: 'From £209', average £272 across 11 jobs; covers DH1, DH6, DH7. 'Kitchen cleaning does not include appliances' (appliances are an add-on, in 58% of Durham jobs). Carpet steam cleaning is an add-on (36% of jobs), no standalone price published. Example jobs: DH1 2-bed no add-ons £220; DH1 2-bed + kitchen appliances £305; DH6 3-bed + appliances + 4 carpet areas £427. County Durham page: average £317 over 17 jobs; 1-bed £229, 2-bed £261, 3-bed £376. Figures are the provider's own booking data, small samples."
+    },
+    {
+      "id": "fantastic-services",
+      "name": "Fantastic Services",
+      "url": "https://fantasticservices.com/durham-end-of-tenancy-cleaning",
+      "prices": [
+        { "bedrooms": 0, "priceGBP": 140, "priceType": "from", "includes": "National starting price (not Durham-specific); oven included per Durham page", "evidenceUrl": "https://www.fantasticservices.com/cost-guides/cleaning/end-of-tenancy/", "quote": "Studio flat | Starting at£140 | Starting at£110 | Starting at+ £30" },
+        { "bedrooms": 1, "priceGBP": 238, "priceType": "from", "includes": "National starting price; club members £208", "evidenceUrl": "https://www.fantasticservices.com/cost-guides/cleaning/end-of-tenancy/", "quote": "1 Bedroom | Starting at£238 | Starting at£208 | Starting at+ £30" },
+        { "bedrooms": 2, "priceGBP": 275, "priceType": "from", "includes": "National starting price; club members £245", "evidenceUrl": "https://www.fantasticservices.com/cost-guides/cleaning/end-of-tenancy/", "quote": "2 Bedrooms | Starting at£275 | Starting at£245 | Starting at+ £30" },
+        { "bedrooms": 3, "priceGBP": 337, "priceType": "from", "includes": "National starting price; club members £307", "evidenceUrl": "https://www.fantasticservices.com/cost-guides/cleaning/end-of-tenancy/", "quote": "3 Bedrooms | Starting at£337 | Starting at£307 | Starting at+ £30" },
+        { "bedrooms": 4, "priceGBP": 472, "priceType": "from", "includes": "National starting price; club members £442", "evidenceUrl": "https://www.fantasticservices.com/cost-guides/cleaning/end-of-tenancy/", "quote": "4 Bedrooms | Starting at£472 | Starting at£442 | Starting at+ £30" }
+      ],
+      "extras": [
+        { "item": "Carpet cleaning add-on (starting at)", "priceGBP": 30 },
+        { "item": "Fantastic Club yearly subscription (unlocks member prices)", "priceGBP": 89 }
+      ],
+      "notes": "Durham page: 'Average service cost in this area is: £220 - £343'; 'Oven cleaning included as part of the standard end of tenancy clean'; 'Carpet and upholstery cleaning can also be added as optional extras'. 5 bedrooms: 'Call for a free video survey'. 'Bedrooms in a Flatshare | Starting at£99' (single room in a shared house)."
+    },
+    {
+      "id": "eotcs-durham",
+      "name": "End of Tenancy Cleaning Durham (endoftenancycleaningservice.co.uk, North End, Durham DH1)",
+      "url": "https://www.endoftenancycleaningservice.co.uk/end-of-tenancy-cleaning-durham.php",
+      "prices": [
+        { "bedrooms": 0, "priceGBP": 140, "lowGBP": 100, "highGBP": 180, "priceType": "range midpoint", "includes": "Oven is an optional extra", "evidenceUrl": "https://www.endoftenancycleaningservice.co.uk/end-of-tenancy-cleaning-durham.php", "quote": "Studio/ Bedsit: £100.00 - £180.00" },
+        { "bedrooms": 1, "priceGBP": 185, "lowGBP": 150, "highGBP": 220, "priceType": "range midpoint", "includes": "Oven extra", "evidenceUrl": "https://www.endoftenancycleaningservice.co.uk/end-of-tenancy-cleaning-durham.php", "quote": "1 Bed Flat/ House: £150.00 - £220.00" },
+        { "bedrooms": 2, "priceGBP": 250, "lowGBP": 200, "highGBP": 300, "priceType": "range midpoint", "includes": "Oven extra", "evidenceUrl": "https://www.endoftenancycleaningservice.co.uk/end-of-tenancy-cleaning-durham.php", "quote": "2 Bed Flat/ House: £200.00 - £300.00" },
+        { "bedrooms": 3, "priceGBP": 300, "lowGBP": 250, "highGBP": 350, "priceType": "range midpoint", "includes": "Oven extra", "evidenceUrl": "https://www.endoftenancycleaningservice.co.uk/end-of-tenancy-cleaning-durham.php", "quote": "3 Bed House: £250.00 - £350.00" },
+        { "bedrooms": 4, "priceGBP": 400, "lowGBP": 300, "highGBP": 500, "priceType": "range midpoint", "includes": "'4 + Bed Houses' band; oven extra", "evidenceUrl": "https://www.endoftenancycleaningservice.co.uk/end-of-tenancy-cleaning-durham.php", "quote": "4 + Bed Houses: £300.00 - £500.00" }
+      ],
+      "extras": [
+        { "item": "Oven cleaning (range £35-£75)", "priceGBP": 35 },
+        { "item": "Carpet steam clean (range £30-£100)", "priceGBP": 30 },
+        { "item": "Full carpet/upholstery clean (range £50-£100)", "priceGBP": 50 }
+      ],
+      "notes": "Page labels the ranges as 'average'. priceGBP is the midpoint computed by us from the published range (not a published figure). Address given only as 'North End, Durham, DH1'. Extras priceGBP = low end of published range."
+    },
+    {
+      "id": "greenstar",
+      "name": "Greenstar Cleaning",
+      "url": null,
+      "prices": [],
+      "extras": [],
+      "notes": "No published end-of-tenancy price list found. Only a Bark listing for 'Greenstar Commercial Cleaning' (Newcastle / North East) surfaced, with no prices. Treat as quote-only."
+    }
+  ],
+  "benchmark": {
+    "source": "Fantastic Services 2026 UK end of tenancy cost guide, 'Rest of UK' column (market rates, not their own prices)",
+    "url": "https://www.fantasticservices.com/cost-guides/cleaning/end-of-tenancy/",
+    "prices": [
+      { "bedrooms": 0, "lowGBP": 120, "avgGBP": null, "highGBP": 170 },
+      { "bedrooms": 1, "lowGBP": 150, "avgGBP": null, "highGBP": 200 },
+      { "bedrooms": 2, "lowGBP": 200, "avgGBP": null, "highGBP": 300 },
+      { "bedrooms": 3, "lowGBP": 300, "avgGBP": null, "highGBP": 450 },
+      { "bedrooms": 4, "lowGBP": 450, "avgGBP": null, "highGBP": 600 },
+      { "bedrooms": 5, "lowGBP": 550, "avgGBP": null, "highGBP": 700 }
+    ],
+    "quote": "Studio | £120 – £170 ... 1 bed | £150 – £200 ... 2 bed | £200 – £300 ... 3 bed | £300 – £450 ... 4 bed | £450 – £600 ... 5+ bed | £550 – £700 (Rest of UK column). 'Figures include VAT where applicable and reflect 2026 market rates.' Carpet cleaning (per room) | £25 – £40 (rest of UK).",
+    "notes": "No avg published; 5+ bed band also applies to 6 bed. Checkatrade national by-bedroom guide returned 404/403."
+  },
+  "areaBenchmarks": [
+    {
+      "source": "MyBuilder - end of tenancy cleaning costs in Durham",
+      "url": "https://www.mybuilder.com/cleaning-services/end-of-tenancy-cleaning-tradespeople/durham",
+      "prices": [
+        { "bedrooms": 0, "lowGBP": 120, "highGBP": 180 },
+        { "bedrooms": 1, "lowGBP": 120, "highGBP": 180 },
+        { "bedrooms": 2, "lowGBP": 180, "highGBP": 250 },
+        { "bedrooms": 3, "lowGBP": 250, "highGBP": 350 },
+        { "bedrooms": 4, "lowGBP": 350, "highGBP": null }
+      ],
+      "quote": "Studio or one-bedroom flat: £120 to £180 / Two-bedroom property: £180 to £250 / Three-bedroom property: £250 to £350 / Four-bedroom property or larger: £350+ / Optional carpet or upholstery cleaning: £50 to £300"
+    },
+    {
+      "source": "Checkatrade - Cleaners in Durham",
+      "url": "https://www.checkatrade.com/Search/Cleaner/in/Durham",
+      "prices": [ { "bedrooms": null, "lowGBP": 195, "avgGBP": 254, "highGBP": 337 } ],
+      "quote": "End of tenancy / move cleaning: £254 on average, with prices typically starting at £195 up to £337."
+    }
+  ],
+  "rules": [
+    {
+      "topic": "Can a tenancy require (or charge for) a professional clean? (Tenant Fees Act 2019)",
+      "verdict": "No. A landlord/agent cannot require the tenant to pay for a professional clean or use a particular cleaning company; they may only ask that it is returned in the condition found (they may request a professional standard).",
+      "url": "https://assets.publishing.service.gov.uk/media/6a4509218effd97622f53a57/Tenant_Fees_Act_2019_-_Guidance_for_landlords_and_agents.pdf",
+      "quote": "Q. Can I charge a tenant for a professional clean at the end of a tenancy? No. You cannot require a tenant to pay for a professional clean when they check-out. ... You cannot require a tenant to use a particular company to clean the property. ... You cannot require a tenant to meet any conditions that could only be met by paying a fee for a third-party service (e.g. requiring a professional clean at the end of the tenancy).",
+      "caveat": "This GOV.UK guidance PDF carries a 'Withdrawn' watermark (search snippet: withdrawn 8 May 2026) and is superseded by guidance updated for the Renters' Rights Act 2025; the current GOV.UK pages fetched did not restate the cleaning wording, but cleaning remains outside the Act's permitted payments."
+    },
+    {
+      "topic": "Can the landlord deduct cleaning costs from the deposit, limited to restoring move-in condition (fair wear and tear excluded)?",
+      "verdict": "Yes, but only the evidenced cost of returning the property to its move-in condition; no deduction for fair wear and tear or if returned as found.",
+      "url": "https://assets.publishing.service.gov.uk/media/6a4509218effd97622f53a57/Tenant_Fees_Act_2019_-_Guidance_for_landlords_and_agents.pdf",
+      "quote": "Tenants are responsible for ensuring that the property is returned in the condition that they found it, aside from any fair wear and tear. ... If the property is not left in a fit condition, you can recover costs associated with returning the property to its original condition and/or carrying out necessary repairs by claiming against the tenancy deposit. You should justify your costs by providing suitable evidence (e.g. an independently produced inventory, receipts and invoices). You are not able to claim deductions from a tenant's deposit for any change in the condition of the property which is due to fair wear and tear or if a tenant returns the property in the same condition as it was found."
+    },
+    {
+      "topic": "Deductions must be reasonable; tenant need not pay for professional cleaning (Shelter)",
+      "verdict": "Professional cleaning is optional; deductions must be reasonable and reflect landlord's actual loss; no deduction for fair wear and tear.",
+      "url": "https://england.shelter.org.uk/housing_advice/tenancy_deposits/what_can_your_landlord_deduct_from_your_deposit",
+      "quote": "Some renters choose to pay for professional cleaning before they move out to avoid disputes over the deposit but you do not have to do this. ... Your landlord cannot keep any of your deposit for 'fair wear and tear'. ... Any deposit deductions must be reasonable and relate to money lost by the landlord."
+    },
+    {
+      "topic": "Cleaning standard = move-in standard; claims proportionate (mydeposits scheme)",
+      "verdict": "Tenant only has to match the check-in cleanliness; landlord can't claim a full clean where not needed. Note fair wear and tear does not excuse dirt.",
+      "url": "https://www.mydeposits.co.uk/content-hub/rules-of-claiming-for-deposit-deductions/",
+      "quote": "The tenant is only responsible for returning the property cleaned to the same standard it was in at the start. ... Costs claimed by the landlord must be proportionate to the breach and not for a full clean where it is not required. ... Fair wear and tear only applies to condition and does not extend to cleaning."
+    },
+    {
+      "topic": "Landlord must evidence deductions (current statutory guidance, Renters' Rights Act update)",
+      "verdict": "Landlord/agent must provide evidence for any deposit deduction.",
+      "url": "https://www.gov.uk/government/publications/tenant-fees-act-amended-by-the-renters-rights-act-2025/tenant-fees-act-2019-statutory-guidance-for-enforcement-authorities",
+      "quote": "a landlord or agent will need to provide evidence to support any deductions from the deposit at the end of the tenancy."
+    },
+    {
+      "topic": "How common are cleaning deposit disputes? (TDS 2024/25)",
+      "verdict": "Cleaning is the #1 dispute cause: in 54% of TDS adjudicated disputes in 2024/25 (damage 49%), though only ~1% of deposits go to adjudication.",
+      "url": "https://www.nrla.org.uk/news/what-2025-taught-us-about-deposit-disputes",
+      "quote": "Cleaning continues to be the single biggest source of disputes, appearing in over half of all TDS dispute cases. ... In the 12 months to March 2025, just 1% of all deposits (46,950 cases) required formal adjudication."
+    },
+    {
+      "topic": "Cleaning dispute share (TDS 2024/25, second source)",
+      "verdict": "Corroborates 54% figure.",
+      "url": "https://www.property118.com/deposit-disputes-remain-rare-despite-rising-rents-tds/",
+      "quote": "Cleaning remains the most frequent trigger for disagreements, featuring in 54% of cases."
+    }
+  ]
+}

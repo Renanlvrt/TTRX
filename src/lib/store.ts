@@ -24,6 +24,7 @@ export function initialState(): AppState {
     storageArea: null,
     storageNeeds: { boxes: { small: 0, medium: 0, large: 0 }, weeks: 15 },
     cleaningDone: [],
+    cleaning: { bedrooms: null, depositPerPerson: 400, dirtyItems: null },
     tasks: {
       bills: 'notStarted',
       inspection: 'notStarted',
