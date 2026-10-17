@@ -1,5 +1,5 @@
 // Presenter demo house (Alt+D): real photos in public/demo-house/<itemId>-in|out.jpg.
-// Move-out leaves Oven & Hob and Fridge / Freezer empty for the live upload (files: images of house/gen-01/02 *-after.jpg).
+// Move-out leaves only Oven & Hob empty for the live upload (images of house/gen-01-kitchen-oven-hob-after.jpg).
 import type { Condition, Inspection, ItemRecord, Property } from '../lib/types'
 
 type Seed = [itemId: string, condition: Condition, note: string]
@@ -18,6 +18,7 @@ const MOVE_IN: Seed[] = [
 ]
 
 const MOVE_OUT: Seed[] = [
+  ['kitchen-fridge', 'good', 'No change'],
   ['bathroom-shower', 'damaged', 'Black mould along the sealant and tray'],
   ['bathroom-sink', 'damaged', 'Basin and toilet stained, limescale'],
   ['living-walls', 'damaged', 'Scuffs and stains on walls, floor scratched'],
