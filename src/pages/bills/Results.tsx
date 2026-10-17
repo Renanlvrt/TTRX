@@ -146,22 +146,31 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
           />
           weeks
         </div>
-        <Fine className="mt-3">
-          Prices and links checked {fmtDate(RATES_CHECKED)}. Energy: Octopus uses its published North East rates; “up to” = Ofgem price cap, the most a standard variable tariff can charge; “≈” = estimated from the supplier’s advertised saving vs the cap. We earn nothing from these links. {PACKAGE_BENCHMARK.text}{' '}
-          <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
-        </Fine>
-        <ul className="mt-3 list-disc space-y-1.5 pl-5">
-          {r.lines.map((l) => (
-            <li key={l.id} className="text-sm leading-relaxed text-slate-500">
-              <span className="font-semibold text-slate-700">{l.label}:</span> {l.assumption}
-            </li>
-          ))}
-          {r.assumptions.map((a) => (
-            <li key={a} className="text-sm leading-relaxed text-slate-500">
-              {a}
-            </li>
-          ))}
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-600">
+          <li>Real Durham prices, checked {fmtDate(RATES_CHECKED)}.</li>
+          <li>Usage scaled to your house and habits.</li>
+          <li>One Durham listing prices bills at £20 pppw.</li>
+          <li>Check any package's fair-use limits. We earn nothing from links.</li>
         </ul>
+        <details className="mt-3">
+          <summary className="cursor-pointer text-sm font-semibold text-slate-500 hover:text-slate-900">Show the maths</summary>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            {r.lines.map((l) => (
+              <li key={l.id} className="text-xs leading-relaxed text-slate-500">
+                <span className="font-semibold text-slate-700">{l.label}:</span> {l.assumption}
+              </li>
+            ))}
+            {r.assumptions.map((a) => (
+              <li key={a} className="text-xs leading-relaxed text-slate-500">
+                {a}
+              </li>
+            ))}
+            <li className="text-xs leading-relaxed text-slate-500">
+              “up to” = Ofgem price cap (the most a standard variable tariff can charge); “≈” = from the supplier’s advertised saving vs the cap. {PACKAGE_BENCHMARK.text}{' '}
+              <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
+            </li>
+          </ul>
+        </details>
         <Fine className="mt-3">
           Sources:{' '}
           {r.lines
