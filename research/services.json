@@ -1,0 +1,161 @@
+{
+  "checkedDate": "2026-10-17",
+  "storage": [
+    {
+      "id": "seven-seas-durham",
+      "name": "Seven Seas Worldwide - Student Storage Durham",
+      "website": "https://www.sevenseasworldwide.com/students/storage/durham/",
+      "type": "box storage with collection",
+      "address": "National service; covers 'all universities and colleges in the city, including Durham University and New College Durham'. Boxes stored at UK facilities.",
+      "areas": ["Gilesgate", "Viaduct", "City Centre/Claypath", "Langley Moor"],
+      "collection": true,
+      "delivery": true,
+      "minRental": "Not stated; 'a minimum £84 charge applies'",
+      "studentDiscount": "£30 off student storage on orders storing at least three Large boxes (applied automatically to quote)",
+      "priceText": "Our student storage services start from: 19p per day / £1.30 per week (Standard box); a minimum £84 charge applies",
+      "source": "https://www.sevenseasworldwide.com/students/storage/durham/",
+      "checkedDate": "2026-10-17",
+      "notes": "Return delivery free if within 50km of collection address. You choose collection and delivery dates. Packing materials supplied."
+    },
+    {
+      "id": "lovespace-durham",
+      "name": "LOVESPACE - Student Storage Durham",
+      "website": "https://lovespace.co.uk/student-storage/durham/",
+      "type": "box storage with collection",
+      "address": "National service; page says 'We cover everywhere from Framwellgate Moor to Bowburn'",
+      "areas": ["Gilesgate", "Viaduct", "City Centre/Claypath", "Langley Moor"],
+      "collection": true,
+      "delivery": true,
+      "minRental": "Plans 'from storage for a month, to a full calendar year' (1 month implied minimum)",
+      "studentDiscount": null,
+      "priceText": null,
+      "source": "https://lovespace.co.uk/student-storage/durham/",
+      "checkedDate": "2026-10-17",
+      "notes": "No price on page (quote form only; tagline 'Cheaper than a pint at Klute'). Collection from UK address as soon as next day; delivery to any UK address as soon as next two working days. By-the-box and storage-unit options. Langley Moor is not named in the coverage text but collection is from 'your UK address' - confirm."
+    },
+    {
+      "id": "yard-self-storage-meadowfield",
+      "name": "Yard Self Storage Durham",
+      "website": "https://yardselfstorage.co.uk/self-storage-durham/",
+      "type": "self-storage",
+      "address": "St John's Rd, Meadowfield, Durham, DH7 8RL",
+      "areas": ["Langley Moor"],
+      "collection": false,
+      "delivery": false,
+      "minRental": "Unclear - page says 'no minimum contract' but autumn offer is 'Free for one month with a minimum 4-month contract'",
+      "studentDiscount": null,
+      "priceText": "20ft Container: £159.99 /month (inc. tax)",
+      "source": "https://yardselfstorage.co.uk/self-storage-durham/",
+      "checkedDate": "2026-10-17",
+      "notes": "Drive-up ground-level 20ft containers ('will fit contents of 2-3 bedroom house') - large for one student; better split between housemates. No collection/delivery mentioned."
+    },
+    {
+      "id": "payless-langley-moor",
+      "name": "Payless For Storage Durham",
+      "website": "https://paylessforstorage.co.uk/self-storage/durham/",
+      "type": "self-storage",
+      "address": "Littleburn Road, Langley Moor, Durham, DH7 8XD",
+      "areas": ["Langley Moor"],
+      "collection": false,
+      "delivery": false,
+      "minRental": "unavailable",
+      "studentDiscount": null,
+      "priceText": "20ft Storage Container: £140/mo (inc VAT)",
+      "source": "https://paylessforstorage.co.uk/self-storage/durham/",
+      "checkedDate": "2026-10-17",
+      "notes": "Page is inconsistent: FAQ says 'Our storage is £130 per month including the VAT'. Confirm current price. Drive to door; palisade fencing and electronic gates."
+    },
+    {
+      "id": "durham-storage-containers-belmont",
+      "name": "Durham Storage Containers",
+      "website": "https://www.durhamstoragecontainers.co.uk/",
+      "type": "self-storage",
+      "address": "Metropolis Park, Belmont Industrial Estate, Durham, DH1 1TH",
+      "areas": ["Gilesgate"],
+      "collection": false,
+      "delivery": false,
+      "minRental": "unavailable ('Flexible contract')",
+      "studentDiscount": null,
+      "priceText": null,
+      "source": "https://www.durhamstoragecontainers.co.uk/",
+      "checkedDate": "2026-10-17",
+      "notes": "Prices behind 'See Prices' link; offer 'Half price first month'. Site banner reads 'Not Opening Until 2027' - treat as NOT currently available; show as 'coming soon' or omit from demo."
+    }
+  ],
+  "cleaning": [
+    {
+      "id": "fantastic-services-durham",
+      "name": "Fantastic Services Durham",
+      "website": "https://fantasticservices.com/durham-end-of-tenancy-cleaning",
+      "serviceArea": "DH1 to DH9 and the wider County Durham area",
+      "areas": ["Gilesgate", "Viaduct", "City Centre/Claypath", "Langley Moor"],
+      "services": ["end of tenancy", "oven clean (included free)", "carpet cleaning (optional extra)", "upholstery cleaning (optional extra)", "key pick-up and return"],
+      "priceText": "Area average shown as '£220 - £343'; 'Fixed price with no hourly limits'",
+      "source": "https://fantasticservices.com/durham-end-of-tenancy-cleaning",
+      "checkedDate": "2026-10-17",
+      "notes": "National franchise network. Mould removal 'not included/guaranteed'. Fridge/freezer must be defrosted in advance. Re-clean subject to terms."
+    },
+    {
+      "id": "tenancy-cleaner-durham",
+      "name": "Tenancy Cleaner (Cleaninga Ltd)",
+      "website": "https://tenancycleaner.com/end-of-tenancy-cleaning/end-of-tenancy-cleaning-durham/",
+      "serviceArea": "DH1, DH6, DH7 incl. Shincliffe and Langley Moor (local teams, 28-mile radius)",
+      "areas": ["Gilesgate", "Viaduct", "City Centre/Claypath", "Langley Moor"],
+      "services": ["end of tenancy", "kitchen appliances package (add-on)", "carpet steam cleaning (add-on)"],
+      "priceText": "From £209 (average Durham job £272); table: 1 bedroom from £207, 2 bedrooms from £209",
+      "source": "https://tenancycleaner.com/end-of-tenancy-cleaning/end-of-tenancy-cleaning-durham/",
+      "checkedDate": "2026-10-17",
+      "notes": "National company with local teams. Free re-clean if landlord/agent reports issue in writing within 7 days. Core kitchen clean 'does not include appliances'."
+    },
+    {
+      "id": "tenancy-cleaning-nationwide",
+      "name": "Tenancy.Cleaning (Tenancy Cleaning Nationwide Ltd)",
+      "website": "https://tenancy.cleaning/end-of-tenancy-cleaning-durham/",
+      "serviceArea": "UK-wide via local teams; dedicated Durham page",
+      "areas": ["Gilesgate", "Viaduct", "City Centre/Claypath", "Langley Moor"],
+      "services": ["end of tenancy", "oven clean (single £35, double £45, range £60)", "carpet cleaning (£30 per room)"],
+      "priceText": "Prices start at £135 for a studio flat and £175 for a 1-bed, 1-bath property; 5 bedrooms or more from £475",
+      "source": "https://tenancy.cleaning/end-of-tenancy-cleaning-durham/",
+      "checkedDate": "2026-10-17",
+      "notes": "72-hour re-clean guarantee. Ovens/carpets priced separately except studios."
+    },
+    {
+      "id": "greenstar-cleaning",
+      "name": "Greenstar Commercial Cleaning Ltd",
+      "website": "https://www.greenstar-cleaning.co.uk/cs/end-of-tenancy-cleaning-newcastle-gateshead/",
+      "serviceArea": "Newcastle, Gateshead, Durham, Sunderland and throughout the North East (based Gateshead NE16 3AS)",
+      "areas": ["Gilesgate", "Viaduct", "City Centre/Claypath", "Langley Moor"],
+      "services": ["end of tenancy", "specialist oven cleaning", "carpet cleaning", "upholstery cleaning"],
+      "priceText": null,
+      "source": "https://www.greenstar-cleaning.co.uk/cs/end-of-tenancy-cleaning-newcastle-gateshead/",
+      "checkedDate": "2026-10-17",
+      "notes": "Regional North East firm. Says 'We provide you with a fixed price' but no figures published - quote only."
+    }
+  ],
+  "cleaningChecklist": {
+    "items": [
+      "Kitchen: clean appliances inside and out - oven, fridge, microwave (defrost the freezer first)",
+      "Kitchen: degrease hob and extractor hood; clean or replace extractor filters",
+      "Kitchen: scrub the sink and taps, wipe worktops and cupboard fronts/insides",
+      "Bathroom: scrub toilet (inside and out), sink, bath/shower and screens; descale taps and showerhead",
+      "Bathroom: clean mirrors and grout; wipe the extractor fan",
+      "Floors: vacuum and mop everywhere; consider professional carpet cleaning if stained or heavily used",
+      "Windows: clean glass and sills; dust blinds and curtains",
+      "Walls and fixtures: remove wall marks, wipe skirting boards, light switches, door handles and light fittings",
+      "Remove all rubbish and belongings (fridge, cupboards, under beds, bins emptied)",
+      "Take dated photos or a video walkthrough of every room before check-out, and compare against the check-in inventory",
+      "Keep receipts if you use a professional cleaner; a landlord cannot require you to use one",
+      "Report damp, mould or leaks to your landlord/agent - ordinary cleaning won't fix mould caused by damp, condensation or leaks"
+    ],
+    "source": "https://www.mydeposits.co.uk/content-hub/tenant-top-tips-to-keep-your-home-clean/",
+    "supportingSources": [
+      "https://landlordtoday.co.uk/breaking-news/2018/9/here-are-some-useful-tips-when-doing-an-end-of-tenancy-clean-yourself",
+      "https://www.propertymark.co.uk/advice-and-guides/renting/end-of-tenancy"
+    ],
+    "note": "Ordinary cleaning won't fix mould, damp or leaks. Wiping visible mould treats the symptom only; report the underlying cause to your landlord or agent in writing and keep a copy."
+  },
+  "depositLinks": [
+    { "label": "GOV.UK - Tenancy deposit protection", "url": "https://www.gov.uk/tenancy-deposit-protection" },
+    { "label": "mydeposits - Tenant tips to keep your home clean", "url": "https://www.mydeposits.co.uk/content-hub/tenant-top-tips-to-keep-your-home-clean/" }
+  ]
+}

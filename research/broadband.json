@@ -1,0 +1,118 @@
+{
+  "checkedDate": "2026-10-17",
+  "coverageCaveat": "Area-level network availability is inferred from Durham-wide figures (broadband.co.uk, updated 2026-09-21: FTTC/superfast 98%, full fibre 91%, Virgin Media 52%) and Openreach's County Durham update (2026-08-03). No street- or postcode-level confirmation was obtainable; always label as 'check your postcode' in the demo.",
+  "areas": {
+    "gilesgate": {
+      "label": "Gilesgate",
+      "postcodes": ["DH1 1", "DH1 2"],
+      "networks": [
+        { "type": "Openreach FTTC (part fibre, ~36-80Mbps)", "confidence": "high" },
+        { "type": "Openreach FTTP (full fibre, up to 900Mbps+)", "confidence": "likely" },
+        { "type": "Virgin Media cable/fibre", "confidence": "partial - street by street" }
+      ],
+      "notes": "Urban Durham city suburb. Openreach FTTC near-universal; full fibre likely on most streets given 91% Durham FTTP figure. Virgin Media covers ~52% of Durham so may or may not reach a given street. No altnet (CityFibre, Netomnia, Brsk, Hey!, Zzoomm, Freedom Fibre etc.) build found for DH1."
+    },
+    "viaduct": {
+      "label": "Viaduct",
+      "postcodes": ["DH1 4"],
+      "networks": [
+        { "type": "Openreach FTTC (part fibre)", "confidence": "high" },
+        { "type": "Openreach FTTP (full fibre)", "confidence": "likely" },
+        { "type": "Virgin Media cable/fibre", "confidence": "partial - street by street" }
+      ],
+      "notes": "Dense terraced student area by the station. Same Durham-city network mix as Gilesgate. No altnet coverage found."
+    },
+    "cityCentre": {
+      "label": "City Centre / Claypath",
+      "postcodes": ["DH1 1"],
+      "networks": [
+        { "type": "Openreach FTTC (part fibre)", "confidence": "high" },
+        { "type": "Openreach FTTP (full fibre)", "confidence": "likely" },
+        { "type": "Virgin Media cable/fibre", "confidence": "partial - street by street" }
+      ],
+      "notes": "Historic centre: conservation-area flats/terraces can lag on full fibre installs. Purpose-built student blocks usually include broadband in rent (check before budgeting). No altnet coverage found."
+    },
+    "langleyMoor": {
+      "label": "Langley Moor",
+      "postcodes": ["DH7 8"],
+      "networks": [
+        { "type": "Openreach FTTC (part fibre)", "confidence": "high" },
+        { "type": "Openreach FTTP (full fibre)", "confidence": "possible - unverified" },
+        { "type": "Virgin Media cable/fibre", "confidence": "unverified" }
+      ],
+      "notes": "Village ~3 miles SW of the city, outside the Durham-city figures. Openreach says ~72% of County Durham has gigabit/full fibre (Aug 2026), so FTTP is plausible but not confirmed. No Virgin Media, nexfibre or altnet build announcement found naming Langley Moor/Brandon. 4G/5G home broadband is a fallback option."
+    }
+  },
+  "providers": [
+    {
+      "id": "bt-student",
+      "name": "BT Student Broadband (9-month)",
+      "website": "https://www.bt.com/broadband",
+      "speedMbps": 36,
+      "monthlyGBP": 30,
+      "contractMonths": 9,
+      "studentFriendly": true,
+      "areas": ["gilesgate", "viaduct", "cityCentre", "langleyMoor"],
+      "source": "https://selectra.co.uk/tv-broadband/guides/compare/student-broadband-deals",
+      "checkedDate": "2026-10-17",
+      "notes": "Student Fibre Essential tier, Sept-June term with no rollover, plus £35 setup, needs .ac.uk email. Price is from Selectra's May 2026 table (2025/26 lineup); other tiers are £35 (67Mbps), £40 (150Mbps) and £45 (500Mbps). Not confirmed on bt.com (student page 404). Save the Student says the 9-month deal may not currently be offered, so treat it as indicative."
+    },
+    {
+      "id": "virgin-student",
+      "name": "Virgin Media Student M125",
+      "website": "https://www.virginmedia.com/broadband/student",
+      "speedMbps": 132,
+      "monthlyGBP": 26.99,
+      "contractMonths": 12,
+      "studentFriendly": true,
+      "areas": ["gilesgate", "viaduct", "cityCentre"],
+      "source": "https://www.virginmedia.com/broadband/student",
+      "checkedDate": "2026-10-17",
+      "notes": "Advertised as 'from £26.99', 12 months, £0 setup, needs .ac.uk email, Virgin network areas only (~52% of Durham). Also M500 £30.99 (516Mbps) and Gig1 £35.99. The legal text gives the offer end as '13th August' with no year, so it may have expired. Non-students get 30-day rolling deals instead. Langley Moor coverage unverified."
+    },
+    {
+      "id": "now-fibre",
+      "name": "NOW Full Fibre 75",
+      "website": "https://www.nowtv.com/broadband",
+      "speedMbps": 80,
+      "monthlyGBP": 23,
+      "contractMonths": 24,
+      "studentFriendly": false,
+      "areas": ["gilesgate", "viaduct", "cityCentre", "langleyMoor"],
+      "source": "https://www.nowtv.com/broadband",
+      "checkedDate": "2026-10-17",
+      "notes": "Uses the Openreach network. Today the provider site shows only 24-month terms: £23 (75), £25 (100), £28 (300), £0 setup. Selectra (May 2026) listed a 12-month NOW plan at £21 and a rolling one at £28, but NOW's site doesn't show them now. Needs full fibre at the address."
+    },
+    {
+      "id": "vodafone-ff150",
+      "name": "Vodafone Full Fibre 150",
+      "website": "https://www.vodafone.co.uk/broadband",
+      "speedMbps": 150,
+      "monthlyGBP": 21,
+      "contractMonths": 24,
+      "studentFriendly": false,
+      "areas": ["gilesgate", "viaduct", "cityCentre", "langleyMoor"],
+      "source": "https://broadband.co.uk/broadband/in/durham",
+      "checkedDate": "2026-10-17",
+      "notes": "Cheapest headline full fibre deal in the broadband.co.uk Durham listing (page updated 2026-09-21). £0 setup and £120 voucher, rising in April 2027 and 2028. A 24-month term doesn't fit a 12-month student tenancy (early exit fees)."
+    },
+    {
+      "id": "cuckoo",
+      "name": "Cuckoo Full Fibre (no contract)",
+      "website": "https://www.cuckoo.co/broadband",
+      "speedMbps": 150,
+      "monthlyGBP": null,
+      "contractMonths": null,
+      "studentFriendly": true,
+      "areas": ["gilesgate", "viaduct", "cityCentre", "langleyMoor"],
+      "source": "https://www.cuckoo.co/broadband",
+      "checkedDate": "2026-10-17",
+      "notes": "Price unavailable: cuckoo.co only shows prices after a postcode is entered. Plans are Full Fibre 150/500/900 with £0 setup. Selectra (May 2026) listed a Cuckoo rolling-monthly 67Mbps plan at £26, but that plan isn't on Cuckoo's current lineup, so it isn't used here. Known for no-contract options, which suits students."
+    }
+  ],
+  "fallbackMonthlyEstimateGBP": {
+    "value": 31,
+    "source": "https://movingtotheuk.co.uk/cost-of-living-in-the-uk/uk-utility-bills",
+    "note": "Typical household broadband cost used when no specific deal applies. About £31/month average UK home broadband bill in 2026 (this source cites Uswitch/Ofcom; Broadband Genie gives £30.84). Entry-level deals run ~£21-25."
+  }
+}

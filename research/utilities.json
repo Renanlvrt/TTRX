@@ -1,0 +1,146 @@
+{
+  "checkedDate": "2026-10-17",
+  "region": "North East",
+  "electricity": {
+    "unitRatePence": 25.46,
+    "standingChargePencePerDay": 61.58,
+    "vatIncluded": false,
+    "vatNote": "No VAT on electricity 1 Oct 2026 - 31 Mar 2027 (government cut from 5% to 0%).",
+    "paymentMethod": "Direct Debit, single-rate",
+    "period": "2026-10-01 to 2026-12-31",
+    "source": "https://www.moneysavingexpert.com/utilities/what-are-the-price-cap-unit-rates-/",
+    "corroboratingSource": "https://www.uswitch.com/gas-electricity/guides/regional-energy-prices/",
+    "gbAverage": {
+      "unitRatePence": 26.32,
+      "standingChargePencePerDay": 54.83,
+      "source": "https://ofgem.gov.uk/your-energy-supply/your-energy-bill/energy-price-cap-unit-rates-and-standing-charges"
+    }
+  },
+  "gas": {
+    "unitRatePence": 7.92,
+    "standingChargePencePerDay": 29.79,
+    "vatIncluded": true,
+    "vatNote": "Includes 5% VAT.",
+    "paymentMethod": "Direct Debit",
+    "period": "2026-10-01 to 2026-12-31",
+    "source": "https://www.moneysavingexpert.com/utilities/what-are-the-price-cap-unit-rates-/",
+    "corroboratingSource": "https://www.uswitch.com/gas-electricity/guides/regional-energy-prices/",
+    "gbAverage": {
+      "unitRatePence": 7.97,
+      "standingChargePencePerDay": 29.68,
+      "source": "https://ofgem.gov.uk/your-energy-supply/your-energy-bill/energy-price-cap-unit-rates-and-standing-charges"
+    }
+  },
+  "priceCapHeadline": {
+    "directDebitAnnualGBP": 1723,
+    "economy7DirectDebitAnnualGBP": 1046,
+    "basis": "GB average, medium TDCV (2,500 kWh elec, 9,500 kWh gas, 3,400 kWh multi-register)",
+    "source": "https://www.ofgem.gov.uk/sites/default/files/2026-08/Summary-of-changes-to-energy-price-cap-1-October-to-31-December-2026.pdf"
+  },
+  "tdcv": {
+    "effectiveFrom": "2026-07-01",
+    "unit": "kWh per year",
+    "electricitySingleRate": { "low": 1600, "medium": 2500, "high": 3800 },
+    "electricityMultiRateEconomy7": { "low": 1900, "medium": 3400, "high": 6100 },
+    "economy7Split": { "peakDayPct": 58, "offPeakNightPct": 42 },
+    "gas": { "low": 6000, "medium": 9500, "high": 14000 },
+    "electricHeatingGuidance": "Ofgem publishes no separate TDCV for fully electric-heated homes. The closest official proxy is the multi-rate (Profile Class 2 / Economy 7) TDCV, used for homes with storage heaters, with a 58% day / 42% night split. Treat it as a lower bound for a poorly insulated all-electric student house.",
+    "source": "https://www.ofgem.gov.uk/sites/default/files/2026-05/Review%20of%20typical%20domestic%20consumption%20values%20decision.pdf"
+  },
+  "water": {
+    "supplier": "Northumbrian Water",
+    "year": "2026/27 (from 1 April 2026)",
+    "averageBill": {
+      "combinedOverallGBP": 536,
+      "combinedMeasuredGBP": 459,
+      "combinedUnmeasuredGBP": 610,
+      "perDayGBP": 1.47,
+      "source": "https://www.nwl.co.uk/globalassets/customer-pdfs/charges-2026/nwl-statement-of-significant-changes-to-charges-scheme-charges-2026-27.pdf",
+      "perDaySource": "https://www.nwl.co.uk/tariffsandcharges",
+      "note": "Average across all NW households, not per person. £1.47/day x 365 = ~£537, which matches £536."
+    },
+    "metered": {
+      "waterFixedChargeGBPPerYear": 61.16,
+      "waterPerM3GBP": 1.6169,
+      "sewerageFixedChargeGBPPerYear": 123.75,
+      "sewerageFixedChargeNoSurfaceWaterGBPPerYear": 45.05,
+      "seweragePerM3GBP": 1.6121,
+      "combinedPerM3GBP": 3.229,
+      "combinedFixedGBPPerYear": 184.91,
+      "billing": "Every six months, from meter readings",
+      "source": "https://www.nwl.co.uk/tariffsandcharges"
+    },
+    "unmetered": {
+      "waterFixedChargeGBPPerYear": 154.68,
+      "waterPerPoundRateableValueGBP": 0.8905,
+      "sewerageFixedChargeGBPPerYear": 180.64,
+      "sewerageFixedChargeNoSurfaceWaterGBPPerYear": 101.94,
+      "seweragePerPoundRateableValueGBP": 1.1848,
+      "source": "https://www.nwl.co.uk/tariffsandcharges",
+      "note": "The bill depends on the property's rateable value, which the app won't know. Use the £610 unmeasured average for unmetered homes."
+    },
+    "usagePerPerson": {
+      "averageLitresPerPersonPerDay": 142,
+      "averageSource": "https://www.cambridge-water.co.uk/news/vast-majority-of-brits-have-no-idea-how-much-water-they-use-each-day",
+      "averageSourceNote": "Water UK / Waterwise campaign figure",
+      "altAverageLitresPerPersonPerDay": 139,
+      "altAverageSource": "https://www.ccw.org.uk/?p=1410",
+      "tiersAssumption": {
+        "lowLitresPerPersonPerDay": 110,
+        "normalLitresPerPersonPerDay": 142,
+        "highLitresPerPersonPerDay": 180,
+        "label": "ASSUMPTION: normal = the sourced 142 L; low and high are about +/-25% bands chosen for the demo, not sourced."
+      }
+    }
+  },
+  "tvLicence": {
+    "annualGBP": 180,
+    "effectiveFrom": "2026-04-01",
+    "source": "https://www.gov.uk/government/news/cost-of-tv-licence-fee-set-for-202627",
+    "note": "One licence per address on a joint tenancy. It is only needed if anyone watches live TV or BBC iPlayer."
+  },
+  "heatingAssumptions": {
+    "sourcedFacts": {
+      "spaceHeatingShareOfGas": 0.772,
+      "spaceHeatingShareSource": "E3G briefing annex (Aug 2025), citing BEAMA (2022) analysis: https://www.e3g.org/wp-content/uploads/E3G-Briefing-Annex-Low-carbon-lower-heating-bills.pdf",
+      "nonHeatingShareOfGas": 0.228,
+      "nonHeatingNote": "Hot water and cooking. Does not change with the heating pattern."
+    },
+    "formula": "gasKwh = tdcvGas * (0.228 + 0.772 * heatingMultiplier)",
+    "patternMultipliers": {
+      "allDayWinter": 1.3,
+      "normal": 1.0,
+      "nightsOnly": 0.6,
+      "extremeColdMonthsOnly": 0.35
+    },
+    "label": "ASSUMPTION: I found no Ofgem or Energy Saving Trust source that scales gas use by heating pattern. The multipliers are illustrative. 'normal' = Ofgem medium TDCV behaviour, and the others are rough estimates from hours of heating and months heated.",
+    "seasonalityNote": "ASSUMPTION: for a monthly view, about 70% of annual space-heating gas falls in Oct-Mar. Not sourced."
+  },
+  "showerAssumptions": {
+    "flowRatesLitresPerMinute": {
+      "electric": 6,
+      "mixerOrPower": 15,
+      "source": "https://www.ccw.org.uk/?p=1410"
+    },
+    "altFlowRatesLitresPerMinute": {
+      "electric": 5,
+      "mixer": 8,
+      "power": 13,
+      "source": "https://www.cambridge-water.co.uk/news/vast-majority-of-brits-have-no-idea-how-much-water-they-use-each-day"
+    },
+    "tiersAssumption": {
+      "quick": { "minutes": 4, "litresPerMinute": 10 },
+      "normal": { "minutes": 8, "litresPerMinute": 10 },
+      "long": { "minutes": 15, "litresPerMinute": 12 },
+      "label": "ASSUMPTION: 10 L/min is the midpoint of the sourced 5-15 L/min range, and the shower lengths are chosen for the demo. Sheffield's Grantham Centre estimates an 8-minute shower at about 62 L (https://grantham.sheffield.ac.uk/how-much-water-does-the-uk-use)."
+    }
+  },
+  "notes": [
+    "The North East regional energy rates come from MoneySavingExpert, which labels the region 'Northern', and Uswitch ('North Eastern England'). Both give identical values. Ofgem's own page holds the regional table in a postcode lookup that could not be fetched, so the regional rows were not read from Ofgem directly. The GB averages were read from Ofgem directly.",
+    "Ignore energyplus.co.uk regional tables: they mix July-Sept and Oct-Dec figures.",
+    "Electricity rates exclude VAT only until 31 Mar 2027. Add 5% to electricity from 1 Apr 2027, and expect the cap to change on 1 Jan 2027. A moneytothemasses headline mentions a predicted rise of about 14% (forecast, not verified).",
+    "The Northumbrian Water Appendix 1 table headers read '2024/25 | 2025/26', but the drivers table in the same document labels the same numbers 'Bill in 25/26 = 504, Bill in 26/27 = 536'. £536 is treated as the 2026/27 average, consistent with £1.47/day on nwl.co.uk and Water UK's £535.",
+    "ASSUMPTION (unverified): many older Durham student terraces may be unmetered. Offer a metered/unmetered toggle, with the overall average £536/yr as the default.",
+    "Durham is in the Northumbrian Water area for both water and sewerage."
+  ]
+}

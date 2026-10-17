@@ -2,6 +2,19 @@
 
 Guidance for AI coding agents in this repository.
 
+## Read First (Always)
+
+**Read `SPEC.md` before any work.** It is the locked MVP spec and the log of every product decision (grill-me answers). Where `PRD.md` and `SPEC.md` differ, `SPEC.md` wins. Log any agreed change in `SPEC.md` §9.
+
+Key locked facts:
+- Product: **RentReady**, Durham student renting companion. Bills comparison is the main demo; before/after photo report is the second hero.
+- **No AI and no backend in the MVP.** Chatbot is a stretch goal only.
+- Stack: React + Vite + TypeScript + Tailwind v4 + Vitest. Run `npm run dev`, `npm run build`, `npm test`.
+- UI is designed by a teammate in React + Google Stitch. Keep logic in `src/lib` (pure TS, no UI imports) and state in `src/lib/store.ts`; pages in `src/pages` stay thin so their screens can replace ours.
+- Palette: white background, green actions, pale-yellow highlights. Big, clean, compact UI, concise copy.
+- Data: Durham prices are researched (`research/*.json`) and hardcoded in `src/data` with source + date. Never invent prices; unverified = "unavailable".
+- Git: work on `feat/<module>` branches, push to `origin` (github.com/Renanlvrt/TTRX), merge to `main` only when build + tests pass.
+
 ## Mission Constraint (Non-Negotiable)
 
 This is a **6-hour venture lab hackathon**. Prioritize:
