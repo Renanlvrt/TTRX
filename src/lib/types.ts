@@ -146,6 +146,6 @@ export interface AppState {
   storageNeeds: { boxes: Record<'small' | 'medium' | 'large', number>; weeks: number }
   cleaningDone: string[]
   /** Cleaning calculator inputs; null = use the automatic value (bedrooms from bills survey, items from move-out photos). */
-  cleaning: { bedrooms: number | null; depositPerPerson: number; dirtyItems: number | null }
+  cleaning: { bedrooms: number | null; depositPerPerson: number | null; dirtyItems: number | null }
   tasks: Record<TaskId, TaskStatus>
 }

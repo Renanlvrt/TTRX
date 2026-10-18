@@ -37,7 +37,7 @@ export default function CleaningPage() {
   const issues = compareInspections(CHECKLIST, moveIn, moveOut).filter((r) => r.flag === 'newIssue')
   const bedrooms = cleaning.bedrooms ?? bills.survey?.people ?? 4
   const deposit = cleaning.depositPerPerson
-  const advice = cleaningAdvice({ bedrooms, people: bedrooms, depositPerPersonGBP: deposit, dirtyItems: issues.length, bands: CLEANING_BANDS })
+  const advice = cleaningAdvice({ bedrooms, people: bedrooms, depositPerPersonGBP: deposit ?? 0, dirtyItems: issues.length, bands: CLEANING_BANDS })
   const hire = advice.verdict === 'hire'
   const each = Math.round(advice.perPersonCostGBP)
 
@@ -51,7 +51,26 @@ export default function CleaningPage() {
 
   return (
     <Page title="Move-out cleaning">
+      {/* The one question */}
+      <label className="mb-4 block rounded-3xl border border-line p-5">
+        <span className="text-xl font-bold">How much was your deposit?</span>
+        <span className="mt-1 block text-sm text-slate-500">Your share, per person.</span>
+        <span className="mt-3 flex h-14 items-center rounded-2xl border-2 border-line px-4 focus-within:border-brand">
+          <span className="text-2xl font-bold text-slate-500">£</span>
+          <input
+            type="number"
+            inputMode="numeric"
+            min={0}
+            placeholder="e.g. 400"
+            value={deposit ?? ''}
+            onChange={(e) => setCleaning({ depositPerPerson: e.target.value === '' ? null : Math.max(0, Number(e.target.value) || 0) })}
+            className="ml-2 w-full bg-transparent text-2xl font-bold text-slate-900 outline-none placeholder:font-semibold placeholder:text-slate-300"
+          />
+        </span>
+      </label>
+
       {/* The answer */}
+      {deposit !== null && (
       <div className="rounded-3xl border border-highlight-strong bg-highlight p-5">
         <p className="text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">{advice.headline}</p>
 
@@ -85,35 +104,23 @@ export default function CleaningPage() {
         )}
 
         <button type="button" onClick={() => setEditing((e) => !e)} className="mt-3 block text-sm font-semibold text-slate-600 underline-offset-4 hover:underline">
-          {editing ? 'Done' : 'Not a ' + bedrooms + '-bed, or a different deposit? Change'}
+          {editing ? 'Done' : 'Not a ' + bedrooms + '-bed? Change'}
         </button>
         {editing && (
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            <label className="rounded-2xl bg-white p-3 text-sm font-semibold text-slate-600">
-              Bedrooms
-              <input
-                type="number"
-                min={1}
-                max={10}
-                value={bedrooms}
-                onChange={(e) => setCleaning({ bedrooms: Math.min(10, Math.max(1, Number(e.target.value) || 1)) })}
-                className="mt-1 block h-11 w-full rounded-xl border-2 border-line px-3 text-xl font-bold text-slate-900 outline-none focus:border-brand"
-              />
-            </label>
-            <label className="rounded-2xl bg-white p-3 text-sm font-semibold text-slate-600">
-              Deposit each (£)
-              <input
-                type="number"
-                inputMode="numeric"
-                min={0}
-                value={deposit}
-                onChange={(e) => setCleaning({ depositPerPerson: Math.max(0, Number(e.target.value) || 0) })}
-                className="mt-1 block h-11 w-full rounded-xl border-2 border-line px-3 text-xl font-bold text-slate-900 outline-none focus:border-brand"
-              />
-            </label>
-          </div>
+          <label className="mt-3 block max-w-[50%] rounded-2xl bg-white p-3 text-sm font-semibold text-slate-600">
+            Bedrooms
+            <input
+              type="number"
+              min={1}
+              max={10}
+              value={bedrooms}
+              onChange={(e) => setCleaning({ bedrooms: Math.min(10, Math.max(1, Number(e.target.value) || 1)) })}
+              className="mt-1 block h-11 w-full rounded-xl border-2 border-line px-3 text-xl font-bold text-slate-900 outline-none focus:border-brand"
+            />
+          </label>
         )}
       </div>
+      )}
 
       {/* What the report found */}
       <section className="mt-8">
