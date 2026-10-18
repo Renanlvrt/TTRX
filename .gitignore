@@ -25,3 +25,10 @@ dist-ssr
 
 # agent worktrees
 .claude/worktrees/
+
+# Not part of the app: raw photos, UI mock-ups, notes, pasted research docs
+images of house/
+UI Idea/
+everything raw/
+GEMINI.md
+Durham Student Housing Costs*.md

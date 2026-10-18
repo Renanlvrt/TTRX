@@ -76,7 +76,7 @@ White background, **green** buttons, **pale yellow** highlights, `text-slate-900
 ### Presenter shortcuts
 - **Alt+D** — demo house loaded, demo controls hidden. **Alt+R** — reset to a brand-new user.
 - **Phone:** press and hold the RentReady logo ~1s: turns demo mode on; hold again to reset to a new user.
-- **Default:** every page load (and reload) opens the demo-ready house: move-in 10/10, move-out 9/10 with Oven & Hob left for the live upload. Nothing persists across reloads.
+- **Default:** every page load (and reload) opens as a brand-new user with nothing filled in. Alt+D / hold the logo loads the demo house (move-in 10/10, move-out 9/10, Oven & Hob left for the live upload). Nothing persists across reloads.
 - **Live link:** https://renanlvrt.github.io/TTRX/ (GitHub Pages, auto-deploys on push to main).
 
 ## 8. Acceptance criteria
@@ -120,6 +120,7 @@ White background, **green** buttons, **pale yellow** highlights, `text-slate-900
 | 26 | Cleaning advisor | Cleaning page answers "pay a cleaner or risk the deposit?": no cleaning input: things to clean = NEW ISSUES from the move-out report (shown as photos); bedrooms (from bills survey) and deposit (£400) are pre-filled behind a small Change link. ≤2 items → DIY; ≥3 and cleaner share < deposit → book a cleaner; else DIY. Prices: Tenancy.Cleaning Durham fixed prices + £35 oven (research/cleaning-prices.json). |
 | 27 | Storage all-in | Totals include required fees: Kit Keeper (collection £45, boxes, £12.99 box delivery, £6.95/box return), LOVESPACE plans + £7.95/box return, Box Co plans + £14.95/box return, Seven Seas ~£210 Durham order charge, DUmove £35 early retrieval. Optional own-box purchases shown as notes. Cross-checked in src/lib/storage.data.test.ts. |
 | 28 | Bills results, simpler | One-line verdict ("You save £X by doing it yourself"), package vs do-it-yourself £/wk side by side (cheaper one solid green) on the first phone screen. One link per provider (quote page). Cheapest first and highlighted; only the cheapest shown per bill, "Show all N options" expands. Heating question: Warm and cozy / Only when I'm really cold / I could live in an igloo. |
+| 29 | Reload = new user | Every reload starts as a brand-new user (no demo data). The demo house is opt-in via Alt+D or holding the logo. Non-app files (raw house photos, UI mock-ups, notes, pasted docs) are gitignored. |
 | 21 | Restart bills | Small "Reset compare bills" text link on results restarts the survey. |
 
 ## 10. Git workflow

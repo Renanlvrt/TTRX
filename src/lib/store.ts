@@ -1,12 +1,12 @@
 // Tiny global store: app state in memory (+ localStorage mirror), photos in IndexedDB.
-// Demo build: every page load starts from the demo-ready house, so a reload always resets the demo.
+// Every page load starts as a brand-new user; Alt+D (or holding the logo) loads the demo house.
 // UI reads/writes through useAppState() and the photo helpers only.
 import { useEffect, useState, useSyncExternalStore } from 'react'
 import { get, set, del, clear } from 'idb-keyval'
 import type { AppState, TaskId, TaskStatus } from './types'
 import { DEMO_PROPERTY, demoHouseMoveIn, demoHouseMoveOut } from '../data/demoHouse'
 
-// v3: every device starts fresh in the demo state (move-out 9/10, oven left for the live upload).
+// v3: nothing persists across reloads.
 const KEY = 'rentready:v3'
 
 export function initialState(): AppState {
@@ -39,7 +39,7 @@ export function initialState(): AppState {
   }
 }
 
-/** Presenter demo house: real photos loaded, demo controls hidden. This is what a first visit opens. */
+/** Presenter demo house: real photos loaded, demo controls hidden (Alt+D). */
 export function demoState(): AppState {
   const s = initialState()
   return {
@@ -53,14 +53,14 @@ export function demoState(): AppState {
 }
 
 function load(): AppState {
-  // Reload = fresh demo: forget saved state and photos uploaded in the last session.
+  // Reload = brand-new user: forget saved state and photos uploaded in the last session.
   try {
     localStorage.removeItem(KEY)
   } catch {
     // storage blocked: nothing to forget
   }
   clear().catch(() => {})
-  return demoState()
+  return initialState()
 }
 
 let state: AppState = load()

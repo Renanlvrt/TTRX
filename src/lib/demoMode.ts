@@ -1,5 +1,5 @@
 // Presenter shortcuts. Alt+D: load the real demo house and hide demo controls. Alt+R: wipe back to a brand-new user.
-// A first visit already opens in demo mode (see demoState in store.ts).
+// Every page load starts as a brand-new user (see load in store.ts).
 import { clear } from 'idb-keyval'
 import { demoState, resetState, setState } from './store'
 
