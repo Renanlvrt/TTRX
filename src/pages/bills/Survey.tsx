@@ -109,7 +109,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
             <OptionTile selected={d.hasPackage === false} onClick={() => set({ hasPackage: false })} title="No package" icon={<Ban size={ICON} />} />
           </div>
           {d.hasPackage && (
-            <label className="flex items-center gap-3 rounded-md border-2 border-brand bg-white px-5 py-4 focus-within:ring-4 focus-within:ring-brand-soft">
+            <label className="flex items-center gap-3 rounded-md border-2 border-brand bg-white px-5 py-4 focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-2">
               <span className="text-4xl font-display font-semibold text-subtle">£</span>
               <input
                 autoFocus
@@ -118,7 +118,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
                 onChange={(e) => set({ pppw: e.target.value.replace(/[^0-9.]/g, '') })}
                 placeholder="25"
                 aria-label="Package price in pounds per person per week"
-                className="w-full bg-transparent text-4xl font-display font-semibold outline-none placeholder:text-line-strong"
+                className="w-full bg-transparent text-4xl font-display font-semibold outline-none placeholder:text-subtle"
               />
               <span className="shrink-0 text-lg font-medium text-muted">per person / week</span>
             </label>
@@ -136,7 +136,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
             onChange={(e) => onPostcode(e.target.value)}
             placeholder="Postcode, e.g. DH1 4"
             aria-label="Postcode"
-            className="h-14 w-full rounded-md border-2 border-line px-5 text-lg font-semibold uppercase outline-none placeholder:font-normal placeholder:normal-case placeholder:text-subtle focus:border-brand"
+            className="h-14 w-full rounded-md border-2 border-field-border px-5 text-lg font-semibold uppercase outline-none placeholder:font-normal placeholder:normal-case placeholder:text-subtle focus:border-brand focus:ring-2 focus:ring-brand focus:ring-offset-1"
           />
           <div className="grid gap-3 sm:grid-cols-2">
             {AREAS.map((a) => (

@@ -16,6 +16,8 @@
   --color-subtle: #6F6862;
   --color-line: #DDD7CE;
   --color-line-strong: #B9B1A5;
+  /* Form field borders: >= 3.5:1 on white, surface, canvas and highlight (WCAG 1.4.11). */
+  --color-field-border: #857D71;
   --color-canvas: #F3EFE8;
   --color-canvas-strong: #E9E3D9;
   --color-highlight: #FBF5E6;
@@ -33,6 +35,9 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
   outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
+
+/* On the Palatinate header a Palatinate ring would vanish; use white. */
+header :where(a, button):focus-visible { outline-color: #ffffff; }
 
 @media print {
   .no-print { display: none !important; }

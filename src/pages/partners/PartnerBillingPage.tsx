@@ -5,7 +5,7 @@ import { Button, Fine, Page, Stat, cx } from '../../components/ui'
 import { DEMO_PARTNERS, SEED_SIGNUPS, createBillingDemo } from '../../lib/billingDemo'
 import type { BillingDemo, SignupResult, Snapshot } from '../../lib/billingDemo'
 
-const input = 'h-12 w-full rounded-md border border-line-strong bg-white px-4 text-base text-ink placeholder:text-subtle focus:border-brand focus:outline-2 focus:outline-brand'
+const input = 'h-12 w-full rounded-md border border-field-border bg-white px-4 text-base text-ink placeholder:text-subtle focus:border-brand focus:outline-2 focus:outline-brand'
 
 export default function PartnerBillingPage() {
   const demo = useRef<BillingDemo | null>(null)

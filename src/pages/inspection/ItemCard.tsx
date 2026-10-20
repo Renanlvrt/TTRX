@@ -122,7 +122,7 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
         onChange={(e) => updateRecord(kind, item.id, { note: e.target.value })}
         placeholder="Add notes…"
         aria-label={`${item.label} notes`}
-        className="mt-2 h-10 w-full rounded-md border border-line px-3 text-sm placeholder:text-subtle focus:border-brand focus:outline-none"
+        className="mt-2 h-10 w-full rounded-md border border-field-border px-3 text-sm placeholder:text-subtle focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand"
       />
 
       {error && <p role="alert" className="mt-2 text-sm font-medium text-red-700">{error}</p>}

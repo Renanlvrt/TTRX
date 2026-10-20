@@ -55,7 +55,7 @@ export default function CleaningPage() {
       <label className="mb-4 block rounded-lg border border-line p-5">
         <span className="text-xl font-bold">How much was your deposit?</span>
         <span className="mt-1 block text-sm text-muted">Your share, per person.</span>
-        <span className="mt-3 flex h-14 items-center rounded-md border-2 border-line px-4 focus-within:border-brand">
+        <span className="mt-3 flex h-14 items-center rounded-md border-2 border-field-border px-4 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-1">
           <span className="text-2xl font-bold text-muted">£</span>
           <input
             type="number"
@@ -64,7 +64,7 @@ export default function CleaningPage() {
             placeholder="e.g. 400"
             value={deposit ?? ''}
             onChange={(e) => setCleaning({ depositPerPerson: e.target.value === '' ? null : Math.max(0, Number(e.target.value) || 0) })}
-            className="ml-2 w-full bg-transparent text-2xl font-bold text-ink outline-none placeholder:font-semibold placeholder:text-line-strong"
+            className="ml-2 w-full bg-transparent text-2xl font-bold text-ink outline-none placeholder:font-semibold placeholder:text-subtle"
           />
         </span>
       </label>
@@ -115,7 +115,7 @@ export default function CleaningPage() {
               max={10}
               value={bedrooms}
               onChange={(e) => setCleaning({ bedrooms: Math.min(10, Math.max(1, Number(e.target.value) || 1)) })}
-              className="mt-1 block h-11 w-full rounded-md border-2 border-line px-3 text-xl font-bold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+              className="mt-1 block h-11 w-full rounded-md border-2 border-field-border px-3 text-xl font-bold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand focus:ring-offset-1"
             />
           </label>
         )}

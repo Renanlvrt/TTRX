@@ -72,7 +72,7 @@ export default function EmailPage() {
         <input
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="h-14 w-full rounded-md border border-line px-5 text-lg font-semibold focus:border-brand focus:outline-none"
+          className="h-14 w-full rounded-md border border-field-border px-5 text-lg font-semibold focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand"
         />
       </label>
 
@@ -82,7 +82,7 @@ export default function EmailPage() {
         onChange={(e) => editBody(e.target.value)}
         aria-label="Email body"
         rows={16}
-        className="mt-4 w-full resize-y rounded-md border border-line p-5 text-lg leading-relaxed focus:border-brand focus:outline-none"
+        className="mt-4 w-full resize-y rounded-md border border-field-border p-5 text-lg leading-relaxed focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand"
       />
 
       <div className="mt-6 flex flex-wrap gap-3">

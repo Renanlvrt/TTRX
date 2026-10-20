@@ -56,8 +56,10 @@ function TaskList({ stage }: { stage: Stage }) {
             className="group flex items-center gap-4 border-b border-line bg-white px-4 py-4 transition-colors hover:bg-brand-soft"
           >
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-brand-tint bg-brand-soft text-brand">{t.icon}</span>
-            <span className="flex-1 text-lg font-semibold">{t.title}</span>
-            <StatusBadge status={tasks[t.id]} />
+            <span className="flex min-w-0 flex-1 flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <span className="text-lg font-semibold leading-snug">{t.title}</span>
+              <StatusBadge status={tasks[t.id]} />
+            </span>
             <ChevronRight className="shrink-0 text-line-strong group-hover:text-brand" size={20} />
           </Link>
         </li>

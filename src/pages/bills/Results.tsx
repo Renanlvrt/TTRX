@@ -142,7 +142,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
               if (Number.isInteger(n) && n >= 1 && n <= 104) onTenancyChange(n)
             }}
             onBlur={() => setWeeksText(String(weeks))}
-            className="h-10 w-20 rounded-md border-2 border-line px-3 text-center font-semibold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
+            className="h-10 w-20 rounded-md border-2 border-field-border px-3 text-center font-semibold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand focus:ring-offset-1"
           />
           weeks
         </div>
