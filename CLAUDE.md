@@ -53,7 +53,7 @@ If requirements are vague, run **grill-me first**, then **planner**, then implem
 - Modern, accessible, high-clarity interface.
 - Generous spacing (`p-6`, `gap-4`) and clean visual hierarchy.
 - Use a tight 3-color palette.
-- Purple is banned from the design palette.
+- Purple is banned from the design palette. Exception on `Durham_testing_branch` only: Durham Palatinate (#7E317B and the allowlisted tints in SPEC.md §9 #30). Generic "AI purple" (violet, indigo, fuchsia, glow gradients) stays banned.
 - Avoid hard black text; prefer `text-slate-900`.
 
 ## Context Hygiene (Claude Code Best Practices)

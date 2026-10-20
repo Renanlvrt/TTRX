@@ -6,13 +6,13 @@
 
 ## Open the app (no install needed)
 
-👉 **https://renanlvrt.github.io/TTRX/**
+**https://renanlvrt.github.io/TTRX/**
 
-Open this link on your phone or computer. That's it: nothing to download, no account, works on any Wi-Fi or mobile data.
+Open this link on your phone or computer. You don't need to download anything or make an account, and it works on any Wi-Fi or mobile data.
 
-> **Tip (phone):** in Safari or Chrome, tap **Share → Add to Home Screen** to get a RentReady icon like a normal app.
+> On a phone, in Safari or Chrome, tap **Share → Add to Home Screen** to get a RentReady icon like a normal app.
 
-Nothing is saved: every time you refresh the page, the app starts fresh, like a brand-new user.
+The app saves nothing. Each refresh starts you fresh, like a brand-new user.
 
 ## What it does
 
@@ -39,7 +39,7 @@ The demo fills in a sample Durham house with real photos so you only upload one 
 
 1. Open **https://renanlvrt.github.io/TTRX/**.
 2. Load the demo house:
-   - **Phone:** press and hold the green **RentReady** logo (top left) for about 1 second. You'll feel a small buzz.
+   - **Phone:** press and hold the purple **RentReady** logo (top left) for about 1 second. You'll feel a small buzz.
    - **Computer:** press **Alt + D**.
 3. Tap **Moving out → Before / after report**.
 4. On **Kitchen · Oven & Hob**, tap **Add photo** and choose a photo (camera or gallery). Pick **Existing Damage/Marks**.
