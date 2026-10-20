@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Camera, Check, Copy, Mail, RotateCcw } from 'lucide-react'
-import { Button, ButtonLink, Card, Fine, Page, cx } from '../../components/ui'
+import { Button, ButtonLink, Card, Fine, Page } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
 import { buildMoveInEmail, mailtoLink } from '../../lib/email'
 import { CHECKLIST } from '../../data/checklist'
@@ -53,7 +53,6 @@ export default function EmailPage() {
     setSubject(template.subject)
   }
 
-  const n = template.issueCount
   return (
     <Page
       title="Email your landlord"
@@ -63,12 +62,8 @@ export default function EmailPage() {
         </Button>
       }
     >
-      <span className={cx('mb-5 inline-flex rounded-full px-4 py-1.5 text-base font-semibold', n ? 'bg-highlight' : 'bg-brand-soft text-brand')}>
-        {n} {n === 1 ? 'issue' : 'issues'} recorded
-      </span>
-
       <label className="block">
-        <span className="mb-2 block text-sm font-medium uppercase tracking-wide text-muted">Subject</span>
+        <span className="mb-2 block text-sm font-semibold text-muted">Subject</span>
         <input
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
@@ -99,7 +94,7 @@ export default function EmailPage() {
         </a>
       </div>
 
-      <Fine className="mt-6">We never send anything for you. Attach your photos before sending.</Fine>
+      <Fine className="mt-4">Attach your photos before you send it.</Fine>
     </Page>
   )
 }

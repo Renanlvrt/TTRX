@@ -35,7 +35,7 @@ export default function InspectionPage() {
   return (
     <Page
       title="Photo inspection"
-      subtitle="Photograph each item on move-in day. Dates are recorded for you."
+      subtitle="Photograph each item on move-in day."
       actions={
         <>
           <ProgressPill done={progress.done} total={progress.total} />
@@ -48,7 +48,7 @@ export default function InspectionPage() {
       <div className="space-y-8">
         {ROOMS.map((room) => (
           <section key={room.id}>
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted">{room.label}</h2>
+            <h2 className="mb-3 text-xl font-semibold">{room.label}</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {CHECKLIST.filter((i) => i.room === room.id).map((item) => (
                 <ItemCard key={item.id} kind="moveIn" item={item} record={moveIn.records[item.id] ?? null} attention={triedFinish && missingIds.has(item.id)} />
@@ -65,7 +65,7 @@ export default function InspectionPage() {
             <p className="mt-1 text-ink">
               {progress.missing.map((m, i) => (
                 <span key={m.id}>
-                  {i > 0 && ' · '}
+                  {i > 0 && ', '}
                   <a href={`#item-${m.id}`} className="font-medium underline underline-offset-4">{m.label}</a>
                 </span>
               ))}

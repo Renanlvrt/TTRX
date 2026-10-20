@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowUpRight, Box, Minus, Plus, Warehouse } from 'lucide-react'
+import { ArrowUpRight, Box, ChevronDown, Minus, Plus, Warehouse } from 'lucide-react'
 import { Fine, Page, cx, gbp } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
 import { BOX_SIZES, recommendStorage, totalBoxes } from '../../lib/storage'
@@ -24,7 +24,7 @@ export default function StoragePage() {
   const count = totalBoxes(needs)
 
   return (
-    <Page title="Find storage" subtitle="Over summer or between houses.">
+    <Page title="Find storage">
       <div className="grid gap-6 md:grid-cols-2">
         <Question n={1} title="How many boxes?">
           <div className="space-y-2">
@@ -77,19 +77,23 @@ export default function StoragePage() {
             {best?.kind === 'unit' && alternatives.some((a) => a.total == null && a.kind === 'box') && (
               <Fine className="mt-3">A whole container is the cheapest published price here, but box services below may cost less for {count} boxes. Get a quote.</Fine>
             )}
-            <h2 className="mb-3 mt-8 text-xl font-bold">Alternatives</h2>
-            <div className="divide-y divide-line rounded-lg border border-line">
-              {alternatives.map((o) => (
-                <AltRow key={o.providerId} option={o} item={listing(o.providerId)} />
-              ))}
-            </div>
+            <details className="group mt-6 rounded-lg border border-line bg-white px-5 py-3">
+              <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
+                Other options ({alternatives.length})
+                <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
+              </summary>
+              <div className="divide-y divide-line">
+                {alternatives.map((o) => (
+                  <AltRow key={o.providerId} option={o} item={listing(o.providerId)} />
+                ))}
+              </div>
+              <Fine className="mt-3">
+                All-in estimates (storage + collection + return) from each provider's own prices, checked {new Date(STORAGE_CHECKED).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}. Box sizes vary by provider; confirm the final quote with them. No booking happens here.
+              </Fine>
+            </details>
           </>
         )}
       </section>
-
-      <Fine className="mt-6">
-        All-in estimates (storage + collection + return) from each provider's own prices, checked {new Date(STORAGE_CHECKED).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}. Box sizes vary by provider; confirm the final quote with them. No booking happens here.
-      </Fine>
     </Page>
   )
 }
@@ -145,7 +149,7 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
   const unit = option.kind === 'unit'
   return (
     <div className="rounded-lg border border-highlight-strong bg-highlight p-6">
-      <div className="text-sm font-bold uppercase tracking-wide text-muted">Best option for {boxes} box{boxes === 1 ? '' : 'es'}</div>
+      <div className="text-sm font-semibold text-muted">Best option for {boxes} box{boxes === 1 ? '' : 'es'}</div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-white text-brand">
@@ -158,17 +162,16 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
         </div>
         <div className="text-right">
           <div className="text-4xl font-display font-semibold">{gbp(option.total!)}</div>
-          <div className="text-sm text-muted">all-in{unit ? ' · split it with housemates' : ''}</div>
+          <div className="text-sm text-muted">all-in{unit ? ', split with housemates' : ''}</div>
         </div>
       </div>
-      <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
+      <div className="mt-4">
+        <BookLink item={item} primary />
+      </div>
+      <details className="mt-3">
+        <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold text-muted hover:text-ink">Price breakdown</summary>
         <div>
-          <div className="flex flex-wrap gap-2">
-            {item.tags.map((t) => (
-              <span key={t} className="rounded-full bg-white px-3 py-1 text-sm font-medium">{t}</span>
-            ))}
-          </div>
-          <dl className="mt-3 space-y-0.5 text-sm text-ink">
+          <dl className="mt-1 space-y-0.5 text-sm text-ink">
             <div className="flex gap-2">
               <dt>Storage{option.rate && <span className="text-muted"> ({option.rate})</span>}</dt>
               <dd className="font-semibold">{gbp(option.storageGBP!)}</dd>
@@ -185,8 +188,7 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
           )}
           {item.note && <p className="mt-2 text-sm text-muted">{item.note}</p>}
         </div>
-        <BookLink item={item} primary />
-      </div>
+      </details>
     </div>
   )
 }
@@ -206,11 +208,11 @@ function AltRow({ option, item }: { option: StorageOption; item: StorageListing 
             <span className="shrink-0 text-sm font-semibold text-subtle">{option.breakdown.startsWith('Only covers') ? 'Not available' : 'Get a quote'}</span>
           )}
         </div>
-        <div className="text-sm text-muted">
-          {option.total != null
-            ? [`storage £${option.storageGBP!.toFixed(2)}${option.rate ? ` (${option.rate})` : ''}`, ...option.feeLines.map((f) => `${f.label.toLowerCase()} £${f.amountGBP.toFixed(2)}`)].join(' + ')
-            : option.breakdown.startsWith('Only covers') ? `${option.breakdown} (summer only)` : (item.priceText ?? option.breakdown)}
-        </div>
+        {option.total == null && (
+          <div className="text-sm text-muted">
+            {option.breakdown.startsWith('Only covers') ? `${option.breakdown} (summer only)` : (item.priceText ?? option.breakdown)}
+          </div>
+        )}
       </div>
       <BookLink item={item} />
     </div>

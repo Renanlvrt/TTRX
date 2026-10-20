@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Camera, Check, ChevronDown } from 'lucide-react'
+import { ArrowUpRight, Camera, Check, ChevronDown, ChevronRight } from 'lucide-react'
 import { ButtonLink, Fine, Page, cx } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
 import { cleaningAdvice } from '../../lib/cleaning'
@@ -8,7 +8,6 @@ import { compareInspections, hasAnyRecord } from '../../lib/inspection'
 import { CHECKLIST } from '../../data/checklist'
 import { CLEANING_BANDS, CLEANING_BANDS_SOURCE, CLEANING_FACTS } from '../../data/cleaningPrices'
 import { CLEANERS, CLEANING_CHECKLIST, DEPOSIT_LINKS } from '../../data/services'
-import { Photo } from '../inspection/ItemCard'
 import type { AppState } from '../../lib/types'
 
 const key = (i: number) => `clean-${i}`
@@ -54,14 +53,13 @@ export default function CleaningPage() {
       {/* The one question */}
       <label className="mb-4 block rounded-lg border border-line p-5">
         <span className="text-xl font-bold">How much was your deposit?</span>
-        <span className="mt-1 block text-sm text-muted">Your share, per person.</span>
         <span className="mt-3 flex h-14 items-center rounded-md border-2 border-field-border px-4 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-1">
           <span className="text-2xl font-bold text-muted">£</span>
           <input
             type="number"
             inputMode="numeric"
             min={0}
-            placeholder="e.g. 400"
+            placeholder="Your share, e.g. 400"
             value={deposit ?? ''}
             onChange={(e) => setCleaning({ depositPerPerson: e.target.value === '' ? null : Math.max(0, Number(e.target.value) || 0) })}
             className="ml-2 w-full bg-transparent text-2xl font-bold text-ink outline-none placeholder:font-semibold placeholder:text-subtle"
@@ -76,14 +74,12 @@ export default function CleaningPage() {
 
         <div className="mt-4 grid grid-cols-2 gap-3">
           <div className={cx('rounded-md p-3 sm:p-4', hire ? 'bg-brand text-white' : 'bg-white')}>
-            <div className={cx('text-xs font-bold uppercase tracking-wide', hire ? 'text-white/80' : 'text-muted')}>Cleaner</div>
+            <div className={cx('text-sm font-semibold', hire ? 'text-white' : 'text-muted')}>Cleaner</div>
             <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">£{each}<span className={cx('text-sm font-semibold', hire ? 'text-white/80' : 'text-muted')}> each</span></div>
-            <div className={cx('text-sm', hire ? 'text-white/80' : 'text-muted')}>£{advice.houseCostGBP} for a {bedrooms}-bed</div>
           </div>
           <div className={cx('rounded-md p-3 sm:p-4', !hire ? 'bg-brand text-white' : 'bg-white')}>
-            <div className={cx('text-xs font-bold uppercase tracking-wide', !hire ? 'text-white/80' : 'text-muted')}>Your deposit</div>
+            <div className={cx('text-sm font-semibold', !hire ? 'text-white' : 'text-muted')}>Your deposit</div>
             <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">£{deposit}<span className={cx('text-sm font-semibold', !hire ? 'text-white/80' : 'text-muted')}> each</span></div>
-            <div className={cx('text-sm', !hire ? 'text-white/80' : 'text-muted')}>{hire ? 'at risk if left dirty' : 'keep it by cleaning'}</div>
           </div>
         </div>
 
@@ -123,26 +119,12 @@ export default function CleaningPage() {
       )}
 
       {/* What the report found */}
-      <section className="mt-8">
-        <div className="mb-3 flex items-baseline justify-between gap-3">
-          <h2 className="text-xl font-bold">
-            {issues.length === 0 ? 'Your report: nothing new to clean' : `Your report: ${issues.length} thing${issues.length === 1 ? '' : 's'} to clean`}
-          </h2>
-          <Link to="/move-out/report" className="shrink-0 text-sm font-semibold text-muted underline-offset-4 hover:underline">
-            See report
-          </Link>
-        </div>
-        {issues.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {issues.map((r) => (
-              <div key={r.item.id}>
-                <Photo photoId={r.moveOut?.photoId ?? null} alt={`${r.item.label} at move-out`} />
-                <div className="mt-1 text-sm font-semibold">{r.item.label}</div>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
+      <Link to="/move-out/report" className="mt-8 flex min-h-11 items-center justify-between gap-3 rounded-lg border border-line bg-white px-5 py-4 hover:border-line-strong">
+        <span className="text-lg font-semibold">
+          {issues.length === 0 ? 'Your report: nothing new to clean' : `Your report: ${issues.length} thing${issues.length === 1 ? '' : 's'} to clean`}
+        </span>
+        <ChevronRight size={20} className="shrink-0 text-subtle" />
+      </Link>
 
       {/* DIY checklist: open by default when DIY is the answer */}
       <details id="diy" className="group mt-8 rounded-lg border border-line px-5 py-4" open={!hire}>
@@ -193,14 +175,13 @@ export default function CleaningPage() {
             </div>
           ))}
         </div>
+        <Fine className="mt-3">
+          Estimate from{' '}
+          <a href={CLEANING_BANDS_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{CLEANING_BANDS_SOURCE.label}</a>.{' '}
+          {CLEANING_FACTS.noProRequired.text} Cleaning won't fix mould or damp; report those.{' '}
+          <a href={DEPOSIT_LINKS[0].url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Deposit rules</a>
+        </Fine>
       </details>
-
-      <Fine className="mt-6">
-        Estimate from{' '}
-        <a href={CLEANING_BANDS_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{CLEANING_BANDS_SOURCE.label}</a>.{' '}
-        {CLEANING_FACTS.noProRequired.text} Cleaning won't fix mould or damp; report those.{' '}
-        <a href={DEPOSIT_LINKS[0].url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Deposit rules</a>
-      </Fine>
     </Page>
   )
 }

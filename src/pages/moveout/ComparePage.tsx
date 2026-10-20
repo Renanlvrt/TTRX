@@ -33,7 +33,7 @@ export default function ComparePage() {
   return (
     <Page
       title="Move-out photos"
-      subtitle="Retake each photo from the same angle. We pair it with move-in."
+      subtitle="Retake each photo from the same angle."
       actions={
         <>
           <ProgressPill done={progress.done} total={progress.total} />
@@ -48,7 +48,7 @@ export default function ComparePage() {
           const missing = missingIds.has(item.id)
           return (
             <div key={item.id} className="grid items-start gap-4 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-              <MoveInSide record={moveIn.records[item.id] ?? null} label={`${roomLabel(item.room)} · ${item.label}`} missing={missing} />
+              <MoveInSide record={moveIn.records[item.id] ?? null} label={`${roomLabel(item.room)}: ${item.label}`} missing={missing} />
               <ItemCard kind="moveOut" item={item} record={moveOut.records[item.id] ?? null} attention={missing && hasAnyRecord(moveOut)} />
             </div>
           )
@@ -56,7 +56,7 @@ export default function ComparePage() {
       </div>
 
       <div className="no-print mt-10 flex flex-wrap items-center justify-between gap-4">
-        <Fine>{progress.missing.length === 0 ? 'All items paired.' : `${progress.missing.length} still to photograph: ${progress.missing.map((m) => m.label).join(', ')}.`}</Fine>
+        <Fine>{progress.missing.length === 0 ? 'All items paired.' : `${progress.missing.length} still to photograph.`}</Fine>
         <ButtonLink to="/move-out/report">
           <FileText size={20} /> Build report
         </ButtonLink>
@@ -69,12 +69,12 @@ function MoveInSide({ record, label, missing }: { record: ItemRecord | null; lab
   return (
     <div className="p-1 pt-4">
       <div className="mb-2 flex items-center justify-between gap-2">
-        <span className="text-sm font-bold uppercase tracking-wide text-muted">{label}</span>
+        <span className="text-base font-semibold text-ink">{label}</span>
         {missing && <span className="rounded-full bg-highlight px-2.5 py-0.5 text-xs font-bold text-ink">To do</span>}
       </div>
       <Photo photoId={record?.photoId ?? null} alt={`${label} at move-in`} />
       <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
-        <span className="font-semibold text-muted">Move-in{record?.recordedAt ? ` · ${fmtDate(record.recordedAt)}` : ''}</span>
+        <span className="font-semibold text-muted">Move-in{record?.recordedAt ? `, ${fmtDate(record.recordedAt)}` : ''}</span>
         {record?.condition ? (
           <span className={cx('rounded-full border px-2.5 py-0.5 text-xs font-semibold', CONDITION_TONE[record.condition])}>{CONDITION_LABEL[record.condition]}</span>
         ) : (

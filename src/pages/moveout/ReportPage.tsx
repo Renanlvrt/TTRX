@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Download } from 'lucide-react'
 import { Button, Fine, Page, Stat, cx } from '../../components/ui'
 import { setTask, useAppState } from '../../lib/store'
@@ -9,10 +9,10 @@ import { fmtDate } from '../inspection/helpers'
 import type { ComparisonRow, Flag, ItemRecord } from '../../lib/types'
 
 const FLAG_BADGE: Record<Flag, { label: string; cls: string }> = {
-  newIssue: { label: 'NEW ISSUE', cls: 'bg-highlight-strong text-ink' },
-  preExisting: { label: 'Pre-existing · documented at move-in', cls: 'bg-brand-soft text-brand' },
+  newIssue: { label: 'New issue', cls: 'bg-highlight-strong text-ink' },
+  preExisting: { label: 'Pre-existing', cls: 'bg-brand-soft text-brand' },
   unchanged: { label: 'Unchanged', cls: 'bg-canvas-strong text-muted' },
-  unmatched: { label: 'Unmatched · photo missing', cls: 'border border-line-strong text-muted' },
+  unmatched: { label: 'Photo missing', cls: 'border border-line-strong text-muted' },
   notApplicable: { label: 'N/A', cls: 'bg-canvas text-subtle' },
 }
 
@@ -32,13 +32,16 @@ export default function ReportPage() {
   const { property, moveIn, moveOut } = useAppState()
   const rows = sortRows(compareInspections(CHECKLIST, moveIn, moveOut))
   const counts = summarize(rows)
+  const [showAll, setShowAll] = useState(false)
+  const quiet = (r: ComparisonRow) => r.flag === 'unchanged' || r.flag === 'notApplicable'
+  const quietCount = rows.filter(quiet).length
 
   useEffect(() => setTask('comparison', 'done'), [])
 
   return (
     <Page
-      title="Property condition report"
-      subtitle={`${property.label} · Move-in ${fmtDate(property.moveInDate)} → Move-out ${fmtDate(property.moveOutDate)}`}
+      title="Condition report"
+      subtitle={property.label}
       back="/move-out/compare"
       actions={
         <Button onClick={() => window.print()}>
@@ -48,18 +51,25 @@ export default function ReportPage() {
     >
       <style>{PRINT_CSS}</style>
 
-      <div className="report-stats grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div className="report-stats">
         <Stat label="New issues" value={String(counts.newIssue)} highlight />
-        <Stat label="Pre-existing" value={String(counts.preExisting)} sub="Documented" />
-        <Stat label="Unchanged" value={String(counts.unchanged)} />
-        <Stat label="Unmatched" value={String(counts.unmatched)} sub={counts.notApplicable ? `${counts.notApplicable} N/A` : undefined} />
+        <p className="mt-2 text-sm text-muted">
+          {counts.preExisting} pre-existing, {counts.unchanged} unchanged{counts.unmatched ? `, ${counts.unmatched} photo missing` : ''}
+        </p>
       </div>
 
       <div className="mt-8 space-y-4">
         {rows.map((row) => (
-          <ReportRow key={row.item.id} row={row} moveInDate={property.moveInDate} moveOutDate={property.moveOutDate} />
+          <div key={row.item.id} className={cx(quiet(row) && !showAll && 'hidden print:block')}>
+            <ReportRow row={row} moveInDate={property.moveInDate} moveOutDate={property.moveOutDate} />
+          </div>
         ))}
       </div>
+      {quietCount > 0 && (
+        <button type="button" onClick={() => setShowAll((v) => !v)} className="no-print mt-4 min-h-11 text-sm font-semibold text-muted underline-offset-4 hover:text-ink hover:underline">
+          {showAll ? 'Hide unchanged items' : `Show ${quietCount} unchanged items`}
+        </button>
+      )}
 
       <div className="mt-10 border-t border-line pt-6">
         <Fine>
@@ -77,7 +87,7 @@ export default function ReportPage() {
 
 function ReportRow({ row, moveInDate, moveOutDate }: { row: ComparisonRow; moveInDate: string; moveOutDate: string }) {
   const badge = FLAG_BADGE[row.flag]
-  const title = `${roomLabel(row.item.room)} · ${row.item.label}`
+  const title = `${roomLabel(row.item.room)}: ${row.item.label}`
   return (
     <section className={cx('report-row rounded-lg border p-5', row.flag === 'newIssue' ? 'border-highlight-strong bg-highlight/40' : 'border-line')}>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
@@ -98,7 +108,7 @@ function Side({ label, record, fallbackDate, alt }: { label: string; record: Ite
       <Photo photoId={record?.photoId ?? null} alt={alt} />
       <figcaption className="mt-2 text-sm">
         <span className="font-semibold text-muted">
-          {label} · {fmtDate(record?.recordedAt ?? fallbackDate)}
+          {label}, {fmtDate(record?.recordedAt ?? fallbackDate)}
         </span>
         <span className="block font-semibold text-ink">{record?.condition ? CONDITION_LABEL[record.condition] : 'Not recorded'}</span>
         {record?.note && <span className="block text-muted">{record.note}</span>}
