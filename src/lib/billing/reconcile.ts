@@ -4,13 +4,17 @@ import type { CurrencyCode, MoneyDTO } from './money'
 import type { SignupRecord } from './repository'
 import { deepFreeze } from './validate'
 
-export type DiscrepancyKind = 'UNBALANCED_TRANSACTION' | 'MISSING_POSTING' | 'DUPLICATE_POSTING' | 'AMOUNT_MISMATCH' | 'ORPHAN_POSTING'
+export type DiscrepancyKind =
+  | 'UNBALANCED_TRANSACTION' | 'MISSING_POSTING' | 'DUPLICATE_POSTING' | 'AMOUNT_MISMATCH' | 'ORPHAN_POSTING' | 'MIXED_CURRENCY_RECEIVABLE'
 export interface Discrepancy { readonly kind: DiscrepancyKind; readonly ref: string }
 
 export interface ReconciliationReport {
   readonly balanced: boolean
   readonly totals: Readonly<Partial<Record<CurrencyCode, { readonly debits: string; readonly credits: string }>>>
+  /** One amount per partner. A partner owing in more than one currency is left out here and flagged instead. */
   readonly receivableByPartner: Readonly<Record<string, MoneyDTO>>
+  /** Every partner's balance per currency, as minor-unit strings. Currencies are never added together. */
+  readonly receivableByPartnerCurrency: Readonly<Record<string, Readonly<Partial<Record<CurrencyCode, string>>>>>
   readonly discrepancies: readonly Discrepancy[]
 }
 
@@ -19,7 +23,7 @@ const RECEIVABLE = 'receivable:'
 export function reconcile(i: { transactions: readonly LedgerTransaction[]; signups: readonly SignupRecord[] }): ReconciliationReport {
   const discrepancies: Discrepancy[] = []
   const totals = new Map<CurrencyCode, { d: bigint; c: bigint }>()
-  const receivable = new Map<string, { n: bigint; currency: CurrencyCode }>()
+  const receivable = new Map<string, Map<CurrencyCode, bigint>>()
   let balanced = true
 
   for (const t of i.transactions) {
@@ -34,9 +38,9 @@ export function reconcile(i: { transactions: readonly LedgerTransaction[]; signu
       net.set(cur, (net.get(cur) ?? 0n) + (e.direction === 'debit' ? amt : -amt))
       if (e.accountId.startsWith(RECEIVABLE)) {
         const p = e.accountId.slice(RECEIVABLE.length)
-        const r = receivable.get(p) ?? { n: 0n, currency: cur }
-        r.n += e.direction === 'debit' ? amt : -amt
-        receivable.set(p, r)
+        const byCur = receivable.get(p) ?? new Map<CurrencyCode, bigint>()
+        byCur.set(cur, (byCur.get(cur) ?? 0n) + (e.direction === 'debit' ? amt : -amt))
+        receivable.set(p, byCur)
       }
     }
     if ([...net.values()].some((n) => n !== 0n)) {
@@ -76,7 +80,17 @@ export function reconcile(i: { transactions: readonly LedgerTransaction[]; signu
   const totalsOut: Partial<Record<CurrencyCode, { debits: string; credits: string }>> = {}
   for (const [cur, { d, c }] of totals) totalsOut[cur] = { debits: d.toString(), credits: c.toString() }
   const receivableOut: Record<string, MoneyDTO> = {}
-  for (const [p, { n, currency }] of receivable) receivableOut[p] = { amountMinor: n.toString(), currency }
+  const perCurrency: Record<string, Partial<Record<CurrencyCode, string>>> = {}
+  for (const [p, byCur] of receivable) {
+    perCurrency[p] = {}
+    for (const [cur, n] of byCur) perCurrency[p][cur] = n.toString()
+    if (byCur.size === 1) {
+      const [[currency, n]] = [...byCur]
+      receivableOut[p] = { amountMinor: n.toString(), currency }
+    } else discrepancies.push({ kind: 'MIXED_CURRENCY_RECEIVABLE', ref: p })
+  }
 
-  return deepFreeze({ balanced, totals: totalsOut, receivableByPartner: receivableOut, discrepancies })
+  return deepFreeze({
+    balanced, totals: totalsOut, receivableByPartner: receivableOut, receivableByPartnerCurrency: perCurrency, discrepancies,
+  })
 }

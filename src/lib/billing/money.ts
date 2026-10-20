@@ -18,6 +18,11 @@ export type Money = Brand<Readonly<{ amountMinor: bigint; currency: CurrencyCode
 
 export interface MoneyDTO { readonly amountMinor: string; readonly currency: CurrencyCode }
 
+// Length caps run before BigInt() so a huge string never reaches the parser. "-9223372036854775807" is 20 characters;
+// the major-unit cap leaves room for a sign, 17 whole digits, a point and the fraction.
+const MAX_MINOR_CHARS = 20
+const MAX_MAJOR_CHARS = 24
+
 const inRange = (n: bigint) => n >= MIN_MINOR && n <= MAX_MINOR
 
 function make(amountMinor: bigint, currency: CurrencyCode): Result<Money> {
@@ -33,6 +38,7 @@ export function parseCurrency(c: unknown): Result<CurrencyCode> {
 /** Parses a major-unit decimal string such as "12.34". Numbers are refused: they may already have lost precision. */
 export function parseMoney(major: unknown, currency: unknown): Result<Money> {
   if (typeof major !== 'string') return fail('INVALID_AMOUNT_TYPE', 'amounts arrive as strings')
+  if (major.length > MAX_MAJOR_CHARS) return fail('AMOUNT_OUT_OF_RANGE', 'amount has too many characters')
   const c = parseCurrency(currency)
   if (!c.ok) return c
   const exp = CURRENCY_EXPONENT[c.value]
@@ -49,7 +55,8 @@ export function moneyFromMinor(minor: unknown, currency: unknown): Result<Money>
   let n: bigint
   if (typeof minor === 'bigint') n = minor
   else if (typeof minor === 'string') {
-    if (!/^-?\d+$/.test(minor)) return fail('INVALID_AMOUNT', 'minor units must be an integer string')
+    if (minor.length > MAX_MINOR_CHARS) return fail('AMOUNT_OUT_OF_RANGE', 'amount has too many characters')
+    if (!/^(0|-?[1-9]\d*)$/.test(minor)) return fail('INVALID_AMOUNT', 'minor units must be a plain integer string')
     n = BigInt(minor)
   } else return fail('INVALID_AMOUNT_TYPE', 'minor units must be a bigint or an integer string')
   const c = parseCurrency(currency)

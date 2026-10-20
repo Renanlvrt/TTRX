@@ -14,8 +14,13 @@ export async function hmacSha256Hex(key: Uint8Array, msg: Uint8Array): Promise<s
   return hex(await globalThis.crypto.subtle.sign('HMAC', k, new Uint8Array(msg)))
 }
 
-/** True when a string looks like it holds an email address. Ledger memos and audit data must never carry one. */
-export const containsPii = (s: string): boolean => /[^\s@]+@[^\s@]+\.[^\s@]+/.test(s)
+/**
+ * True when a string looks like it holds an email address, including dotless hosts ("alice@localhost"), URL-encoded
+ * at signs ("alice%40uni.example") and spelled-out forms ("alice [at] uni.example"). Ledger memos and audit data must
+ * never carry one, so this errs on the side of rejecting.
+ */
+export const containsPii = (s: string): boolean =>
+  /[^\s@]+@[^\s@]+/.test(s) || /[^\s%]+%40[^\s]+/i.test(s) || /\S\s*[[(]\s*at\s*[\])]\s*\S/i.test(s)
 
 export interface Pseudonymiser {
   readonly keyId: string

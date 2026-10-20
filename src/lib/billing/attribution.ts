@@ -3,7 +3,7 @@ import type { ContractId, EmailDomain, Instant, PartnerId, ReferralCode } from '
 import type { Money } from './money'
 import type { Result } from './result'
 import { fail, ok } from './result'
-import { deepFreeze, instantMs } from './validate'
+import { deepFreeze, instantMs, parseEmail, parseReferralCode } from './validate'
 
 export interface Partner {
   readonly id: PartnerId
@@ -54,12 +54,44 @@ const FORBIDDEN_DOMAINS = new Set([
 const DAY_MS = 86_400_000
 const endMs = (c: Contract) => (c.effectiveTo === null ? Infinity : instantMs(c.effectiveTo))
 
+/**
+ * A read-only view over a private Map. Object.freeze does not stop Map.prototype.set, so the catalog never hands out
+ * the Map itself: once built and checked, nobody can add a code or swap a contract.
+ */
+function readonlyMap<K, V>(m: Map<K, V>): ReadonlyMap<K, V> {
+  const view: ReadonlyMap<K, V> = {
+    get: (k) => m.get(k),
+    has: (k) => m.has(k),
+    get size() { return m.size },
+    forEach: (fn, thisArg) => m.forEach((v, k) => fn.call(thisArg, v, k, view)),
+    entries: () => m.entries(),
+    keys: () => m.keys(),
+    values: () => m.values(),
+    [Symbol.iterator]: () => m[Symbol.iterator](),
+  }
+  return Object.freeze(view)
+}
+
 export function buildPartnerCatalog(partners: readonly Partner[], contracts: readonly Contract[]): Result<PartnerCatalog> {
   const ps = new Map<PartnerId, Partner>()
   const byCode = new Map<ReferralCode, PartnerId>()
   const byDomain = new Map<EmailDomain, PartnerId>()
-  for (const p of partners) {
-    if (ps.has(p.id)) return fail('INVALID_REQUEST', `partner ${p.id} listed twice`)
+  for (const raw of partners) {
+    if (ps.has(raw.id)) return fail('INVALID_REQUEST', `partner ${raw.id} listed twice`)
+    // Codes and domains go through the same parsers as incoming signups, so "alpha2026" and "ALPHA2026" are one code.
+    const codes: ReferralCode[] = []
+    for (const c of raw.referralCodes) {
+      const parsed = parseReferralCode(c)
+      if (!parsed.ok) return parsed
+      codes.push(parsed.value)
+    }
+    const domains: EmailDomain[] = []
+    for (const d of raw.emailDomains) {
+      const parsed = parseEmail(`x@${d}`)
+      if (!parsed.ok) return fail('INVALID_EMAIL', `partner ${raw.id} has an invalid email domain`)
+      domains.push(parsed.value.domain)
+    }
+    const p: Partner = deepFreeze({ ...raw, referralCodes: codes, emailDomains: domains })
     ps.set(p.id, p)
     for (const c of p.referralCodes) {
       if (byCode.has(c)) return fail('DUPLICATE_REFERRAL_CODE', `referral code ${c} belongs to two partners`)
@@ -73,7 +105,8 @@ export function buildPartnerCatalog(partners: readonly Partner[], contracts: rea
   }
   const cs = new Map<ContractId, Contract>()
   const byPartner = new Map<PartnerId, Contract[]>()
-  for (const c of contracts) {
+  for (const raw of contracts) {
+    const c: Contract = deepFreeze({ ...raw })
     if (cs.has(c.id)) return fail('INVALID_REQUEST', `contract ${c.id} listed twice`)
     if (!ps.has(c.partnerId)) return fail('UNKNOWN_PARTNER', `contract ${c.id} names an unknown partner`)
     if (endMs(c) <= instantMs(c.effectiveFrom)) return fail('INVALID_CONTRACT_WINDOW', `contract ${c.id} ends before it starts`)
@@ -93,7 +126,12 @@ export function buildPartnerCatalog(partners: readonly Partner[], contracts: rea
       }
     }
   }
-  return ok(Object.freeze({ partners: ps, contracts: cs, byCode, byDomain, contractsByPartner: byPartner }))
+  const frozenByPartner = new Map<PartnerId, readonly Contract[]>()
+  for (const [p, list] of byPartner) frozenByPartner.set(p, Object.freeze([...list]))
+  return ok(Object.freeze({
+    partners: readonlyMap(ps), contracts: readonlyMap(cs), byCode: readonlyMap(byCode), byDomain: readonlyMap(byDomain),
+    contractsByPartner: readonlyMap(frozenByPartner),
+  }))
 }
 
 function activeContract(cat: PartnerCatalog, p: PartnerId, atMs: number): Contract | null {
