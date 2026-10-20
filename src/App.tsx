@@ -11,6 +11,7 @@ import ComparePage from './pages/moveout/ComparePage'
 import ReportPage from './pages/moveout/ReportPage'
 import StoragePage from './pages/storage/StoragePage'
 import CleaningPage from './pages/cleaning/CleaningPage'
+import PartnerBillingPage from './pages/partners/PartnerBillingPage'
 
 // Route table is the navigation contract; page owners only touch their own folders.
 export const ROUTES = {
@@ -22,6 +23,7 @@ export const ROUTES = {
   report: '/move-out/report',
   storage: '/move-out/storage',
   cleaning: '/move-out/cleaning',
+  partnerBilling: '/partners/billing',
 } as const
 
 /** Alt+D = presenter demo house, Alt+R = brand-new user. Uses e.code so it works on any keyboard layout. */
@@ -107,6 +109,7 @@ export default function App() {
             <Route path={ROUTES.report} element={<ReportPage />} />
             <Route path={ROUTES.storage} element={<StoragePage />} />
             <Route path={ROUTES.cleaning} element={<CleaningPage />} />
+            <Route path={ROUTES.partnerBilling} element={<PartnerBillingPage />} />
             <Route path="/move-in" element={<StagePage />} />
             <Route path="/move-out" element={<StagePage />} />
             <Route path="*" element={<Home />} />

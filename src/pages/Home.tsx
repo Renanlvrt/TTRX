@@ -117,6 +117,9 @@ export default function Home() {
           Reset demo data
         </button>}
       </div>
+      <Link to="/partners/billing" className="no-print mt-6 inline-block text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline">
+        Partner billing (simulation)
+      </Link>
     </div>
   )
 }
