@@ -4,7 +4,7 @@
 > - `BILLING_MODE = 'sandbox'` is the only mode. Asking for live mode throws an error.
 > - Every ledger memo starts with `[SIMULATED]`.
 > - There is no payment provider and no network call.
-> - Every partner is fictional and uses an `.example` domain, for example "Palatine Lettings (fictional)" at `palatine.example` and "Wearside Homes (fictional)" at `wearside.example`.
+> - Every partner is fictional and uses an `.example` domain, for example "Palatine Lettings (fictional)" at `alpha-lettings.example` and "Wearside Homes (fictional)" at `beta-homes.example`.
 
 Status: a domain module on `Durham_testing_branch`, added 2026-10-20. There is no server.
 

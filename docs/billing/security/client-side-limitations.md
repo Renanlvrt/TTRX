@@ -15,7 +15,7 @@ On this branch the billing module runs in the browser, so every amount is simula
 - `BILLING_MODE = 'sandbox'` is the only mode. Asking for `'live'` throws an `InvariantError`.
 - Every ledger memo starts with `[SIMULATED]`.
 - No payment provider, no network calls, no real card or bank data.
-- Partners are fictional, with `.example` domains, for example "Palatine Lettings (fictional)" at `palatine.example` and "Wearside Homes (fictional)" at `wearside.example`.
+- Partners are fictional, with `.example` domains, for example "Palatine Lettings (fictional)" at `alpha-lettings.example` and "Wearside Homes (fictional)" at `beta-homes.example`.
 
 ## Sources
 - https://cheatsheetseries.owasp.org/cheatsheets/Business_Logic_Security_Cheat_Sheet.html

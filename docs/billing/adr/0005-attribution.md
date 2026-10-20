@@ -14,7 +14,7 @@ Status: accepted, 2026-10-20. The partners in tests and demos are fictional and 
    - If two touches have the same timestamp, the code that sorts first A to Z wins.
 2. **Email domain.**
    - The student's email domain must match a partner domain exactly (case-insensitive).
-   - Subdomains and lookalikes such as `palatine.example.evil.com` do not match.
+   - Subdomains and lookalikes such as `alpha-lettings.example.evil.com` do not match.
    - Free webmail domains such as `gmail.com` cannot be partner domains (`FORBIDDEN_DOMAIN`).
 3. **Otherwise the signup is unattributed.** It is recorded, and no fee is posted.
 
