@@ -52,3 +52,5 @@ Started 2026-10-20. This branch moves RentReady from the hackathon demo toward a
 | 14:50 | Billing modules missing, so 170 billing tests failed | Implemented src/lib/billing; 692/692 green | f2481c1 |
 | 14:52 | Partners had no way to see billing | Added a simulated partner billing page | c4cbfd0 |
 | 14:55 | QA review: 11 billing defects (lease takeover race, release after commit, mixed-currency receivables, catalog mutability, PII echo) and 4 a11y defects (focus rings, 1.4:1 input borders) | Fixed all 15, with 30 new regression tests; 722/722 green | a31b56f, 92be0ce |
+| 15:10 | User: all-white tab-bar redesign harder to read; wants only the strict necessary | Reverted ba31928 (239ad89); Home is now only Moving in or moving out | 6dfdb4c |
+| 18:50 | Task pages crowded (captions, fine print, repeated figures) | One answer and one action per page; optional detail behind Details or Show all | see git log |
