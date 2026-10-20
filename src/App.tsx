@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
-import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
-import { Home as HomeIcon } from 'lucide-react'
+import type { ReactNode } from 'react'
+import { BrowserRouter, Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { Home as HomeIcon, KeyRound, PackageOpen } from 'lucide-react'
+import { TabBar, cx } from './components/ui'
 import Home, { StagePage } from './pages/Home'
 import { enterDemoMode, resetToNewUser } from './lib/demoMode'
 import { getState } from './lib/store'
@@ -78,13 +80,53 @@ function LogoLink() {
       }}
       draggable={false}
       style={{ WebkitTouchCallout: 'none' }}
-      className="flex select-none items-center gap-2.5 font-display text-xl font-semibold text-white"
+      aria-label="RentReady home"
+      className="-ml-1 flex min-h-11 select-none items-center gap-2.5 rounded-lg px-1 text-lg font-semibold text-ink"
     >
-      <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/40 text-white">
-        <HomeIcon size={18} />
-      </span>
+      <span aria-hidden className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-[15px] font-semibold text-white">R</span>
       RentReady
     </Link>
+  )
+}
+
+const NAV = [
+  { to: '/', label: 'Home', icon: <HomeIcon size={22} strokeWidth={1.75} />, match: (p: string) => p !== '/move-in' && p !== '/move-out' && !p.startsWith('/move-in/') && !p.startsWith('/move-out/') },
+  { to: '/move-in', label: 'Moving in', icon: <KeyRound size={22} strokeWidth={1.75} />, match: (p: string) => p === '/move-in' || p.startsWith('/move-in/') },
+  { to: '/move-out', label: 'Moving out', icon: <PackageOpen size={22} strokeWidth={1.75} />, match: (p: string) => p === '/move-out' || p.startsWith('/move-out/') },
+]
+
+/** White top bar with the Palatinate mark; on desktop it also carries the three main links. */
+function Shell({ children }: { children: ReactNode }) {
+  const path = useLocation().pathname
+  const items = NAV.map((n) => ({ to: n.to, label: n.label, icon: n.icon, active: n.match(path) }))
+  return (
+    <div className="min-h-dvh bg-surface">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-ink">
+        Skip to content
+      </a>
+      <header className="no-print sticky top-0 z-30 border-b border-line bg-white" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+        <div className="mx-auto flex h-13 max-w-3xl items-center justify-between px-4 sm:px-6">
+          <LogoLink />
+          <nav aria-label="Main" className="hidden sm:block">
+            <ul className="flex gap-1">
+              {items.map((t) => (
+                <li key={t.to}>
+                  <Link
+                    to={t.to}
+                    aria-current={t.active ? 'page' : undefined}
+                    className={cx('flex min-h-11 items-center rounded-lg px-3 text-sm', t.active ? 'font-semibold text-brand' : 'font-medium text-muted hover:text-ink')}
+                  >
+                    {t.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </header>
+      <main id="main" className="pb-tabbar">{children}</main>
+      <TabBar items={items} />
+    </div>
   )
 }
 
@@ -92,30 +134,22 @@ export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <DemoHotkeys />
-      <div className="min-h-screen bg-surface">
-        <header className="no-print border-b-4 border-brand-deep bg-brand">
-          <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
-            <LogoLink />
-            <span className="hidden text-xs font-semibold uppercase tracking-[0.14em] text-white/85 sm:inline">Free for students · Durham</span>
-          </div>
-        </header>
-        <main>
-          <Routes>
-            <Route path={ROUTES.home} element={<Home />} />
-            <Route path={ROUTES.bills} element={<BillsPage />} />
-            <Route path={ROUTES.inspection} element={<InspectionPage />} />
-            <Route path={ROUTES.email} element={<EmailPage />} />
-            <Route path={ROUTES.compare} element={<ComparePage />} />
-            <Route path={ROUTES.report} element={<ReportPage />} />
-            <Route path={ROUTES.storage} element={<StoragePage />} />
-            <Route path={ROUTES.cleaning} element={<CleaningPage />} />
-            <Route path={ROUTES.partnerBilling} element={<PartnerBillingPage />} />
-            <Route path="/move-in" element={<StagePage />} />
-            <Route path="/move-out" element={<StagePage />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
-        </main>
-      </div>
+      <Shell>
+        <Routes>
+          <Route path={ROUTES.home} element={<Home />} />
+          <Route path={ROUTES.bills} element={<BillsPage />} />
+          <Route path={ROUTES.inspection} element={<InspectionPage />} />
+          <Route path={ROUTES.email} element={<EmailPage />} />
+          <Route path={ROUTES.compare} element={<ComparePage />} />
+          <Route path={ROUTES.report} element={<ReportPage />} />
+          <Route path={ROUTES.storage} element={<StoragePage />} />
+          <Route path={ROUTES.cleaning} element={<CleaningPage />} />
+          <Route path={ROUTES.partnerBilling} element={<PartnerBillingPage />} />
+          <Route path="/move-in" element={<StagePage />} />
+          <Route path="/move-out" element={<StagePage />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </Shell>
     </BrowserRouter>
   )
 }

@@ -1,14 +1,16 @@
 import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowLeft, Box, Camera, ChevronRight, Images, KeyRound, Mail, PackageOpen, PoundSterling, Sparkles } from 'lucide-react'
-import { StatusBadge, Fine } from '../components/ui'
+import { Box, Camera, Images, KeyRound, Mail, PackageOpen, PoundSterling, Sparkles } from 'lucide-react'
+import { ButtonLink, Fine, ListGroup, ListRow, Notice, Page, ProgressBar, Section } from '../components/ui'
 import { resetState, useAppState } from '../lib/store'
-import type { TaskId } from '../lib/types'
+import { AREAS } from '../lib/types'
+import type { AppState, TaskId } from '../lib/types'
 
 interface Task {
   id: TaskId
   to: string
   title: string
+  caption: string
   icon: ReactNode
 }
 
@@ -20,127 +22,142 @@ interface Stage {
   tasks: Task[]
 }
 
+const ICON = { size: 20, strokeWidth: 1.75 } as const
+
 const STAGES: Stage[] = [
   {
     slug: 'move-in',
     title: 'Moving in',
-    caption: 'Know your costs. Record the house.',
-    icon: <KeyRound size={28} />,
+    caption: 'Know your costs and record the house.',
+    icon: <KeyRound size={22} strokeWidth={1.75} />,
     tasks: [
-      { id: 'bills', to: '/move-in/bills', title: 'Compare bills', icon: <PoundSterling size={22} /> },
-      { id: 'inspection', to: '/move-in/inspection', title: 'Photo inspection', icon: <Camera size={22} /> },
-      { id: 'email', to: '/move-in/email', title: 'Email landlord', icon: <Mail size={22} /> },
+      { id: 'bills', to: '/move-in/bills', title: 'Compare bills', caption: 'Bills package or pay each bill yourself', icon: <PoundSterling {...ICON} /> },
+      { id: 'inspection', to: '/move-in/inspection', title: 'Photo inspection', caption: 'Photograph each room before you move your things in', icon: <Camera {...ICON} /> },
+      { id: 'email', to: '/move-in/email', title: 'Email landlord', caption: 'Send your photos with a dated record', icon: <Mail {...ICON} /> },
     ],
   },
   {
     slug: 'move-out',
     title: 'Moving out',
-    caption: 'Prove the condition. Leave cleanly.',
-    icon: <PackageOpen size={28} />,
+    caption: 'Prove the condition and leave cleanly.',
+    icon: <PackageOpen size={22} strokeWidth={1.75} />,
     tasks: [
-      { id: 'comparison', to: '/move-out/compare', title: 'Before / after report', icon: <Images size={22} /> },
-      { id: 'storage', to: '/move-out/storage', title: 'Find storage', icon: <Box size={22} /> },
-      { id: 'cleaning', to: '/move-out/cleaning', title: 'Cleaning', icon: <Sparkles size={22} /> },
+      { id: 'comparison', to: '/move-out/compare', title: 'Before and after report', caption: 'Spot new damage before the landlord does', icon: <Images {...ICON} /> },
+      { id: 'cleaning', to: '/move-out/cleaning', title: 'Cleaning', caption: 'Cleaner cost against your deposit', icon: <Sparkles {...ICON} /> },
+      { id: 'storage', to: '/move-out/storage', title: 'Find storage', caption: 'Cheapest place for your boxes', icon: <Box {...ICON} /> },
     ],
   },
 ]
 
-function TaskList({ stage }: { stage: Stage }) {
-  const { tasks } = useAppState()
-  return (
-    <ul className="overflow-hidden rounded-md border border-line border-b-0">
-      {stage.tasks.map((t) => (
-        <li key={t.id}>
-          <Link
-            to={t.to}
-            className="group flex items-center gap-4 border-b border-line bg-white px-4 py-4 transition-colors hover:bg-brand-soft"
-          >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-brand-tint bg-brand-soft text-brand">{t.icon}</span>
-            <span className="flex min-w-0 flex-1 flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <span className="text-lg font-semibold leading-snug">{t.title}</span>
-              <StatusBadge status={tasks[t.id]} />
-            </span>
-            <ChevronRight className="shrink-0 text-line-strong group-hover:text-brand" size={20} />
-          </Link>
-        </li>
-      ))}
-    </ul>
-  )
+function doneCount(stage: Stage, tasks: AppState['tasks']) {
+  return stage.tasks.filter((t) => tasks[t.id] === 'done').length
+}
+
+/** Move-out becomes the current stage once any move-out task has started or every move-in task is done. */
+function currentStage(tasks: AppState['tasks']): Stage {
+  const [moveIn, moveOut] = STAGES
+  const outStarted = moveOut.tasks.some((t) => tasks[t.id] !== 'notStarted')
+  return outStarted || doneCount(moveIn, tasks) === moveIn.tasks.length ? moveOut : moveIn
+}
+
+function daysUntil(isoDate: string) {
+  const ms = new Date(isoDate + 'T00:00:00').getTime() - new Date(new Date().toDateString()).getTime()
+  return Math.round(ms / 86_400_000)
 }
 
 export default function Home() {
-  const { demoMode } = useAppState()
+  const { tasks, demoMode, property } = useAppState()
+  const stage = currentStage(tasks)
+  const area = AREAS.find((a) => a.id === property.area)?.label ?? 'Durham'
+  const next = stage.tasks.filter((t) => tasks[t.id] !== 'done')
+  const allDone = STAGES.every((s) => doneCount(s, tasks) === s.tasks.length)
+
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 py-12">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">Durham student housing</p>
-      <h1 className="mt-3 font-display text-4xl font-semibold leading-tight md:text-5xl">
-        Settle into your student house.
-      </h1>
-      <div aria-hidden className="mt-4 h-0.5 w-12 bg-brand" />
-      <p className="mt-4 text-lg text-muted md:text-xl">Bills, evidence and moving help, in one place.</p>
-
-      {/* Phone: two big stage buttons; each opens its own page of tasks. */}
-      <div className="mt-10 grid gap-4 md:hidden">
-        {STAGES.map((stage) => (
-          <Link
-            key={stage.slug}
-            to={`/${stage.slug}`}
-            className="flex items-center gap-4 rounded-md bg-brand p-6 text-white transition-colors hover:bg-brand-hover active:bg-brand-deep"
-          >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm border border-white/35">{stage.icon}</span>
-            <span className="flex-1">
-              <span className="block font-display text-2xl font-semibold">{stage.title}</span>
-              <span className="mt-0.5 block text-sm text-white/80">{stage.caption}</span>
-            </span>
-            <ChevronRight size={24} />
-          </Link>
+    <Page
+      title={stage.slug === 'move-in' ? `Moving into ${area}?` : `Moving out of ${area}?`}
+      subtitle={allDone ? 'You have finished both lists.' : `Your next step: ${next[0].title.toLowerCase()}.`}
+      back={null}
+    >
+      {next.length > 0 && (
+        <ButtonLink to={next[0].to} block className="mb-6">
+          {tasks[next[0].id] === 'inProgress' ? 'Continue' : 'Start'}: {next[0].title.toLowerCase()}
+        </ButtonLink>
+      )}
+      <ListGroup>
+        {STAGES.map((s) => (
+          <ListRow
+            key={s.slug}
+            to={`/${s.slug}`}
+            large
+            icon={s.icon}
+            tone={s === stage ? 'brand' : undefined}
+            label={s.title}
+            caption={s.caption}
+            value={`${doneCount(s, tasks)} of ${s.tasks.length} done`}
+            valueTone="muted"
+          />
         ))}
-      </div>
+      </ListGroup>
 
-      {/* Desktop: both stages side by side. */}
-      <div className="mt-10 hidden gap-6 md:grid md:grid-cols-2">
-        {STAGES.map((stage) => (
-          <section key={stage.slug} className="rounded-md border border-line border-t-4 border-t-brand bg-white p-6">
-            <h2 className="text-2xl font-semibold">{stage.title}</h2>
-            <p className="mt-1 text-muted">{stage.caption}</p>
-            <div className="mt-5">
-              <TaskList stage={stage} />
-            </div>
-          </section>
-        ))}
-      </div>
+      {next.length > 1 && (
+        <Section title="After that" className="mt-8">
+          <ListGroup>
+            {next.slice(1, 3).map((t) => (
+              <ListRow key={t.id} to={t.to} icon={t.icon} label={t.title} caption={t.caption} status={tasks[t.id]} />
+            ))}
+          </ListGroup>
+        </Section>
+      )}
 
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
+      <div className="mt-10 space-y-3">
         <Fine>Free to use. Some recommended providers may pay us a commission in future; it never changes the numbers.</Fine>
-        {!demoMode && <button
-          onClick={() => confirm('Clear all demo data on this device?') && resetState()}
-          className="text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline"
-        >
-          Reset demo data
-        </button>}
+        <div className="no-print -ml-2 flex flex-wrap items-center gap-x-2">
+          <Link to="/partners/billing" className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-medium text-brand hover:text-brand-hover">
+            Partner billing (simulation)
+          </Link>
+          {!demoMode && (
+            <button
+              type="button"
+              onClick={() => confirm('Clear all demo data on this device?') && resetState()}
+              className="inline-flex min-h-11 items-center rounded-lg px-2 text-sm font-medium text-muted hover:text-ink"
+            >
+              Reset demo data
+            </button>
+          )}
+        </div>
       </div>
-      <Link to="/partners/billing" className="no-print mt-6 inline-block text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline">
-        Partner billing (simulation)
-      </Link>
-    </div>
+    </Page>
   )
 }
 
-/** One stage's three tasks (/move-in, /move-out). Used by the phone layout. */
+/** One stage's tasks (/move-in, /move-out), in the order a student needs them. */
 export function StagePage() {
   const slug = useLocation().pathname.split('/')[1]
   const stage = STAGES.find((s) => s.slug === slug) ?? STAGES[0]
+  const { tasks, property } = useAppState()
+  const done = doneCount(stage, tasks)
+  const days = daysUntil(stage.slug === 'move-in' ? property.moveInDate : property.moveOutDate)
+  const soon = days >= 0 && days <= 7
+
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 py-10">
-      <Link to="/" className="mb-6 inline-flex items-center gap-2 text-base font-medium text-muted hover:text-ink">
-        <ArrowLeft size={18} /> Back
-      </Link>
-      <h1 className="font-display text-4xl font-semibold">{stage.title}</h1>
-      <div aria-hidden className="mt-3 h-0.5 w-12 bg-brand" />
-      <p className="mt-3 text-lg text-muted">{stage.caption}</p>
-      <div className="mt-8">
-        <TaskList stage={stage} />
+    <Page title={stage.title} subtitle={stage.caption} back="/" backLabel="Home">
+      {soon && (
+        <Notice tone="warning" title={days === 0 ? `${stage.title} is today` : `${stage.title} in ${days} ${days === 1 ? 'day' : 'days'}`} className="mb-6">
+          {stage.slug === 'move-in' ? 'Photograph each room before you move your things in.' : 'Book cleaning and storage first.'}
+        </Notice>
+      )}
+      <div className="mb-3 flex items-center gap-3">
+        <ProgressBar value={done} max={stage.tasks.length} label={`${stage.title} progress`} />
+        <span className="shrink-0 text-sm font-medium text-muted tabular-nums">{done} of {stage.tasks.length} done</span>
       </div>
-    </div>
+      <ListGroup>
+        {stage.tasks.map((t) => (
+          <ListRow key={t.id} to={t.to} icon={t.icon} label={t.title} caption={t.caption} status={tasks[t.id]} />
+        ))}
+      </ListGroup>
+      <p className="mt-4 text-[13px] leading-[18px] text-subtle">
+        {stage.slug === 'move-in' ? 'Do these in the first week. Your photos protect your deposit at the end of the year.' : 'Start two weeks before you hand back the keys.'}
+      </p>
+    </Page>
   )
 }
