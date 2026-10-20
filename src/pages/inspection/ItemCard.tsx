@@ -11,11 +11,11 @@ import type { ChecklistItem, Condition, InspectionKind, ItemRecord } from '../..
 export function Photo({ photoId, alt, className }: { photoId: string | null; alt: string; className?: string }) {
   const url = usePhotoUrl(photoId)
   return (
-    <div className={cx('aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100', className)}>
+    <div className={cx('aspect-[16/10] overflow-hidden rounded-md bg-canvas-strong', className)}>
       {url ? (
         <img src={url} alt={alt} className="h-full w-full object-cover" />
       ) : (
-        <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-sm text-slate-400">
+        <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-sm text-subtle">
           <ImageOff size={22} />
           No photo
         </div>
@@ -62,11 +62,11 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
   }
 
   return (
-    <div id={`item-${item.id}`} className={cx('scroll-mt-6 rounded-3xl border bg-white p-4 transition', attention ? 'border-highlight-strong ring-4 ring-highlight' : 'border-line')}>
+    <div id={`item-${item.id}`} className={cx('scroll-mt-6 rounded-lg border bg-white p-4 transition', attention ? 'border-highlight-strong ring-4 ring-highlight' : 'border-line')}>
       <input ref={input} type="file" accept="image/*" className="hidden" onChange={(e) => addPhoto(e.target.files?.[0])} />
 
       {url ? (
-        <div className="group relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100">
+        <div className="group relative aspect-[16/10] overflow-hidden rounded-md bg-canvas-strong">
           <img src={url} alt={item.label} className="h-full w-full object-cover" />
           <div className="absolute right-2 top-2 flex gap-2">
             <IconBtn label="Retake photo" onClick={() => input.current?.click()}><RotateCcw size={16} /></IconBtn>
@@ -83,8 +83,8 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
           onDrop={onDrop}
           disabled={saving}
           className={cx(
-            'relative flex aspect-[16/10] w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed text-slate-500 transition hover:border-brand hover:bg-brand-soft hover:text-brand',
-            dragging ? 'border-brand bg-brand-soft text-brand' : 'border-slate-300',
+            'relative flex aspect-[16/10] w-full flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed text-muted transition hover:border-brand hover:bg-brand-soft hover:text-brand',
+            dragging ? 'border-brand bg-brand-soft text-brand' : 'border-line-strong',
           )}
         >
           <Camera size={28} />
@@ -95,9 +95,9 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
 
       <div className="mt-3 flex items-baseline justify-between gap-2">
         <h3 className="text-lg font-bold">{item.label}</h3>
-        {record?.recordedAt && <span className="shrink-0 text-xs text-slate-400">{fmtDateTime(record.recordedAt)}</span>}
+        {record?.recordedAt && <span className="shrink-0 text-xs text-subtle">{fmtDateTime(record.recordedAt)}</span>}
       </div>
-      <p className="text-sm text-slate-500">{item.hint}</p>
+      <p className="text-sm text-muted">{item.hint}</p>
 
       <div role="radiogroup" aria-label={`${item.label} condition`} className="mt-3 grid grid-cols-[1fr_1.35fr_auto] gap-1.5">
         {(Object.keys(CONDITION_LABEL) as Condition[]).map((c) => {
@@ -109,7 +109,7 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
               role="radio"
               aria-checked={on}
               onClick={() => updateRecord(kind, item.id, { condition: c, recordedAt: record?.recordedAt ?? now() })}
-              className={cx('h-10 rounded-xl border px-2 text-sm font-semibold transition', on ? CONDITION_TONE[c] : 'border-line text-slate-600 hover:border-slate-300 hover:bg-slate-50')}
+              className={cx('h-10 rounded-md border px-2 text-sm font-semibold transition', on ? CONDITION_TONE[c] : 'border-line text-muted hover:border-line-strong hover:bg-canvas')}
             >
               {CONDITION_LABEL[c]}
             </button>
@@ -122,7 +122,7 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
         onChange={(e) => updateRecord(kind, item.id, { note: e.target.value })}
         placeholder="Add notes…"
         aria-label={`${item.label} notes`}
-        className="mt-2 h-10 w-full rounded-xl border border-line px-3 text-sm placeholder:text-slate-400 focus:border-brand focus:outline-none"
+        className="mt-2 h-10 w-full rounded-md border border-line px-3 text-sm placeholder:text-subtle focus:border-brand focus:outline-none"
       />
 
       {error && <p role="alert" className="mt-2 text-sm font-medium text-red-700">{error}</p>}
@@ -132,7 +132,7 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
 
 function IconBtn({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
   return (
-    <button type="button" aria-label={label} title={label} onClick={onClick} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-sm hover:bg-white hover:text-slate-900">
+    <button type="button" aria-label={label} title={label} onClick={onClick} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-ink hover:bg-white hover:text-ink">
       {children}
     </button>
   )
@@ -140,7 +140,7 @@ function IconBtn({ label, onClick, children }: { label: string; onClick: () => v
 
 function Saving() {
   return (
-    <span className="absolute inset-0 flex items-center justify-center gap-2 rounded-2xl bg-white/80 text-sm font-semibold text-slate-700">
+    <span className="absolute inset-0 flex items-center justify-center gap-2 rounded-md bg-white/80 text-sm font-semibold text-ink">
       <Loader2 size={18} className="animate-spin" /> Saving…
     </span>
   )
@@ -149,7 +149,7 @@ function Saving() {
 export function ProgressPill({ done, total }: { done: number; total: number }) {
   const complete = done === total
   return (
-    <span className={cx('inline-flex h-11 items-center rounded-2xl px-4 text-base font-bold tabular-nums', complete ? 'bg-brand-soft text-brand' : 'bg-slate-100 text-slate-700')}>
+    <span className={cx('inline-flex h-11 items-center rounded-md px-4 text-base font-bold tabular-nums', complete ? 'bg-brand-soft text-brand' : 'bg-canvas-strong text-ink')}>
       {done} / {total}
     </span>
   )

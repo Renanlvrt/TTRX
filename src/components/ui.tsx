@@ -1,5 +1,5 @@
 // Shared UI kit. Every page builds from these so the whole app reskins from one file.
-// Style rules: white surfaces, green actions, pale-yellow highlights, big type, few elements.
+// Style rules: stone surfaces, Palatinate actions, parchment highlights, serif headings, ruled data, firm borders.
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, Check } from 'lucide-react'
@@ -19,11 +19,11 @@ export function Button({ variant = 'primary', size = 'lg', className, ...rest }:
     <button
       {...rest}
       className={cx(
-        'inline-flex items-center justify-center gap-2 rounded-2xl font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40',
-        size === 'lg' ? 'h-14 px-7 text-lg' : 'h-11 px-5 text-base',
+        'inline-flex items-center justify-center gap-2 rounded-md font-semibold tracking-[0.01em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40',
+        size === 'lg' ? 'h-13 px-7 text-base' : 'h-11 px-5 text-base',
         variant === 'primary' && 'bg-brand text-white hover:bg-brand-hover',
-        variant === 'secondary' && 'border border-line bg-white text-slate-900 hover:border-slate-300 hover:bg-slate-50',
-        variant === 'ghost' && 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+        variant === 'secondary' && 'border border-line-strong bg-white text-ink hover:border-brand hover:text-brand',
+        variant === 'ghost' && 'text-muted hover:bg-canvas hover:text-ink',
         className,
       )}
     />
@@ -36,8 +36,8 @@ export function ButtonLink({ to, children, variant = 'primary', className }: { t
     <Link
       to={to}
       className={cx(
-        'inline-flex h-14 items-center justify-center gap-2 rounded-2xl px-7 text-lg font-semibold transition',
-        variant === 'primary' ? 'bg-brand text-white hover:bg-brand-hover' : 'border border-line bg-white hover:bg-slate-50',
+        'inline-flex h-13 items-center justify-center gap-2 rounded-md px-7 text-base font-semibold tracking-[0.01em] transition-colors',
+        variant === 'primary' ? 'bg-brand text-white hover:bg-brand-hover' : 'border border-line-strong bg-white text-ink hover:border-brand hover:text-brand',
         className,
       )}
     >
@@ -48,7 +48,7 @@ export function ButtonLink({ to, children, variant = 'primary', className }: { t
 
 export function Card({ children, className, highlight }: { children: ReactNode; className?: string; highlight?: boolean }) {
   return (
-    <div className={cx('rounded-3xl border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-white', className)}>
+    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong border-l-4 bg-highlight' : 'border-line bg-white', className)}>
       {children}
     </div>
   )
@@ -62,14 +62,15 @@ export function Page({ title, subtitle, back, actions, children }: { title: stri
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-10">
       {back && (
-        <Link to={back} className="no-print mb-6 inline-flex items-center gap-2 text-base font-medium text-slate-500 hover:text-slate-900">
+        <Link to={back} className="no-print mb-6 inline-flex items-center gap-2 text-base font-medium text-muted hover:text-ink">
           <ArrowLeft size={18} /> Back
         </Link>
       )}
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight">{title}</h1>
-          {subtitle && <p className="mt-2 text-lg text-slate-500">{subtitle}</p>}
+          <h1 className="font-display text-4xl font-semibold leading-tight text-ink md:text-[2.75rem]">{title}</h1>
+          <div aria-hidden className="mt-3 h-0.5 w-12 bg-brand" />
+          {subtitle && <p className="mt-3 text-lg text-muted">{subtitle}</p>}
         </div>
         {actions && <div className="no-print flex gap-3">{actions}</div>}
       </div>
@@ -86,47 +87,47 @@ export function OptionTile({ selected, onClick, title, caption, icon }: { select
       onClick={onClick}
       aria-pressed={selected}
       className={cx(
-        'flex w-full items-center gap-4 rounded-2xl border-2 p-5 text-left transition',
-        selected ? 'border-brand bg-brand-soft' : 'border-line bg-white hover:border-slate-300',
+        'flex w-full items-center gap-4 rounded-md border p-5 text-left transition-colors',
+        selected ? 'border-brand bg-brand-soft ring-1 ring-brand' : 'border-line bg-white hover:border-line-strong',
       )}
     >
-      {icon && <span className={cx('shrink-0', selected ? 'text-brand' : 'text-slate-400')}>{icon}</span>}
+      {icon && <span className={cx('shrink-0', selected ? 'text-brand' : 'text-subtle')}>{icon}</span>}
       <span className="flex-1">
         <span className="block text-lg font-semibold">{title}</span>
-        {caption && <span className="mt-0.5 block text-sm text-slate-500">{caption}</span>}
+        {caption && <span className="mt-0.5 block text-sm text-muted">{caption}</span>}
       </span>
-      <span className={cx('flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2', selected ? 'border-brand bg-brand text-white' : 'border-slate-300')}>
+      <span className={cx('flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2', selected ? 'border-brand bg-brand text-white' : 'border-line-strong')}>
         {selected && <Check size={14} strokeWidth={3} />}
       </span>
     </button>
   )
 }
 
-/** Big number with a label. `highlight` puts it on pale yellow. */
+/** Big number with a label. `highlight` puts it on parchment with a gold rule. */
 export function Stat({ label, value, sub, highlight }: { label: string; value: string; sub?: string; highlight?: boolean }) {
   return (
-    <div className={cx('rounded-3xl border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-white')}>
-      <div className="text-sm font-medium uppercase tracking-wide text-slate-500">{label}</div>
-      <div className="mt-2 text-4xl font-extrabold tracking-tight">{value}</div>
-      {sub && <div className="mt-1 text-base text-slate-500">{sub}</div>}
+    <div className={cx('rounded-md border border-t-4 p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line border-t-brand bg-white')}>
+      <div className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">{label}</div>
+      <div className="mt-2 font-display text-4xl font-semibold tabular-nums">{value}</div>
+      {sub && <div className="mt-1 text-base text-muted">{sub}</div>}
     </div>
   )
 }
 
 const STATUS: Record<TaskStatus, { label: string; cls: string }> = {
-  notStarted: { label: 'Not started', cls: 'bg-slate-100 text-slate-600' },
-  inProgress: { label: 'In progress', cls: 'bg-highlight text-slate-900' },
-  done: { label: 'Done', cls: 'bg-brand-soft text-brand' },
+  notStarted: { label: 'Not started', cls: 'border-line bg-canvas text-muted' },
+  inProgress: { label: 'In progress', cls: 'border-highlight-strong bg-highlight text-ink' },
+  done: { label: 'Done', cls: 'border-brand-tint bg-brand-soft text-brand' },
 }
 
 export function StatusBadge({ status }: { status: TaskStatus }) {
   const s = STATUS[status]
-  return <span className={cx('inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-semibold', s.cls)}>{status === 'done' && <Check size={14} strokeWidth={3} />}{s.label}</span>
+  return <span className={cx('inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border px-2 py-0.5 text-xs font-semibold', s.cls)}>{status === 'done' && <Check size={14} strokeWidth={3} />}{s.label}</span>
 }
 
 /** Small print for assumptions, disclaimers and sources. */
 export function Fine({ children, className }: { children: ReactNode; className?: string }) {
-  return <p className={cx('text-sm leading-relaxed text-slate-500', className)}>{children}</p>
+  return <p className={cx('text-sm leading-relaxed text-muted', className)}>{children}</p>
 }
 
 /** Formats £ with no pence above £100, pence below. */

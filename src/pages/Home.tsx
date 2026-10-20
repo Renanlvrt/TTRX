@@ -48,17 +48,17 @@ const STAGES: Stage[] = [
 function TaskList({ stage }: { stage: Stage }) {
   const { tasks } = useAppState()
   return (
-    <ul className="space-y-3">
+    <ul className="overflow-hidden rounded-md border border-line border-b-0">
       {stage.tasks.map((t) => (
         <li key={t.id}>
           <Link
             to={t.to}
-            className="group flex items-center gap-4 rounded-2xl border border-line p-4 transition hover:border-brand hover:bg-brand-soft"
+            className="group flex items-center gap-4 border-b border-line bg-white px-4 py-4 transition-colors hover:bg-brand-soft"
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">{t.icon}</span>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-brand-tint bg-brand-soft text-brand">{t.icon}</span>
             <span className="flex-1 text-lg font-semibold">{t.title}</span>
             <StatusBadge status={tasks[t.id]} />
-            <ChevronRight className="shrink-0 text-slate-300 group-hover:text-brand" size={20} />
+            <ChevronRight className="shrink-0 text-line-strong group-hover:text-brand" size={20} />
           </Link>
         </li>
       ))}
@@ -70,10 +70,12 @@ export default function Home() {
   const { demoMode } = useAppState()
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-12">
-      <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">Durham student housing</p>
+      <h1 className="mt-3 font-display text-4xl font-semibold leading-tight md:text-5xl">
         Settle into your student house.
       </h1>
-      <p className="mt-3 text-lg text-slate-500 md:text-xl">Bills, evidence and moving help, in one place.</p>
+      <div aria-hidden className="mt-4 h-0.5 w-12 bg-brand" />
+      <p className="mt-4 text-lg text-muted md:text-xl">Bills, evidence and moving help, in one place.</p>
 
       {/* Phone: two big stage buttons; each opens its own page of tasks. */}
       <div className="mt-10 grid gap-4 md:hidden">
@@ -81,11 +83,11 @@ export default function Home() {
           <Link
             key={stage.slug}
             to={`/${stage.slug}`}
-            className="flex items-center gap-4 rounded-3xl bg-brand p-6 text-white transition active:scale-[0.99]"
+            className="flex items-center gap-4 rounded-md bg-brand p-6 text-white transition-colors hover:bg-brand-hover active:bg-brand-deep"
           >
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15">{stage.icon}</span>
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm border border-white/35">{stage.icon}</span>
             <span className="flex-1">
-              <span className="block text-2xl font-bold">{stage.title}</span>
+              <span className="block font-display text-2xl font-semibold">{stage.title}</span>
               <span className="mt-0.5 block text-sm text-white/80">{stage.caption}</span>
             </span>
             <ChevronRight size={24} />
@@ -96,9 +98,9 @@ export default function Home() {
       {/* Desktop: both stages side by side. */}
       <div className="mt-10 hidden gap-6 md:grid md:grid-cols-2">
         {STAGES.map((stage) => (
-          <section key={stage.slug} className="rounded-3xl border border-line p-6">
-            <h2 className="text-2xl font-bold">{stage.title}</h2>
-            <p className="mt-1 text-slate-500">{stage.caption}</p>
+          <section key={stage.slug} className="rounded-md border border-line border-t-4 border-t-brand bg-white p-6">
+            <h2 className="text-2xl font-semibold">{stage.title}</h2>
+            <p className="mt-1 text-muted">{stage.caption}</p>
             <div className="mt-5">
               <TaskList stage={stage} />
             </div>
@@ -110,7 +112,7 @@ export default function Home() {
         <Fine>Free to use. Some recommended providers may pay us a commission in future; it never changes the numbers.</Fine>
         {!demoMode && <button
           onClick={() => confirm('Clear all demo data on this device?') && resetState()}
-          className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline"
+          className="text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline"
         >
           Reset demo data
         </button>}
@@ -125,11 +127,12 @@ export function StagePage() {
   const stage = STAGES.find((s) => s.slug === slug) ?? STAGES[0]
   return (
     <div className="mx-auto w-full max-w-4xl px-6 py-10">
-      <Link to="/" className="mb-6 inline-flex items-center gap-2 text-base font-medium text-slate-500 hover:text-slate-900">
+      <Link to="/" className="mb-6 inline-flex items-center gap-2 text-base font-medium text-muted hover:text-ink">
         <ArrowLeft size={18} /> Back
       </Link>
-      <h1 className="text-4xl font-extrabold tracking-tight">{stage.title}</h1>
-      <p className="mt-2 text-lg text-slate-500">{stage.caption}</p>
+      <h1 className="font-display text-4xl font-semibold">{stage.title}</h1>
+      <div aria-hidden className="mt-3 h-0.5 w-12 bg-brand" />
+      <p className="mt-3 text-lg text-muted">{stage.caption}</p>
       <div className="mt-8">
         <TaskList stage={stage} />
       </div>

@@ -48,7 +48,7 @@ export default function InspectionPage() {
       <div className="space-y-8">
         {ROOMS.map((room) => (
           <section key={room.id}>
-            <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">{room.label}</h2>
+            <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted">{room.label}</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {CHECKLIST.filter((i) => i.room === room.id).map((item) => (
                 <ItemCard key={item.id} kind="moveIn" item={item} record={moveIn.records[item.id] ?? null} attention={triedFinish && missingIds.has(item.id)} />
@@ -62,7 +62,7 @@ export default function InspectionPage() {
         {triedFinish && !complete && (
           <Card highlight>
             <p className="text-lg font-bold">{progress.missing.length} left to record</p>
-            <p className="mt-1 text-slate-700">
+            <p className="mt-1 text-ink">
               {progress.missing.map((m, i) => (
                 <span key={m.id}>
                   {i > 0 && ' · '}

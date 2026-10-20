@@ -76,9 +76,9 @@ function LogoLink() {
       }}
       draggable={false}
       style={{ WebkitTouchCallout: 'none' }}
-      className="flex select-none items-center gap-2 text-xl font-extrabold tracking-tight"
+      className="flex select-none items-center gap-2.5 font-display text-xl font-semibold text-white"
     >
-      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white">
+      <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/40 text-white">
         <HomeIcon size={18} />
       </span>
       RentReady
@@ -90,11 +90,11 @@ export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <DemoHotkeys />
-      <div className="min-h-screen bg-white">
-        <header className="no-print border-b border-line">
+      <div className="min-h-screen bg-surface">
+        <header className="no-print border-b-4 border-brand-deep bg-brand">
           <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
             <LogoLink />
-            <span className="hidden text-sm font-medium text-slate-500 sm:inline">Free for students · Durham</span>
+            <span className="hidden text-xs font-semibold uppercase tracking-[0.14em] text-white/85 sm:inline">Free for students · Durham</span>
           </div>
         </header>
         <main>

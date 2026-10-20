@@ -9,11 +9,11 @@ import { fmtDate } from '../inspection/helpers'
 import type { ComparisonRow, Flag, ItemRecord } from '../../lib/types'
 
 const FLAG_BADGE: Record<Flag, { label: string; cls: string }> = {
-  newIssue: { label: 'NEW ISSUE', cls: 'bg-highlight-strong text-slate-900' },
+  newIssue: { label: 'NEW ISSUE', cls: 'bg-highlight-strong text-ink' },
   preExisting: { label: 'Pre-existing · documented at move-in', cls: 'bg-brand-soft text-brand' },
-  unchanged: { label: 'Unchanged', cls: 'bg-slate-100 text-slate-600' },
-  unmatched: { label: 'Unmatched · photo missing', cls: 'border border-slate-300 text-slate-600' },
-  notApplicable: { label: 'N/A', cls: 'bg-slate-50 text-slate-400' },
+  unchanged: { label: 'Unchanged', cls: 'bg-canvas-strong text-muted' },
+  unmatched: { label: 'Unmatched · photo missing', cls: 'border border-line-strong text-muted' },
+  notApplicable: { label: 'N/A', cls: 'bg-canvas text-subtle' },
 }
 
 const PRINT_CSS = `
@@ -63,7 +63,7 @@ export default function ReportPage() {
 
       <div className="mt-10 border-t border-line pt-6">
         <Fine>
-          User-created record. Supporting evidence only — not a professional inspection or legal determination. Flags reflect the conditions you selected, not automated image analysis.{' '}
+          User-created record. Supporting evidence only, not a professional inspection or legal determination. Flags reflect the conditions you selected, not automated image analysis.{' '}
           Deposit disputes:{' '}
           <a href="https://www.gov.uk/tenancy-deposit-protection" target="_blank" rel="noreferrer" className="font-medium text-brand underline underline-offset-4">
             gov.uk/tenancy-deposit-protection
@@ -79,7 +79,7 @@ function ReportRow({ row, moveInDate, moveOutDate }: { row: ComparisonRow; moveI
   const badge = FLAG_BADGE[row.flag]
   const title = `${roomLabel(row.item.room)} · ${row.item.label}`
   return (
-    <section className={cx('report-row rounded-3xl border p-5', row.flag === 'newIssue' ? 'border-highlight-strong bg-highlight/40' : 'border-line')}>
+    <section className={cx('report-row rounded-lg border p-5', row.flag === 'newIssue' ? 'border-highlight-strong bg-highlight/40' : 'border-line')}>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-xl font-bold">{title}</h2>
         <span className={cx('rounded-full px-3 py-1 text-sm font-bold', badge.cls)}>{badge.label}</span>
@@ -97,11 +97,11 @@ function Side({ label, record, fallbackDate, alt }: { label: string; record: Ite
     <figure>
       <Photo photoId={record?.photoId ?? null} alt={alt} />
       <figcaption className="mt-2 text-sm">
-        <span className="font-semibold text-slate-500">
+        <span className="font-semibold text-muted">
           {label} · {fmtDate(record?.recordedAt ?? fallbackDate)}
         </span>
-        <span className="block font-semibold text-slate-900">{record?.condition ? CONDITION_LABEL[record.condition] : 'Not recorded'}</span>
-        {record?.note && <span className="block text-slate-600">{record.note}</span>}
+        <span className="block font-semibold text-ink">{record?.condition ? CONDITION_LABEL[record.condition] : 'Not recorded'}</span>
+        {record?.note && <span className="block text-muted">{record.note}</span>}
       </figcaption>
     </figure>
   )

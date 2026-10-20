@@ -29,15 +29,15 @@ export default function StoragePage() {
         <Question n={1} title="How many boxes?">
           <div className="space-y-2">
             {BOX_SIZES.map((size) => (
-              <div key={size} className="flex items-center gap-3 rounded-2xl border border-line px-4 py-3">
+              <div key={size} className="flex items-center gap-3 rounded-md border border-line px-4 py-3">
                 <div className="flex-1">
                   <div className="text-lg font-semibold">{BOX_LABELS[size].label}</div>
-                  <div className="text-sm text-slate-500">{BOX_LABELS[size].hint}</div>
+                  <div className="text-sm text-muted">{BOX_LABELS[size].hint}</div>
                 </div>
                 <StepButton label={`Fewer ${size} boxes`} onClick={() => setBoxes(size, needs.boxes[size] - 1)} disabled={needs.boxes[size] === 0}>
                   <Minus size={18} />
                 </StepButton>
-                <span className="w-8 text-center text-2xl font-extrabold tabular-nums">{needs.boxes[size]}</span>
+                <span className="w-8 text-center text-2xl font-semibold tabular-nums">{needs.boxes[size]}</span>
                 <StepButton label={`More ${size} boxes`} onClick={() => setBoxes(size, needs.boxes[size] + 1)}>
                   <Plus size={18} />
                 </StepButton>
@@ -57,10 +57,10 @@ export default function StoragePage() {
                   role="radio"
                   aria-checked={on}
                   onClick={() => setWeeks(d.weeks)}
-                  className={cx('rounded-2xl border-2 px-4 py-4 text-left transition', on ? 'border-brand bg-brand-soft' : 'border-line hover:border-slate-300')}
+                  className={cx('rounded-md border-2 px-4 py-4 text-left transition', on ? 'border-brand bg-brand-soft' : 'border-line hover:border-line-strong')}
                 >
                   <span className="block text-lg font-semibold">{d.label}</span>
-                  <span className="block text-sm text-slate-500">{d.hint ?? `${d.weeks} weeks`}</span>
+                  <span className="block text-sm text-muted">{d.hint ?? `${d.weeks} weeks`}</span>
                 </button>
               )
             })}
@@ -70,7 +70,7 @@ export default function StoragePage() {
 
       <section className="mt-10">
         {count === 0 ? (
-          <div className="rounded-3xl border-2 border-dashed border-line p-8 text-center text-lg text-slate-500">Add your boxes to see the best option.</div>
+          <div className="rounded-lg border-2 border-dashed border-line p-8 text-center text-lg text-muted">Add your boxes to see the best option.</div>
         ) : (
           <>
             {best && <BestCard option={best} item={listing(best.providerId)} boxes={count} />}
@@ -78,7 +78,7 @@ export default function StoragePage() {
               <Fine className="mt-3">A whole container is the cheapest published price here, but box services below may cost less for {count} boxes. Get a quote.</Fine>
             )}
             <h2 className="mb-3 mt-8 text-xl font-bold">Alternatives</h2>
-            <div className="divide-y divide-line rounded-3xl border border-line">
+            <div className="divide-y divide-line rounded-lg border border-line">
               {alternatives.map((o) => (
                 <AltRow key={o.providerId} option={o} item={listing(o.providerId)} />
               ))}
@@ -113,7 +113,7 @@ function StepButton({ label, onClick, disabled, children }: { label: string; onC
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
-      className="flex h-11 w-11 items-center justify-center rounded-xl border border-line transition hover:bg-slate-50 disabled:opacity-30"
+      className="flex h-11 w-11 items-center justify-center rounded-md border border-line transition hover:bg-canvas disabled:opacity-30"
     >
       {children}
     </button>
@@ -128,8 +128,8 @@ function BookLink({ item, primary }: { item: StorageListing; primary?: boolean }
       rel="noopener noreferrer"
       onClick={() => setTask('storage', 'done')}
       className={cx(
-        'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl font-semibold transition',
-        primary ? 'h-12 bg-brand px-6 text-lg text-white hover:bg-brand-hover' : 'h-10 border border-line px-4 text-sm hover:bg-slate-50',
+        'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md font-semibold transition',
+        primary ? 'h-12 bg-brand px-6 text-lg text-white hover:bg-brand-hover' : 'h-10 border border-line px-4 text-sm hover:bg-canvas',
       )}
     >
       {primary ? 'Book' : 'Visit'} <ArrowUpRight size={primary ? 20 : 16} />
@@ -144,21 +144,21 @@ function KindIcon({ option }: { option: StorageOption }) {
 function BestCard({ option, item, boxes }: { option: StorageOption; item: StorageListing; boxes: number }) {
   const unit = option.kind === 'unit'
   return (
-    <div className="rounded-3xl border border-highlight-strong bg-highlight p-6">
-      <div className="text-sm font-bold uppercase tracking-wide text-slate-600">Best option for {boxes} box{boxes === 1 ? '' : 'es'}</div>
+    <div className="rounded-lg border border-highlight-strong bg-highlight p-6">
+      <div className="text-sm font-bold uppercase tracking-wide text-muted">Best option for {boxes} box{boxes === 1 ? '' : 'es'}</div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-brand">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-white text-brand">
             <KindIcon option={option} />
           </span>
           <div>
             <h3 className="text-2xl font-bold leading-tight">{item.name}</h3>
-            <p className="text-base text-slate-600">{item.kind}</p>
+            <p className="text-base text-muted">{item.kind}</p>
           </div>
         </div>
         <div className="text-right">
-          <div className="text-4xl font-extrabold tracking-tight">{gbp(option.total!)}</div>
-          <div className="text-sm text-slate-600">all-in{unit ? ' · split it with housemates' : ''}</div>
+          <div className="text-4xl font-display font-semibold">{gbp(option.total!)}</div>
+          <div className="text-sm text-muted">all-in{unit ? ' · split it with housemates' : ''}</div>
         </div>
       </div>
       <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
@@ -168,9 +168,9 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
               <span key={t} className="rounded-full bg-white px-3 py-1 text-sm font-medium">{t}</span>
             ))}
           </div>
-          <dl className="mt-3 space-y-0.5 text-sm text-slate-700">
+          <dl className="mt-3 space-y-0.5 text-sm text-ink">
             <div className="flex gap-2">
-              <dt>Storage{option.rate && <span className="text-slate-500"> ({option.rate})</span>}</dt>
+              <dt>Storage{option.rate && <span className="text-muted"> ({option.rate})</span>}</dt>
               <dd className="font-semibold">{gbp(option.storageGBP!)}</dd>
             </div>
             {option.feeLines.map((f) => (
@@ -181,9 +181,9 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
             ))}
           </dl>
           {option.rate?.includes('/month') && (
-            <p className="mt-2 text-sm font-medium text-slate-700">Billed monthly, so their checkout shows {option.rate.split('/')[0]} due today. Return is paid when you get your boxes back.</p>
+            <p className="mt-2 text-sm font-medium text-ink">Billed monthly, so their checkout shows {option.rate.split('/')[0]} due today. Return is paid when you get your boxes back.</p>
           )}
-          {item.note && <p className="mt-2 text-sm text-slate-600">{item.note}</p>}
+          {item.note && <p className="mt-2 text-sm text-muted">{item.note}</p>}
         </div>
         <BookLink item={item} primary />
       </div>
@@ -194,7 +194,7 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
 function AltRow({ option, item }: { option: StorageOption; item: StorageListing }) {
   return (
     <div className="flex items-center gap-4 px-5 py-4">
-      <span className="hidden text-slate-400 sm:block">
+      <span className="hidden text-subtle sm:block">
         <KindIcon option={option} />
       </span>
       <div className="min-w-0 flex-1">
@@ -203,10 +203,10 @@ function AltRow({ option, item }: { option: StorageOption; item: StorageListing 
           {option.total != null ? (
             <span className="shrink-0 text-xl font-bold">{gbp(option.total)}</span>
           ) : (
-            <span className="shrink-0 text-sm font-semibold text-slate-400">{option.breakdown.startsWith('Only covers') ? 'Not available' : 'Get a quote'}</span>
+            <span className="shrink-0 text-sm font-semibold text-subtle">{option.breakdown.startsWith('Only covers') ? 'Not available' : 'Get a quote'}</span>
           )}
         </div>
-        <div className="text-sm text-slate-500">
+        <div className="text-sm text-muted">
           {option.total != null
             ? [`storage £${option.storageGBP!.toFixed(2)}${option.rate ? ` (${option.rate})` : ''}`, ...option.feeLines.map((f) => `${f.label.toLowerCase()} £${f.amountGBP.toFixed(2)}`)].join(' + ')
             : option.breakdown.startsWith('Only covers') ? `${option.breakdown} (summer only)` : (item.priceText ?? option.breakdown)}

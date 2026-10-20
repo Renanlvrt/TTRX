@@ -40,8 +40,8 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       title="Your bills"
       subtitle={`${area?.label} · ${survey.people} ${survey.people === 1 ? 'person' : 'people'} · per person`}
     >
-      <div className="rounded-3xl border border-highlight-strong bg-highlight p-5">
-        <p className="text-2xl font-extrabold leading-tight tracking-tight md:text-3xl">{r.verdictText}</p>
+      <div className="rounded-lg border border-highlight-strong bg-highlight p-5">
+        <p className="text-2xl font-display font-semibold leading-tight md:text-3xl">{r.verdictText}</p>
         <div className={cx('mt-4 grid gap-3', r.package && 'grid-cols-2')}>
           {r.package && <WeekTile label="Bills package" money={r.package} weeks={weeks} cheaper={r.verdict === 'package'} />}
           <WeekTile label="Do it yourself" money={r.separate} weeks={weeks} cheaper={r.verdict === 'separate'} estimate />
@@ -59,7 +59,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
         <div className="space-y-5">
           {providers.map((g) => (
             <div key={g.group}>
-              <div className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-slate-500">
+              <div className="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-muted">
                 <span className="text-brand">{GROUP_ICON[g.group]}</span>
                 {g.label}
               </div>
@@ -68,21 +68,21 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                   const best = i === 0 && g.providers.length > 1 && cheapestKnown(p, survey) != null
                   const link = primaryLink(p)
                   return (
-                  <div key={p.id} className={cx('flex flex-col justify-between gap-3 rounded-2xl border p-5', best ? 'border-highlight-strong bg-highlight' : 'border-line')}>
+                  <div key={p.id} className={cx('flex flex-col justify-between gap-3 rounded-md border p-5', best ? 'border-highlight-strong bg-highlight' : 'border-line')}>
                     <div>
                       <div className="flex items-center gap-2 text-lg font-semibold">
                         {p.name}
                         {best && <span className="rounded-full bg-highlight-strong px-2 py-0.5 text-xs font-bold">Cheapest</span>}
                       </div>
-                      {p.group !== 'energy' && <div className="mt-0.5 text-sm text-slate-500">{p.tags.join(' · ')}</div>}
-                      {p.group !== 'energy' && (p.priceText ? <div className="mt-2 text-base font-semibold">{p.priceText}</div> : <div className="mt-2 text-base font-semibold text-slate-400">Price shown after postcode</div>)}
+                      {p.group !== 'energy' && <div className="mt-0.5 text-sm text-muted">{p.tags.join(' · ')}</div>}
+                      {p.group !== 'energy' && (p.priceText ? <div className="mt-2 text-base font-semibold">{p.priceText}</div> : <div className="mt-2 text-base font-semibold text-subtle">Price shown after postcode</div>)}
                       {p.group === 'energy' && <TariffOptions survey={survey} supplierId={p.id} />}
                     </div>
                     <a
                       href={link.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex h-11 w-fit items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white transition hover:bg-brand-hover"
+                      className="inline-flex h-11 w-fit items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white transition hover:bg-brand-hover"
                     >
                       {link.label} <ExternalLink size={14} />
                     </a>
@@ -91,7 +91,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                 })}
               </div>
               {g.providers.length > 1 && (
-                <button type="button" onClick={() => toggleGroup(g.group)} className="mt-2 text-sm font-semibold text-slate-500 underline-offset-4 hover:text-slate-900 hover:underline">
+                <button type="button" onClick={() => toggleGroup(g.group)} className="mt-2 text-sm font-semibold text-muted underline-offset-4 hover:text-ink hover:underline">
                   {expanded.has(g.group) ? 'Show only the cheapest' : `Show all ${g.providers.length} options`}
                 </button>
               )}
@@ -102,20 +102,20 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
 
       <section className="mt-8">
         <h2 className="mb-3 text-xl font-bold">Your share, bill by bill</h2>
-        <div className="divide-y divide-line rounded-3xl border border-line">
+        <div className="divide-y divide-line rounded-lg border border-line">
           {r.lines.map((l) => (
             <div key={l.id} className="flex items-center gap-3 px-4 py-3 sm:px-6">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">{BILL_ICON[l.id]}</span>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-brand-soft text-brand">{BILL_ICON[l.id]}</span>
               <span className="flex-1 text-lg font-semibold">{l.label}</span>
               {l.householdAnnualGBP == null ? (
-                <span className="font-medium text-slate-400">unavailable</span>
+                <span className="font-medium text-subtle">unavailable</span>
               ) : (
                 <span className="text-right leading-tight">
                   <span className="block text-lg font-bold tabular-nums">
                     {gbp(l.householdAnnualGBP / 52 / survey.people)}
-                    <span className="text-sm font-semibold text-slate-500">/wk</span>
+                    <span className="text-sm font-semibold text-muted">/wk</span>
                   </span>
-                  <span className="block text-xs text-slate-500 tabular-nums">{gbp(l.householdAnnualGBP)}/yr whole house</span>
+                  <span className="block text-xs text-muted tabular-nums">{gbp(l.householdAnnualGBP)}/yr whole house</span>
                 </span>
               )}
             </div>
@@ -123,12 +123,12 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
         </div>
       </section>
 
-      <details className="group mt-4 rounded-3xl border border-line px-6 py-4">
+      <details className="group mt-4 rounded-lg border border-line px-6 py-4">
         <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
           How we estimated
-          <ChevronDown size={20} className="text-slate-400 transition group-open:rotate-180" />
+          <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
         </summary>
-        <div className="mt-3 flex items-center gap-2 text-base text-slate-600">
+        <div className="mt-3 flex items-center gap-2 text-base text-muted">
           <label htmlFor="weeks">Tenancy length</label>
           <input
             id="weeks"
@@ -142,30 +142,30 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
               if (Number.isInteger(n) && n >= 1 && n <= 104) onTenancyChange(n)
             }}
             onBlur={() => setWeeksText(String(weeks))}
-            className="h-10 w-20 rounded-xl border-2 border-line px-3 text-center font-semibold text-slate-900 outline-none focus:border-brand"
+            className="h-10 w-20 rounded-md border-2 border-line px-3 text-center font-semibold text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
           weeks
         </div>
-        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-600">
+        <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-muted">
           <li>Real Durham prices, checked {fmtDate(RATES_CHECKED)}.</li>
           <li>Usage scaled to your house and habits.</li>
           <li>One Durham listing prices bills at £20 pppw.</li>
           <li>Check any package's fair-use limits. We earn nothing from links.</li>
         </ul>
         <details className="mt-3">
-          <summary className="cursor-pointer text-sm font-semibold text-slate-500 hover:text-slate-900">Show the maths</summary>
+          <summary className="cursor-pointer text-sm font-semibold text-muted hover:text-ink">Show the maths</summary>
           <ul className="mt-2 list-disc space-y-1 pl-5">
             {r.lines.map((l) => (
-              <li key={l.id} className="text-xs leading-relaxed text-slate-500">
-                <span className="font-semibold text-slate-700">{l.label}:</span> {l.assumption}
+              <li key={l.id} className="text-xs leading-relaxed text-muted">
+                <span className="font-semibold text-ink">{l.label}:</span> {l.assumption}
               </li>
             ))}
             {r.assumptions.map((a) => (
-              <li key={a} className="text-xs leading-relaxed text-slate-500">
+              <li key={a} className="text-xs leading-relaxed text-muted">
                 {a}
               </li>
             ))}
-            <li className="text-xs leading-relaxed text-slate-500">
+            <li className="text-xs leading-relaxed text-muted">
               “up to” = Ofgem price cap (the most a standard variable tariff can charge); “≈” = from the supplier’s advertised saving vs the cap. {PACKAGE_BENCHMARK.text}{' '}
               <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
             </li>
@@ -178,7 +178,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
             .map((l, i) => (
               <span key={l.id}>
                 {i > 0 && ' · '}
-                <a href={l.source} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-slate-900">
+                <a href={l.source} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-ink">
                   {l.label}
                 </a>
               </span>
@@ -191,11 +191,11 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
         <h2 className="mb-3 text-xl font-bold">Don&apos;t forget</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           {EXTRAS.map((x) => (
-            <div key={x.id} className={cx('flex flex-col justify-between gap-3 rounded-2xl border p-5', x.id === 'councilTax' ? 'border-highlight-strong bg-highlight' : 'border-line')}>
+            <div key={x.id} className={cx('flex flex-col justify-between gap-3 rounded-md border p-5', x.id === 'councilTax' ? 'border-highlight-strong bg-highlight' : 'border-line')}>
               <div>
-                <div className="text-sm font-bold uppercase tracking-wide text-slate-500">{x.title}</div>
+                <div className="text-sm font-bold uppercase tracking-wide text-muted">{x.title}</div>
                 <div className="mt-1 text-lg font-bold">{x.headline}</div>
-                <p className="mt-1 text-sm text-slate-600">{x.detail}</p>
+                <p className="mt-1 text-sm text-muted">{x.detail}</p>
               </div>
               <div className="flex flex-wrap gap-2">
                 {x.links.map((l, i) => (
@@ -204,7 +204,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                     href={l.url}
                     target="_blank"
                     rel="noreferrer"
-                    className={cx('inline-flex h-10 items-center gap-1.5 rounded-xl px-4 text-sm font-semibold transition', i === 0 ? 'bg-brand text-white hover:bg-brand-hover' : 'border border-line bg-white hover:bg-slate-50')}
+                    className={cx('inline-flex h-10 items-center gap-1.5 rounded-md px-4 text-sm font-semibold transition', i === 0 ? 'bg-brand text-white hover:bg-brand-hover' : 'border border-line bg-white hover:bg-canvas')}
                   >
                     {l.label} <ExternalLink size={14} />
                   </a>
@@ -216,7 +216,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       </section>
 
       <div className="no-print mt-10 text-center">
-        <button type="button" onClick={onReset} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">
+        <button type="button" onClick={onReset} className="text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline">
           Reset compare bills
         </button>
       </div>
@@ -234,17 +234,17 @@ function TariffOptions({ survey, supplierId }: { survey: BillsSurvey; supplierId
         const cost = t.rates ? energyCostFor(survey, t.rates) : null
         const best = cost && cost.perPersonWeek === cheapest
         return (
-          <li key={t.name} className={cx('flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm', best ? 'bg-highlight' : 'bg-slate-50')}>
+          <li key={t.name} className={cx('flex items-center justify-between gap-3 rounded-md px-3 py-2 text-sm', best ? 'bg-highlight' : 'bg-canvas')}>
             <span className="min-w-0">
               <span className="font-semibold">{t.name}</span>
             </span>
             {cost ? (
               <span className="shrink-0 text-right leading-tight">
                 <span className="block font-bold">{t.basis === 'capMax' ? 'up to ' : t.basis === 'approx' ? '≈ ' : ''}{gbp(cost.perPersonWeek)}/wk</span>
-                <span className="block text-xs text-slate-500">{gbp(cost.householdAnnual)}/yr house</span>
+                <span className="block text-xs text-muted">{gbp(cost.householdAnnual)}/yr house</span>
               </span>
             ) : (
-              <span className="shrink-0 text-slate-400">Get a quote</span>
+              <span className="shrink-0 text-subtle">Get a quote</span>
             )}
           </li>
         )
@@ -256,15 +256,15 @@ function TariffOptions({ survey, supplierId }: { survey: BillsSurvey; supplierId
 /** Weekly cost per person; the cheaper side is solid green so it stands out. */
 function WeekTile({ label, money, weeks, cheaper, estimate }: { label: string; money: Money; weeks: number; cheaper: boolean; estimate?: boolean }) {
   return (
-    <div className={cx('min-w-0 rounded-2xl p-3 sm:p-4', cheaper ? 'bg-brand text-white' : 'bg-white')}>
-      <div className={cx('text-xs font-bold uppercase tracking-wide', cheaper ? 'text-white/80' : 'text-slate-500')}>{label}</div>
-      {cheaper && <div className="text-xs font-bold uppercase tracking-wide text-white">✓ Cheaper</div>}
-      <div className="mt-1 whitespace-nowrap text-2xl font-extrabold tracking-tight sm:text-3xl">
-        {estimate && <span className={cx('text-lg', cheaper ? 'text-white/70' : 'text-slate-400')}>~</span>}
+    <div className={cx('min-w-0 rounded-md p-3 sm:p-4', cheaper ? 'bg-brand text-white' : 'bg-white')}>
+      <div className={cx('text-xs font-bold uppercase tracking-wide', cheaper ? 'text-white/80' : 'text-muted')}>{label}</div>
+      {cheaper && <div className="text-xs font-bold uppercase tracking-wide text-white">Cheaper</div>}
+      <div className="mt-1 whitespace-nowrap text-2xl font-display font-semibold sm:text-3xl">
+        {estimate && <span className={cx('text-lg', cheaper ? 'text-white/70' : 'text-subtle')}>~</span>}
         {gbp(money.perWeek)}
-        <span className={cx('text-sm font-semibold', cheaper ? 'text-white/80' : 'text-slate-500')}>/wk</span>
+        <span className={cx('text-sm font-semibold', cheaper ? 'text-white/80' : 'text-muted')}>/wk</span>
       </div>
-      <div className={cx('text-sm', cheaper ? 'text-white/80' : 'text-slate-500')}>{gbp(money.tenancy)} / {weeks} wks</div>
+      <div className={cx('text-sm', cheaper ? 'text-white/80' : 'text-muted')}>{gbp(money.tenancy)} / {weeks} wks</div>
     </div>
   )
 }

@@ -109,8 +109,8 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
             <OptionTile selected={d.hasPackage === false} onClick={() => set({ hasPackage: false })} title="No package" icon={<Ban size={ICON} />} />
           </div>
           {d.hasPackage && (
-            <label className="flex items-center gap-3 rounded-2xl border-2 border-brand bg-white px-5 py-4 focus-within:ring-4 focus-within:ring-brand-soft">
-              <span className="text-4xl font-extrabold text-slate-400">£</span>
+            <label className="flex items-center gap-3 rounded-md border-2 border-brand bg-white px-5 py-4 focus-within:ring-4 focus-within:ring-brand-soft">
+              <span className="text-4xl font-display font-semibold text-subtle">£</span>
               <input
                 autoFocus
                 inputMode="decimal"
@@ -118,9 +118,9 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
                 onChange={(e) => set({ pppw: e.target.value.replace(/[^0-9.]/g, '') })}
                 placeholder="25"
                 aria-label="Package price in pounds per person per week"
-                className="w-full bg-transparent text-4xl font-extrabold tracking-tight outline-none placeholder:text-slate-300"
+                className="w-full bg-transparent text-4xl font-display font-semibold outline-none placeholder:text-line-strong"
               />
-              <span className="shrink-0 text-lg font-medium text-slate-500">per person / week</span>
+              <span className="shrink-0 text-lg font-medium text-muted">per person / week</span>
             </label>
           )}
         </div>
@@ -136,7 +136,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
             onChange={(e) => onPostcode(e.target.value)}
             placeholder="Postcode, e.g. DH1 4"
             aria-label="Postcode"
-            className="h-14 w-full rounded-2xl border-2 border-line px-5 text-lg font-semibold uppercase outline-none placeholder:font-normal placeholder:normal-case placeholder:text-slate-400 focus:border-brand"
+            className="h-14 w-full rounded-md border-2 border-line px-5 text-lg font-semibold uppercase outline-none placeholder:font-normal placeholder:normal-case placeholder:text-subtle focus:border-brand"
           />
           <div className="grid gap-3 sm:grid-cols-2">
             {AREAS.map((a) => (
@@ -153,7 +153,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
           <StepperButton label="Fewer people" disabled={d.people <= 1} onClick={() => set({ people: d.people - 1 })}>
             <Minus size={28} />
           </StepperButton>
-          <span className="w-24 text-center text-7xl font-extrabold tabular-nums tracking-tight" aria-live="polite">
+          <span className="w-24 text-center text-7xl font-display font-semibold tabular-nums" aria-live="polite">
             {d.people}
           </span>
           <StepperButton label="More people" disabled={d.people >= 10} onClick={() => set({ people: d.people + 1 })}>
@@ -178,7 +178,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
       body: (
         <div className="space-y-3">
           <OptionTile selected={d.heating === 'allDay'} onClick={() => set({ heating: 'allDay' })} title="Warm and cozy" caption="T-shirt indoors in January · heating on most of the day" icon={<Sun size={ICON} />} />
-          <OptionTile selected={d.heating === 'nights'} onClick={() => set({ heating: 'nights' })} title="Only when I'm really cold" caption="Hoodie first, heating in the evenings" icon={<Moon size={ICON} />} />
+          <OptionTile selected={d.heating === 'nights'} onClick={() => set({ heating: 'nights' })} title="Only when I'm cold" caption="Hoodie first, heating in the evenings" icon={<Moon size={ICON} />} />
           <OptionTile selected={d.heating === 'coldMonths'} onClick={() => set({ heating: 'coldMonths' })} title="I could live in an igloo" caption="Three duvets · heating only in the coldest weeks" icon={<Snowflake size={ICON} />} />
         </div>
       ),
@@ -209,22 +209,22 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
   return (
     <div className="mx-auto w-full max-w-2xl px-6 py-10">
       <div className="mb-10 flex items-center gap-4">
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-valuemin={1} aria-valuemax={TOTAL} aria-valuenow={step + 1}>
+        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-canvas-strong" role="progressbar" aria-valuemin={1} aria-valuemax={TOTAL} aria-valuenow={step + 1}>
           <div className="h-full rounded-full bg-brand transition-all duration-300" style={{ width: `${((step + 1) / TOTAL) * 100}%` }} />
         </div>
-        <span className="shrink-0 text-sm font-semibold text-slate-500 tabular-nums">
+        <span className="shrink-0 text-sm font-semibold text-muted tabular-nums">
           {step + 1} of {TOTAL}
         </span>
       </div>
 
-      <h1 className="text-4xl font-extrabold tracking-tight">{current.title}</h1>
-      <p className={cx('mt-2 text-lg text-slate-500', !current.help && 'invisible')}>{current.help ?? '·'}</p>
+      <h1 className="text-4xl font-display font-semibold">{current.title}</h1>
+      <p className={cx('mt-2 text-lg text-muted', !current.help && 'invisible')}>{current.help ?? '·'}</p>
 
       <div className="mt-8 min-h-64">{current.body}</div>
 
       <div className="mt-10 flex items-center justify-between gap-4">
         {step === 0 ? (
-          <Link to="/" className="inline-flex h-14 items-center gap-2 rounded-2xl px-4 text-lg font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900">
+          <Link to="/" className="inline-flex h-14 items-center gap-2 rounded-md px-4 text-lg font-semibold text-muted hover:bg-canvas-strong hover:text-ink">
             <ArrowLeft size={20} /> Home
           </Link>
         ) : (
@@ -239,7 +239,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
 
       {step === 0 && !demoMode && (
         <div className="mt-8 text-center">
-          <button data-nav type="button" onClick={onDemo} className="text-sm font-medium text-slate-400 underline-offset-4 hover:text-slate-900 hover:underline">
+          <button data-nav type="button" onClick={onDemo} className="text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline">
             Use demo answers
           </button>
         </div>
@@ -255,7 +255,7 @@ function StepperButton({ label, disabled, onClick, children }: { label: string; 
       aria-label={label}
       disabled={disabled}
       onClick={onClick}
-      className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-line text-slate-900 transition hover:border-brand hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-30"
+      className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-line text-ink transition hover:border-brand hover:bg-brand-soft disabled:cursor-not-allowed disabled:opacity-30"
     >
       {children}
     </button>

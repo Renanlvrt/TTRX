@@ -69,19 +69,19 @@ function MoveInSide({ record, label, missing }: { record: ItemRecord | null; lab
   return (
     <div className="p-1 pt-4">
       <div className="mb-2 flex items-center justify-between gap-2">
-        <span className="text-sm font-bold uppercase tracking-wide text-slate-500">{label}</span>
-        {missing && <span className="rounded-full bg-highlight px-2.5 py-0.5 text-xs font-bold text-slate-900">To do</span>}
+        <span className="text-sm font-bold uppercase tracking-wide text-muted">{label}</span>
+        {missing && <span className="rounded-full bg-highlight px-2.5 py-0.5 text-xs font-bold text-ink">To do</span>}
       </div>
       <Photo photoId={record?.photoId ?? null} alt={`${label} at move-in`} />
       <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
-        <span className="font-semibold text-slate-500">Move-in{record?.recordedAt ? ` · ${fmtDate(record.recordedAt)}` : ''}</span>
+        <span className="font-semibold text-muted">Move-in{record?.recordedAt ? ` · ${fmtDate(record.recordedAt)}` : ''}</span>
         {record?.condition ? (
           <span className={cx('rounded-full border px-2.5 py-0.5 text-xs font-semibold', CONDITION_TONE[record.condition])}>{CONDITION_LABEL[record.condition]}</span>
         ) : (
-          <span className="text-slate-400">Not recorded</span>
+          <span className="text-subtle">Not recorded</span>
         )}
       </div>
-      {record?.note && <p className="mt-1 text-sm text-slate-600">{record.note}</p>}
+      {record?.note && <p className="mt-1 text-sm text-muted">{record.note}</p>}
     </div>
   )
 }

@@ -23,7 +23,7 @@ export default function EmailPage() {
     return (
       <Page title="Email your landlord">
         <Card className="flex flex-col items-center gap-5 py-16 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-soft text-brand">
+          <span className="flex h-16 w-16 items-center justify-center rounded-md bg-brand-soft text-brand">
             <Camera size={30} />
           </span>
           <h2 className="text-2xl font-bold">Do your photo inspection first</h2>
@@ -68,11 +68,11 @@ export default function EmailPage() {
       </span>
 
       <label className="block">
-        <span className="mb-2 block text-sm font-medium uppercase tracking-wide text-slate-500">Subject</span>
+        <span className="mb-2 block text-sm font-medium uppercase tracking-wide text-muted">Subject</span>
         <input
           value={subject}
           onChange={(e) => setSubject(e.target.value)}
-          className="h-14 w-full rounded-2xl border border-line px-5 text-lg font-semibold focus:border-brand focus:outline-none"
+          className="h-14 w-full rounded-md border border-line px-5 text-lg font-semibold focus:border-brand focus:outline-none"
         />
       </label>
 
@@ -82,18 +82,18 @@ export default function EmailPage() {
         onChange={(e) => editBody(e.target.value)}
         aria-label="Email body"
         rows={16}
-        className="mt-4 w-full resize-y rounded-2xl border border-line p-5 text-lg leading-relaxed focus:border-brand focus:outline-none"
+        className="mt-4 w-full resize-y rounded-md border border-line p-5 text-lg leading-relaxed focus:border-brand focus:outline-none"
       />
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Button onClick={copy}>
           {copied ? <Check size={20} /> : <Copy size={20} />}
-          {copied ? 'Copied ✓' : 'Copy email'}
+          {copied ? 'Copied' : 'Copy email'}
         </Button>
         <a
           href={mailtoLink(subject, body)}
           onClick={() => setTask('email', 'done')}
-          className="inline-flex h-14 items-center justify-center gap-2 rounded-2xl border border-line bg-white px-7 text-lg font-semibold hover:border-slate-300 hover:bg-slate-50"
+          className="inline-flex h-14 items-center justify-center gap-2 rounded-md border border-line bg-white px-7 text-lg font-semibold hover:border-line-strong hover:bg-canvas"
         >
           <Mail size={20} /> Open in mail app
         </a>
