@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, Box, Camera, ChevronRight, Images, KeyRound, Mail, PackageOpen, PoundSterling, Sparkles } from 'lucide-react'
-import { StatusBadge, Fine } from '../components/ui'
-import { resetState, useAppState } from '../lib/store'
+import { StatusBadge } from '../components/ui'
+import { useAppState } from '../lib/store'
 import type { TaskId } from '../lib/types'
 
 interface Task {
@@ -69,18 +69,10 @@ function TaskList({ stage }: { stage: Stage }) {
 }
 
 export default function Home() {
-  const { demoMode } = useAppState()
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 py-12">
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand">Durham student housing</p>
-      <h1 className="mt-3 font-display text-4xl font-semibold leading-tight md:text-5xl">
-        Settle into your student house.
-      </h1>
-      <div aria-hidden className="mt-4 h-0.5 w-12 bg-brand" />
-      <p className="mt-4 text-lg text-muted md:text-xl">Bills, evidence and moving help, in one place.</p>
-
-      {/* Phone: two big stage buttons; each opens its own page of tasks. */}
-      <div className="mt-10 grid gap-4 md:hidden">
+    <div className="mx-auto w-full max-w-xl px-6 py-12">
+      <h1 className="font-display text-4xl font-semibold leading-tight">Moving in or moving out?</h1>
+      <div className="mt-8 grid gap-4">
         {STAGES.map((stage) => (
           <Link
             key={stage.slug}
@@ -96,32 +88,6 @@ export default function Home() {
           </Link>
         ))}
       </div>
-
-      {/* Desktop: both stages side by side. */}
-      <div className="mt-10 hidden gap-6 md:grid md:grid-cols-2">
-        {STAGES.map((stage) => (
-          <section key={stage.slug} className="rounded-md border border-line border-t-4 border-t-brand bg-white p-6">
-            <h2 className="text-2xl font-semibold">{stage.title}</h2>
-            <p className="mt-1 text-muted">{stage.caption}</p>
-            <div className="mt-5">
-              <TaskList stage={stage} />
-            </div>
-          </section>
-        ))}
-      </div>
-
-      <div className="mt-10 flex flex-wrap items-center justify-between gap-4">
-        <Fine>Free to use. Some recommended providers may pay us a commission in future; it never changes the numbers.</Fine>
-        {!demoMode && <button
-          onClick={() => confirm('Clear all demo data on this device?') && resetState()}
-          className="text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline"
-        >
-          Reset demo data
-        </button>}
-      </div>
-      <Link to="/partners/billing" className="no-print mt-6 inline-block text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline">
-        Partner billing (simulation)
-      </Link>
     </div>
   )
 }
@@ -131,14 +97,12 @@ export function StagePage() {
   const slug = useLocation().pathname.split('/')[1]
   const stage = STAGES.find((s) => s.slug === slug) ?? STAGES[0]
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 py-10">
+    <div className="mx-auto w-full max-w-xl px-6 py-10">
       <Link to="/" className="mb-6 inline-flex items-center gap-2 text-base font-medium text-muted hover:text-ink">
         <ArrowLeft size={18} /> Back
       </Link>
       <h1 className="font-display text-4xl font-semibold">{stage.title}</h1>
-      <div aria-hidden className="mt-3 h-0.5 w-12 bg-brand" />
-      <p className="mt-3 text-lg text-muted">{stage.caption}</p>
-      <div className="mt-8">
+      <div className="mt-6">
         <TaskList stage={stage} />
       </div>
     </div>
