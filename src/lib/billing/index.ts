@@ -1,0 +1,41 @@
+// Public API of the simulated B2B billing module. `Money` is exported as `BillingMoney` so it never clashes with the
+// bills `Money` interface in src/lib/types.ts.
+export { BILLING_MODE } from './mode'
+export type { BillingMode } from './mode'
+export type { Result } from './result'
+export { ok, err } from './result'
+export type { BillingError, BillingErrorCode } from './errors'
+export { InvariantError } from './errors'
+export type { RoundingMode } from './rounding'
+export { divRound } from './rounding'
+export type { Money as BillingMoney, MoneyDTO, CurrencyCode } from './money'
+export {
+  MAX_MINOR, CURRENCY_EXPONENT, parseCurrency, parseMoney, moneyFromMinor, add, subtract, negate, compare, sum,
+  multiplyRatio, allocate, formatMoney, formatSimulated, toDTO, fromDTO,
+} from './money'
+export type {
+  Brand, Instant, EmailDomain, ReferralCode, IdempotencyKey, PartnerId, ContractId, SignupId, TransactionId, AccountId, PseudonymousId,
+} from './brand'
+export type { NormalisedEmail } from './validate'
+export { parseInstant, instantMs, parseEmail, parseReferralCode, parseIdempotencyKey, deepFreeze } from './validate'
+export type { Clock } from './clock'
+export { fixedClock, systemClock } from './clock'
+export type { IdGenerator } from './ids'
+export { sequentialIds, uuidIds } from './ids'
+export { canonicalJson } from './canonical'
+export type { Pseudonymiser } from './pii'
+export { sha256Hex, hmacSha256Hex, createHmacPseudonymiser } from './pii'
+export type { Direction, LedgerEntry, LedgerTransaction, TrialBalance } from './ledger'
+export { receivableAccount, SIGNUP_REVENUE, buildTransaction, appendTransaction, reverseTransaction, balanceOf, trialBalance } from './ledger'
+export type { AuditEvent, AuditType } from './audit'
+export { GENESIS_HASH, appendAuditEvent, verifyAuditChain } from './audit'
+export type { Partner, Contract, PartnerCatalog, AttributionPolicy, ReferralTouch, Rejection, RejectionReason, Attribution } from './attribution'
+export { buildPartnerCatalog, attribute } from './attribution'
+export type { FeeContext, FeeQuote, FeeSchedule, FeeScheduleRegistry } from './fees'
+export { flatFeePerSignup, createFeeScheduleRegistry } from './fees'
+export type { ClaimResult, SignupRecord, UnitOfWork, BillingRepository } from './repository'
+export { createMemoryRepository } from './repository'
+export type { BillingDeps, SignupOutcome, BillingService } from './signup'
+export { createBillingService } from './signup'
+export type { DiscrepancyKind, Discrepancy, ReconciliationReport } from './reconcile'
+export { reconcile } from './reconcile'
