@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { setState, setTask, useAppState } from '../../lib/store'
 import type { BillsSurvey } from '../../lib/types'
-import { DEMO_SURVEY } from '../../lib/bills'
 import Survey from './Survey'
 import Results from './Results'
 
@@ -44,7 +43,6 @@ export default function BillsPage() {
       initial={saved}
       onStart={() => setTask('bills', 'inProgress')}
       onFinish={finish}
-      onDemo={() => finish(DEMO_SURVEY)}
     />
   )
 }

@@ -5,7 +5,6 @@ import { Button, OptionTile } from '../../components/ui'
 import { AREAS } from '../../lib/types'
 import type { AreaId, BillsSurvey, HeatingPattern, WaterUse } from '../../lib/types'
 import { DEFAULT_TENANCY_WEEKS, areasForPostcode } from '../../lib/bills'
-import { useAppState } from '../../lib/store'
 
 interface Draft {
   hasPackage: boolean | null
@@ -41,8 +40,7 @@ function toDraft(s: BillsSurvey | null): Draft {
 
 const TOTAL = 7
 
-export default function Survey({ initial, onStart, onFinish, onDemo }: { initial: BillsSurvey | null; onStart: () => void; onFinish: (s: BillsSurvey) => void; onDemo: () => void }) {
-  const { demoMode } = useAppState()
+export default function Survey({ initial, onStart, onFinish }: { initial: BillsSurvey | null; onStart: () => void; onFinish: (s: BillsSurvey) => void }) {
   const [d, setD] = useState<Draft>(() => toDraft(initial))
   const [step, setStep] = useState(0)
   const set = (patch: Partial<Draft>) => setD((prev) => ({ ...prev, ...patch }))
@@ -225,14 +223,6 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
           {step === TOTAL - 1 ? 'See my estimate' : 'Next'}
         </Button>
       </div>
-
-      {step === 0 && !demoMode && (
-        <div className="mt-8 text-center">
-          <button data-nav type="button" onClick={onDemo} className="text-sm font-medium text-subtle underline-offset-4 hover:text-ink hover:underline">
-            Use demo answers
-          </button>
-        </div>
-      )}
     </div>
   )
 }
