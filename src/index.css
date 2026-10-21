@@ -93,14 +93,8 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
   background: rgba(255, 255, 255, 0.24);
 }
 
-/* Stage timeline (Moving in / Moving out), matched to the user's mock. */
-.step-line { background: linear-gradient(180deg, rgba(170, 250, 232, 0.95) 0%, rgba(150, 240, 220, 0.6) 50%, rgba(150, 240, 220, 0.35) 100%); box-shadow: 0 0 10px rgba(120, 230, 210, 0.6); }
-.step-tie { background: rgba(255, 255, 255, 0.35); }
-.step-tie.is-active { background: rgba(170, 250, 232, 0.95); box-shadow: 0 0 8px rgba(120, 230, 210, 0.7); }
-.step-panel::before { content: ""; position: absolute; left: 10%; right: 30%; top: -30px; height: 90px; pointer-events: none; background: radial-gradient(closest-side, rgba(170, 245, 230, 0.32), rgba(170, 245, 230, 0)); }
-.step-num { background: #2B6863; border: 1px solid rgba(255, 255, 255, 0.35); color: var(--color-ink); }
-.step-num.is-active { border-color: rgba(170, 250, 232, 0.95); box-shadow: 0 0 14px rgba(120, 230, 210, 0.75); }
-.step-num.is-done { background: var(--color-brand); color: var(--color-on-brand); border-color: transparent; }
+.step-next { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5), 0 10px 28px rgba(0, 0, 0, 0.22); }
+/* Stage buttons (Moving in / Moving out). */
 .step-row {
   background: linear-gradient(115deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.08) 60%, rgba(255, 255, 255, 0.12) 100%);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -108,7 +102,6 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
   transition: background-color 150ms, border-color 150ms;
 }
 .step-row:hover { border-color: rgba(255, 255, 255, 0.35); }
-.step-row.is-active { border-color: rgba(160, 245, 228, 0.85); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 0 22px rgba(110, 220, 200, 0.45); }
 
 /* Paper stays light: the report PDF prints dark text on white. */
 @media print {
