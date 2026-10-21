@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, Box, Camera, ChevronRight, Images, Mail, PoundSterling, SprayCan } from 'lucide-react'
-import { BoxOutGlyph, KeyGlyph, LogoMark } from '../components/Logo'
+import { LogoMark } from '../components/Logo'
 import { StatusBadge } from '../components/ui'
 import { useAppState } from '../lib/store'
 import type { TaskId } from '../lib/types'
@@ -16,7 +16,6 @@ interface Task {
 interface Stage {
   slug: 'move-in' | 'move-out'
   title: string
-  icon: ReactNode
   tasks: Task[]
 }
 
@@ -24,7 +23,6 @@ const STAGES: Stage[] = [
   {
     slug: 'move-in',
     title: 'Moving in',
-    icon: <KeyGlyph />,
     tasks: [
       { id: 'bills', to: '/move-in/bills', title: 'Compare bills', icon: <PoundSterling size={22} /> },
       { id: 'inspection', to: '/move-in/inspection', title: 'Photo inspection', icon: <Camera size={22} /> },
@@ -34,7 +32,6 @@ const STAGES: Stage[] = [
   {
     slug: 'move-out',
     title: 'Moving out',
-    icon: <BoxOutGlyph />,
     tasks: [
       { id: 'comparison', to: '/move-out/compare', title: 'Before / after report', icon: <Images size={22} /> },
       { id: 'storage', to: '/move-out/storage', title: 'Find storage', icon: <Box size={22} /> },
@@ -78,10 +75,9 @@ export default function Home() {
           <Link
             key={stage.slug}
             to={`/${stage.slug}`}
-            className={`relative flex h-36 flex-col items-center justify-center gap-2 rounded-[1.4rem] transition-colors hover:bg-white/10 active:bg-white/15 ${i ? 'glass-divider' : ''}`}
+            className={`relative flex h-24 items-center justify-center rounded-[1.4rem] transition-colors hover:bg-white/10 active:bg-white/15 ${i ? 'glass-divider' : ''}`}
           >
-            {stage.icon}
-            <span className="text-xl font-medium text-[#E8F0F0]">{stage.title}</span>
+            <span className="text-2xl font-medium tracking-tight text-[#E8F0F0]">{stage.title}</span>
           </Link>
         ))}
       </nav>
