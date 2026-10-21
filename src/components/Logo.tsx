@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import type { ReactNode } from 'react'
 
 /** Silver fill used by the lobby art: bright at the top, cooler at the bottom, like brushed metal. */
 function Silver({ id }: { id: string }) {
@@ -36,37 +37,35 @@ export function LogoMark({ size = 32, silver, className }: { size?: number; silv
   )
 }
 
-/** Silver key, head top right (Moving in). */
-export function KeyGlyph({ size = 54 }: { size?: number }) {
+/** Line icons for the Home buttons, drawn in the same silver as the mark. */
+function SilverLine({ size, children }: { size: number; children: ReactNode }) {
   const id = useId()
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" stroke={`url(#${id})`} strokeWidth={3.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <defs><Silver id={id} /></defs>
-      <g transform="rotate(-45 32 32)" fill={`url(#${id})`}>
-        <path fillRule="evenodd" d="M44 18a14 14 0 1 1 0 28 14 14 0 0 1 0-28Zm4 9.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z" />
-        <rect x="4" y="28" width="28" height="8" rx="2" />
-        <rect x="7" y="34" width="6" height="9" rx="1.5" />
-        <rect x="16" y="34" width="5" height="7" rx="1.5" />
-      </g>
+      {children}
     </svg>
   )
 }
 
-/** Silver open box with an arrow leaving it (Moving out). */
-export function BoxOutGlyph({ size = 54 }: { size?: number }) {
-  const id = useId()
+/** Key, head top right (Moving in). */
+export function KeyGlyph({ size = 46 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
-      <defs><Silver id={id} /></defs>
-      <g fill={`url(#${id})`}>
-        <path d="M12 30 32 22l20 8-20 8Z" opacity="0.45" />
-        <path d="M12 30 32 38v22L12 52Z" />
-        <path d="M52 30 32 38v22l20-8Z" opacity="0.78" />
-        <path d="M12 30 32 38l-7 7-20-8Z" opacity="0.92" />
-        <path d="M52 30 32 38l7 7 20-8Z" opacity="0.7" />
-      </g>
-      <path d="M31 27c0-9 5-15 14-15" fill="none" stroke={`url(#${id})`} strokeWidth="4.5" strokeLinecap="round" />
-      <path d="m43 5 9 7-9 7Z" fill={`url(#${id})`} />
-    </svg>
+    <SilverLine size={size}>
+      <circle cx="42" cy="22" r="11" />
+      <circle cx="45" cy="19" r="2.5" />
+      <path d="M34 30 12 52M18 46l5 5M24 40l4 4" />
+    </SilverLine>
+  )
+}
+
+/** Box with an arrow leaving it (Moving out). */
+export function BoxOutGlyph({ size = 46 }: { size?: number }) {
+  return (
+    <SilverLine size={size}>
+      <path d="M12 32 32 40l20-8M12 32v18l20 8 20-8V32M32 40v18" />
+      <path d="M12 32 20 25M52 32l-8-7" />
+      <path d="M32 31V6M24 14l8-8 8 8" />
+    </SilverLine>
   )
 }
