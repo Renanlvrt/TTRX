@@ -57,3 +57,4 @@ Started 2026-10-20. This branch moves RentReady from the hackathon demo toward a
 | 18:50 | Task pages crowded (captions, fine print, repeated figures) | One answer and one action per page; optional detail behind Details or Show all | ed5ebe6 |
 | 19:49 | Final check | 722\/722 tests, build passes, eslint 0 errors (2 old react-refresh warnings in ui.tsx); no disputed tests; loop stopped | this commit |
 | 2026-10-21 | User: purple looks vibe coded, UI too boxy, Home captions and headline redundant | Teal palette, 8/12/16px corners, system font, logo mark, Home lobby (logo plus two tiles), accent stripes removed (branch feat/teal-lobby) | see git log |
+| 2026-10-21 | User: copy the reference mock exactly; buttons less raised, logo glow softer, header more glass | Sampled the mock's colours; gradient lobby, silver mark and glyphs, frosted panel and header; iterated against side-by-side screenshots | see git log |

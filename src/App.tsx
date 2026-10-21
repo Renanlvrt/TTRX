@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { LogoMark } from './components/Logo'
 import Home, { StagePage } from './pages/Home'
 import { enterDemoMode, resetToNewUser } from './lib/demoMode'
@@ -78,11 +78,22 @@ function LogoLink() {
       }}
       draggable={false}
       style={{ WebkitTouchCallout: 'none' }}
-      className="flex select-none items-center gap-2 text-xl font-semibold tracking-tight text-white"
+      className="flex select-none items-center gap-2.5 text-[1.65rem] font-medium tracking-tight text-white"
     >
-      <LogoMark size={28} />
-      RentReady
+      <LogoMark size={36} silver />
+      <span className="silver-text">RentReady</span>
     </Link>
+  )
+}
+
+function Header() {
+  const over = useLocation().pathname === '/'
+  return (
+    <header className={`app-bar no-print pt-[env(safe-area-inset-top)] ${over ? 'over' : ''}`}>
+      <div className="mx-auto flex h-18 max-w-4xl items-center justify-center px-6">
+        <LogoLink />
+      </div>
+    </header>
   )
 }
 
@@ -91,11 +102,7 @@ export default function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <DemoHotkeys />
       <div className="min-h-screen bg-surface">
-        <header className="no-print border-b border-white/10 bg-brand pt-[env(safe-area-inset-top)]">
-          <div className="mx-auto flex h-14 max-w-4xl items-center justify-center px-6">
-            <LogoLink />
-          </div>
-        </header>
+        <Header />
         <main>
           <Routes>
             <Route path={ROUTES.home} element={<Home />} />

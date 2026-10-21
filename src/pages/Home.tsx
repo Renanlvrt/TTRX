@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowLeft, Box, Camera, ChevronRight, Images, KeyRound, Mail, PackageOpen, PoundSterling, SprayCan } from 'lucide-react'
-import { LogoMark } from '../components/Logo'
+import { ArrowLeft, Box, Camera, ChevronRight, Images, Mail, PoundSterling, SprayCan } from 'lucide-react'
+import { BoxOutGlyph, KeyGlyph, LogoMark } from '../components/Logo'
 import { StatusBadge } from '../components/ui'
 import { useAppState } from '../lib/store'
 import type { TaskId } from '../lib/types'
@@ -17,7 +17,6 @@ interface Stage {
   slug: 'move-in' | 'move-out'
   title: string
   icon: ReactNode
-  tile: string
   tasks: Task[]
 }
 
@@ -25,8 +24,7 @@ const STAGES: Stage[] = [
   {
     slug: 'move-in',
     title: 'Moving in',
-    icon: <KeyRound size={32} strokeWidth={1.75} />,
-    tile: 'bg-cyan hover:bg-cyan-hover',
+    icon: <KeyGlyph />,
     tasks: [
       { id: 'bills', to: '/move-in/bills', title: 'Compare bills', icon: <PoundSterling size={22} /> },
       { id: 'inspection', to: '/move-in/inspection', title: 'Photo inspection', icon: <Camera size={22} /> },
@@ -36,8 +34,7 @@ const STAGES: Stage[] = [
   {
     slug: 'move-out',
     title: 'Moving out',
-    icon: <PackageOpen size={32} strokeWidth={1.75} />,
-    tile: 'bg-brand-deep hover:bg-brand-hover',
+    icon: <BoxOutGlyph />,
     tasks: [
       { id: 'comparison', to: '/move-out/compare', title: 'Before / after report', icon: <Images size={22} /> },
       { id: 'storage', to: '/move-out/storage', title: 'Find storage', icon: <Box size={22} /> },
@@ -71,23 +68,24 @@ function TaskList({ stage }: { stage: Stage }) {
 
 export default function Home() {
   return (
-    <div className="on-brand flex min-h-[calc(100dvh-3.5rem-env(safe-area-inset-top))] flex-col bg-brand text-white">
-      <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
-        <LogoMark size={112} />
-        <h1 className="mt-5 text-5xl font-semibold tracking-tight">RentReady</h1>
+    // The lobby slides under the glass header so the gradient shows through it.
+    <div className="lobby on-brand -mt-[calc(4.5rem+env(safe-area-inset-top))] flex min-h-[100dvh] flex-col pt-[calc(4.5rem+env(safe-area-inset-top))] text-white">
+      <div className="flex flex-1 flex-col items-center justify-center px-6 pt-6 pb-24">
+        <LogoMark size={136} silver className="logo-glow" />
+        <h1 className="silver-text mt-1 text-[3.6rem] font-semibold leading-none tracking-tight">RentReady</h1>
       </div>
-      <div className="mx-auto grid w-full max-w-xl grid-cols-2 gap-3 px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
-        {STAGES.map((stage) => (
+      <nav aria-label="Choose your stage" className="glass mx-5 mb-[max(3rem,env(safe-area-inset-bottom))] grid grid-cols-2 rounded-[1.4rem] sm:mx-auto sm:w-full sm:max-w-md">
+        {STAGES.map((stage, i) => (
           <Link
             key={stage.slug}
             to={`/${stage.slug}`}
-            className={`flex h-32 flex-col items-center justify-center gap-3 rounded-2xl border border-white/15 text-white transition-colors ${stage.tile}`}
+            className={`relative flex h-36 flex-col items-center justify-center gap-2 rounded-[1.4rem] transition-colors hover:bg-white/10 active:bg-white/15 ${i ? 'glass-divider' : ''}`}
           >
             {stage.icon}
-            <span className="text-lg font-semibold">{stage.title}</span>
+            <span className="text-xl font-medium text-[#E8F0F0]">{stage.title}</span>
           </Link>
         ))}
-      </div>
+      </nav>
     </div>
   )
 }
