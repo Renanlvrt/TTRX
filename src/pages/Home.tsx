@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowLeft, Box, Camera, ChevronRight, Images, KeyRound, Mail, PackageOpen, PoundSterling, Sparkles } from 'lucide-react'
+import { ArrowLeft, Box, Camera, ChevronRight, Images, KeyRound, Mail, PackageOpen, PoundSterling, SprayCan } from 'lucide-react'
+import { LogoMark } from '../components/Logo'
 import { StatusBadge } from '../components/ui'
 import { useAppState } from '../lib/store'
 import type { TaskId } from '../lib/types'
@@ -15,8 +16,8 @@ interface Task {
 interface Stage {
   slug: 'move-in' | 'move-out'
   title: string
-  caption: string
   icon: ReactNode
+  tile: string
   tasks: Task[]
 }
 
@@ -24,8 +25,8 @@ const STAGES: Stage[] = [
   {
     slug: 'move-in',
     title: 'Moving in',
-    caption: 'Know your costs. Record the house.',
-    icon: <KeyRound size={28} />,
+    icon: <KeyRound size={32} strokeWidth={1.75} />,
+    tile: 'bg-cyan hover:bg-cyan-hover',
     tasks: [
       { id: 'bills', to: '/move-in/bills', title: 'Compare bills', icon: <PoundSterling size={22} /> },
       { id: 'inspection', to: '/move-in/inspection', title: 'Photo inspection', icon: <Camera size={22} /> },
@@ -35,12 +36,12 @@ const STAGES: Stage[] = [
   {
     slug: 'move-out',
     title: 'Moving out',
-    caption: 'Prove the condition. Leave cleanly.',
-    icon: <PackageOpen size={28} />,
+    icon: <PackageOpen size={32} strokeWidth={1.75} />,
+    tile: 'bg-brand-deep hover:bg-brand-hover',
     tasks: [
       { id: 'comparison', to: '/move-out/compare', title: 'Before / after report', icon: <Images size={22} /> },
       { id: 'storage', to: '/move-out/storage', title: 'Find storage', icon: <Box size={22} /> },
-      { id: 'cleaning', to: '/move-out/cleaning', title: 'Cleaning', icon: <Sparkles size={22} /> },
+      { id: 'cleaning', to: '/move-out/cleaning', title: 'Cleaning', icon: <SprayCan size={22} /> },
     ],
   },
 ]
@@ -55,7 +56,7 @@ function TaskList({ stage }: { stage: Stage }) {
             to={t.to}
             className="group flex items-center gap-4 border-b border-line bg-white px-4 py-4 transition-colors hover:bg-brand-soft"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-brand-tint bg-brand-soft text-brand">{t.icon}</span>
+            <span className="shrink-0 text-brand">{t.icon}</span>
             <span className="flex min-w-0 flex-1 flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
               <span className="text-lg font-semibold leading-snug">{t.title}</span>
               <StatusBadge status={tasks[t.id]} />
@@ -70,21 +71,20 @@ function TaskList({ stage }: { stage: Stage }) {
 
 export default function Home() {
   return (
-    <div className="mx-auto w-full max-w-xl px-6 py-12">
-      <h1 className="font-display text-4xl font-semibold leading-tight">Moving in or moving out?</h1>
-      <div className="mt-8 grid gap-4">
+    <div className="on-brand flex min-h-[calc(100dvh-3.5rem-env(safe-area-inset-top))] flex-col bg-brand text-white">
+      <div className="flex flex-1 flex-col items-center justify-center px-6 py-12">
+        <LogoMark size={112} />
+        <h1 className="mt-5 text-5xl font-semibold tracking-tight">RentReady</h1>
+      </div>
+      <div className="mx-auto grid w-full max-w-xl grid-cols-2 gap-3 px-4 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
         {STAGES.map((stage) => (
           <Link
             key={stage.slug}
             to={`/${stage.slug}`}
-            className="flex items-center gap-4 rounded-md bg-brand p-6 text-white transition-colors hover:bg-brand-hover active:bg-brand-deep"
+            className={`flex h-32 flex-col items-center justify-center gap-3 rounded-2xl border border-white/15 text-white transition-colors ${stage.tile}`}
           >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm border border-white/35">{stage.icon}</span>
-            <span className="flex-1">
-              <span className="block font-display text-2xl font-semibold">{stage.title}</span>
-              <span className="mt-0.5 block text-sm text-white/80">{stage.caption}</span>
-            </span>
-            <ChevronRight size={24} />
+            {stage.icon}
+            <span className="text-lg font-semibold">{stage.title}</span>
           </Link>
         ))}
       </div>

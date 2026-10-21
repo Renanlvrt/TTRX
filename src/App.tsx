@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
-import { Home as HomeIcon } from 'lucide-react'
+import { LogoMark } from './components/Logo'
 import Home, { StagePage } from './pages/Home'
 import { enterDemoMode, resetToNewUser } from './lib/demoMode'
 import { getState } from './lib/store'
@@ -78,11 +78,9 @@ function LogoLink() {
       }}
       draggable={false}
       style={{ WebkitTouchCallout: 'none' }}
-      className="flex select-none items-center gap-2.5 font-display text-xl font-semibold text-white"
+      className="flex select-none items-center gap-2 text-xl font-semibold tracking-tight text-white"
     >
-      <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/40 text-white">
-        <HomeIcon size={18} />
-      </span>
+      <LogoMark size={28} />
       RentReady
     </Link>
   )
@@ -93,10 +91,9 @@ export default function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <DemoHotkeys />
       <div className="min-h-screen bg-surface">
-        <header className="no-print border-b-4 border-brand-deep bg-brand">
-          <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-6">
+        <header className="no-print border-b border-white/10 bg-brand pt-[env(safe-area-inset-top)]">
+          <div className="mx-auto flex h-14 max-w-4xl items-center justify-center px-6">
             <LogoLink />
-            <span className="hidden text-xs font-semibold uppercase tracking-[0.14em] text-white/85 sm:inline">Free for students · Durham</span>
           </div>
         </header>
         <main>

@@ -1,33 +1,39 @@
 @import "tailwindcss";
 
-/* Collegiate palette: Palatinate (action), parchment/gold (highlight), warm stone (surface). Swap here to reskin.
-   Purple is allowed only as Durham Palatinate and its tints (#7E317B, #68246D, #5A1F57, #9A4C96, #CBA8C9, #E9DCE8, #F5EEF4). */
+/* Palette: deep teal (action), cyan (second action), pale gold (highlight), cool off-white (surface). Swap here to reskin.
+   Purple is no longer used anywhere (dropped 2026-10-21, see SPEC.md §9). */
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --color-brand: #7E317B;
-  --color-brand-hover: #68246D;
-  --color-brand-deep: #5A1F57;
-  --color-brand-soft: #F5EEF4;
-  --color-brand-tint: #E9DCE8;
-  --color-ink: #1F2933;
-  --color-surface: #FAF8F5;
-  --color-muted: #57534E;
-  --color-subtle: #6F6862;
-  --color-line: #DDD7CE;
-  --color-line-strong: #B9B1A5;
-  /* Form field borders: >= 3.5:1 on white, surface, canvas and highlight (WCAG 1.4.11). */
-  --color-field-border: #857D71;
-  --color-canvas: #F3EFE8;
-  --color-canvas-strong: #E9E3D9;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-brand: #0E6B62;
+  --color-brand-hover: #0A554E;
+  --color-brand-deep: #083F3A;
+  --color-brand-soft: #E6F2EF;
+  --color-brand-tint: #CBE4DF;
+  --color-cyan: #0E7C86;
+  --color-cyan-hover: #0B6870;
+  --color-ink: #1A2B2A;
+  --color-surface: #F5F7F6;
+  --color-muted: #4F5D5B;
+  --color-subtle: #66726F;
+  --color-line: #D9E0DE;
+  --color-line-strong: #B3BFBC;
+  /* Form field borders: >= 3.5:1 on white and surface (WCAG 1.4.11). */
+  --color-field-border: #7D8A87;
+  --color-canvas: #EDF1F0;
+  --color-canvas-strong: #E1E7E5;
   --color-highlight: #FBF5E6;
   --color-highlight-strong: #C8A75B;
+  /* Soft corners everywhere: sm 8px, md 12px, lg 16px. */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
 }
 
 html, body { background: var(--color-surface); }
 body { @apply text-ink antialiased; }
 
-h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
 .font-display { font-family: var(--font-display); }
 .tabular-nums, .font-display { font-variant-numeric: lining-nums tabular-nums; }
 
@@ -36,8 +42,8 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
   outline-offset: 2px;
 }
 
-/* On the Palatinate header a Palatinate ring would vanish; use white. */
-header :where(a, button):focus-visible { outline-color: #ffffff; }
+/* On the teal header and lobby a teal ring would vanish; use white. */
+header :where(a, button):focus-visible, .on-brand :where(a, button):focus-visible { outline-color: #ffffff; }
 
 @media print {
   .no-print { display: none !important; }

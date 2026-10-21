@@ -1,3 +1,5 @@
+> **Superseded 2026-10-21.** The user rejected the white shell, tab bar and Palatinate accent. Current direction: SPEC.md §9 #31 (teal palette, soft corners, Home lobby). Kept for the research notes.
+
 # RentReady mobile design system
 
 The implementer follows this file screen by screen. It distils five sources (see REFERENCES.md): Anthropic frontend-design, Impeccable (craft floor, typeset, animate, adapt), Taste Skill (app-screens chapter), Emil Kowalski's design-engineering skill, and the Vercel Web Interface Guidelines. Student priorities come from STUDENT-NEEDS.md.

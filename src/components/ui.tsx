@@ -48,7 +48,7 @@ export function ButtonLink({ to, children, variant = 'primary', className }: { t
 
 export function Card({ children, className, highlight }: { children: ReactNode; className?: string; highlight?: boolean }) {
   return (
-    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong border-l-4 bg-highlight' : 'border-line bg-white', className)}>
+    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-white', className)}>
       {children}
     </div>
   )
@@ -103,11 +103,11 @@ export function OptionTile({ selected, onClick, title, caption, icon }: { select
   )
 }
 
-/** Big number with a label. `highlight` puts it on parchment with a gold rule. */
+/** Big number with a label. `highlight` puts it on pale gold. */
 export function Stat({ label, value, sub, highlight }: { label: string; value: string; sub?: string; highlight?: boolean }) {
   return (
-    <div className={cx('rounded-md border border-t-4 p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line border-t-brand bg-white')}>
-      <div className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">{label}</div>
+    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-white')}>
+      <div className="text-sm font-semibold text-muted">{label}</div>
       <div className="mt-2 font-display text-4xl font-semibold tabular-nums">{value}</div>
       {sub && <div className="mt-1 text-base text-muted">{sub}</div>}
     </div>

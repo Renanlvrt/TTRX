@@ -42,6 +42,7 @@ Started 2026-10-20. This branch moves RentReady from the hackathon demo toward a
 
 | Test (file > name) | Why it looks wrong | Evidence | Status |
 |---|---|---|---|
+| src/design/contrast.test.ts > --color-brand is Durham Palatinate #7E317B | The user dropped purple ("the purple give a vibe coded sign") and chose a green-cyan teal like Apple's latest iPhones | User instruction, 2026-10-21; new brand #0E6B62 passes every other contrast test (white on brand 6.37:1, brand on surface 5.92:1) | Overruled by user, test left unedited; fails by design from feat/teal-lobby on |
 
 ## Loop log
 
@@ -55,3 +56,4 @@ Started 2026-10-20. This branch moves RentReady from the hackathon demo toward a
 | 15:10 | User: all-white tab-bar redesign harder to read; wants only the strict necessary | Reverted ba31928 (239ad89); Home is now only Moving in or moving out | 6dfdb4c |
 | 18:50 | Task pages crowded (captions, fine print, repeated figures) | One answer and one action per page; optional detail behind Details or Show all | ed5ebe6 |
 | 19:49 | Final check | 722\/722 tests, build passes, eslint 0 errors (2 old react-refresh warnings in ui.tsx); no disputed tests; loop stopped | this commit |
+| 2026-10-21 | User: purple looks vibe coded, UI too boxy, Home captions and headline redundant | Teal palette, 8/12/16px corners, system font, logo mark, Home lobby (logo plus two tiles), accent stripes removed (branch feat/teal-lobby) | see git log |
