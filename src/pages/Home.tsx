@@ -58,7 +58,7 @@ export default function Home() {
   )
 }
 
-/** One stage's three tasks (/move-in, /move-out). The next step to do is the solid button; the order is hinted by small numbers. */
+/** One stage's three tasks (/move-in, /move-out). The next step to do is the brighter, slightly bigger button; the order is hinted by small numbers. */
 export function StagePage() {
   const { tasks } = useAppState()
   const slug = useLocation().pathname.split('/')[1]
@@ -81,14 +81,14 @@ export function StagePage() {
               <Link
                 to={t.to}
                 aria-label={`Step ${i + 1}: ${t.title}${finished ? ', done' : ''}`}
-                className={`flex items-center gap-4 rounded-2xl px-5 transition-colors ${next ? 'step-next h-24 bg-brand text-on-brand hover:bg-brand-hover' : 'step-row h-20 text-ink'}`}
+                className={`flex items-center gap-4 rounded-2xl px-5 transition-colors ${next ? 'step-next h-24 text-ink' : 'step-row h-20 text-ink'}`}
               >
-                <span aria-hidden className={`w-4 shrink-0 text-sm font-semibold tabular-nums ${next ? 'text-on-brand/60' : 'text-subtle'}`}>{i + 1}</span>
+                <span aria-hidden className={`w-4 shrink-0 text-sm font-semibold tabular-nums ${next ? 'text-muted' : 'text-subtle'}`}>{i + 1}</span>
                 <span className={`min-w-0 flex-1 truncate font-semibold tracking-tight ${next ? 'text-2xl' : 'text-xl'} ${finished ? 'text-muted' : ''}`}>{t.title}</span>
                 {finished ? (
                   <span className="shrink-0 text-sm font-semibold text-muted">Done</span>
                 ) : (
-                  <span aria-hidden className={`shrink-0 text-3xl leading-none ${next ? 'text-on-brand/70' : 'text-subtle'}`}>›</span>
+                  <span aria-hidden className={`shrink-0 text-3xl leading-none ${next ? 'text-ink' : 'text-subtle'}`}>›</span>
                 )}
               </Link>
             </li>
