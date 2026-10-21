@@ -1,6 +1,5 @@
 // Shared inspection UI: editable item card, read-only photo, store helpers.
 import { useRef, useState, type DragEvent, type ReactNode } from 'react'
-import { Camera, Loader2, RotateCcw, Trash2, ImageOff } from 'lucide-react'
 import { cx } from '../../components/ui'
 import { deletePhoto, savePhoto, usePhotoUrl } from '../../lib/store'
 import { CONDITION_TONE, fmtDateTime, updateRecord } from './helpers'
@@ -16,7 +15,6 @@ export function Photo({ photoId, alt, className }: { photoId: string | null; alt
         <img src={url} alt={alt} className="h-full w-full object-cover" />
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center gap-1 text-sm text-subtle">
-          <ImageOff size={22} />
           No photo
         </div>
       )}
@@ -69,8 +67,8 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
         <div className="group relative aspect-[16/10] overflow-hidden rounded-md bg-canvas-strong">
           <img src={url} alt={item.label} className="h-full w-full object-cover" />
           <div className="absolute right-2 top-2 flex gap-2">
-            <IconBtn label="Retake photo" onClick={() => input.current?.click()}><RotateCcw size={16} /></IconBtn>
-            <IconBtn label="Remove photo" onClick={removePhoto}><Trash2 size={16} /></IconBtn>
+            <PhotoBtn label="Retake photo" onClick={() => input.current?.click()}>Retake</PhotoBtn>
+            <PhotoBtn label="Remove photo" onClick={removePhoto}>Remove</PhotoBtn>
           </div>
           {saving && <Saving />}
         </div>
@@ -87,7 +85,6 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
             dragging ? 'border-brand bg-brand-soft text-brand' : 'border-line-strong',
           )}
         >
-          <Camera size={28} />
           <span className="text-base font-semibold">Add photo</span>
           {saving && <Saving />}
         </button>
@@ -97,7 +94,6 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
         <h3 className="text-lg font-bold">{item.label}</h3>
         {record?.recordedAt && <span className="shrink-0 text-xs text-subtle">{fmtDateTime(record.recordedAt)}</span>}
       </div>
-      <p className="text-sm text-muted">{item.hint}</p>
 
       <div role="radiogroup" aria-label={`${item.label} condition`} className="mt-3 grid grid-cols-[1fr_1.35fr_auto] gap-1.5">
         {(Object.keys(CONDITION_LABEL) as Condition[]).map((c) => {
@@ -130,9 +126,9 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
   )
 }
 
-function IconBtn({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
+function PhotoBtn({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
   return (
-    <button type="button" aria-label={label} title={label} onClick={onClick} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-on-brand hover:bg-white hover:text-ink">
+    <button type="button" aria-label={label} onClick={onClick} className="h-9 rounded-full bg-white/90 px-3.5 text-sm font-semibold text-on-brand hover:bg-white">
       {children}
     </button>
   )
@@ -141,7 +137,7 @@ function IconBtn({ label, onClick, children }: { label: string; onClick: () => v
 function Saving() {
   return (
     <span className="absolute inset-0 flex items-center justify-center gap-2 rounded-md bg-white/80 text-sm font-semibold text-on-brand">
-      <Loader2 size={18} className="animate-spin" /> Saving…
+      Saving…
     </span>
   )
 }

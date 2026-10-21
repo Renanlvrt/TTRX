@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { ArrowUpRight, Box, ChevronDown, Minus, Plus, Warehouse } from 'lucide-react'
 import { Fine, Page, cx, gbp } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
 import { BOX_SIZES, recommendStorage, totalBoxes } from '../../lib/storage'
@@ -26,27 +25,26 @@ export default function StoragePage() {
   return (
     <Page title="Find storage">
       <div className="grid gap-6 md:grid-cols-2">
-        <Question n={1} title="How many boxes?">
+        <Question title="How many boxes?">
           <div className="space-y-2">
             {BOX_SIZES.map((size) => (
               <div key={size} className="flex items-center gap-3 rounded-md border border-line px-4 py-3">
                 <div className="flex-1">
                   <div className="text-lg font-semibold">{BOX_LABELS[size].label}</div>
-                  <div className="text-sm text-muted">{BOX_LABELS[size].hint}</div>
                 </div>
                 <StepButton label={`Fewer ${size} boxes`} onClick={() => setBoxes(size, needs.boxes[size] - 1)} disabled={needs.boxes[size] === 0}>
-                  <Minus size={18} />
+                  <span aria-hidden className="text-2xl leading-none">−</span>
                 </StepButton>
                 <span className="w-8 text-center text-2xl font-semibold tabular-nums">{needs.boxes[size]}</span>
                 <StepButton label={`More ${size} boxes`} onClick={() => setBoxes(size, needs.boxes[size] + 1)}>
-                  <Plus size={18} />
+                  <span aria-hidden className="text-2xl leading-none">+</span>
                 </StepButton>
               </div>
             ))}
           </div>
         </Question>
 
-        <Question n={2} title="For how long?">
+        <Question title="For how long?">
           <div role="radiogroup" aria-label="Storage length" className="grid grid-cols-2 gap-2">
             {DURATIONS.map((d) => {
               const on = needs.weeks === d.weeks
@@ -60,7 +58,6 @@ export default function StoragePage() {
                   className={cx('rounded-md border-2 px-4 py-4 text-left transition', on ? 'border-brand bg-brand-soft' : 'border-line hover:border-line-strong')}
                 >
                   <span className="block text-lg font-semibold">{d.label}</span>
-                  <span className="block text-sm text-muted">{d.hint ?? `${d.weeks} weeks`}</span>
                 </button>
               )
             })}
@@ -70,17 +67,13 @@ export default function StoragePage() {
 
       <section className="mt-10">
         {count === 0 ? (
-          <div className="rounded-lg border-2 border-dashed border-line p-8 text-center text-lg text-muted">Add your boxes to see the best option.</div>
+          null
         ) : (
           <>
-            {best && <BestCard option={best} item={listing(best.providerId)} boxes={count} />}
-            {best?.kind === 'unit' && alternatives.some((a) => a.total == null && a.kind === 'box') && (
-              <Fine className="mt-3">A whole container is the cheapest published price here, but box services below may cost less for {count} boxes. Get a quote.</Fine>
-            )}
+            {best && <BestCard option={best} item={listing(best.providerId)} />}
             <details className="group mt-6 rounded-lg border border-line bg-card px-5 py-3">
               <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
                 Other options ({alternatives.length})
-                <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
               </summary>
               <div className="divide-y divide-line">
                 {alternatives.map((o) => (
@@ -88,7 +81,7 @@ export default function StoragePage() {
                 ))}
               </div>
               <Fine className="mt-3">
-                All-in estimates (storage + collection + return) from each provider's own prices, checked {new Date(STORAGE_CHECKED).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}. Box sizes vary by provider; confirm the final quote with them. No booking happens here.
+                Prices checked {new Date(STORAGE_CHECKED).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}.
               </Fine>
             </details>
           </>
@@ -98,13 +91,10 @@ export default function StoragePage() {
   )
 }
 
-function Question({ n, title, children }: { n: number; title: string; children: ReactNode }) {
+function Question({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <div className="mb-3 flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-bold text-on-brand">{n}</span>
-        <h2 className="text-xl font-bold">{title}</h2>
-      </div>
+      <h2 className="mb-3 text-xl font-bold">{title}</h2>
       {children}
     </div>
   )
@@ -136,33 +126,20 @@ function BookLink({ item, primary }: { item: StorageListing; primary?: boolean }
         primary ? 'h-12 bg-brand px-6 text-lg text-on-brand hover:bg-brand-hover' : 'h-10 border border-line px-4 text-sm hover:bg-canvas',
       )}
     >
-      {primary ? 'Book' : 'Visit'} <ArrowUpRight size={primary ? 20 : 16} />
+      {primary ? 'Book' : 'Visit'}
     </a>
   )
 }
 
-function KindIcon({ option }: { option: StorageOption }) {
-  return option.kind === 'unit' ? <Warehouse size={22} /> : <Box size={22} />
-}
-
-function BestCard({ option, item, boxes }: { option: StorageOption; item: StorageListing; boxes: number }) {
-  const unit = option.kind === 'unit'
+function BestCard({ option, item }: { option: StorageOption; item: StorageListing }) {
   return (
     <div className="rounded-lg border border-highlight-strong bg-highlight p-6">
-      <div className="text-sm font-semibold text-muted">Best option for {boxes} box{boxes === 1 ? '' : 'es'}</div>
+      <div className="text-sm font-semibold text-muted">Best option</div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
-        <div className="flex items-start gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-card text-brand">
-            <KindIcon option={option} />
-          </span>
-          <div>
-            <h3 className="text-2xl font-bold leading-tight">{item.name}</h3>
-            <p className="text-base text-muted">{item.kind}</p>
-          </div>
-        </div>
+        <h3 className="text-2xl font-bold leading-tight">{item.name}</h3>
         <div className="text-right">
           <div className="text-4xl font-display font-semibold">{gbp(option.total!)}</div>
-          <div className="text-sm text-muted">all-in{unit ? ', split with housemates' : ''}</div>
+          <div className="text-sm text-muted">all-in</div>
         </div>
       </div>
       <div className="mt-4">
@@ -196,9 +173,6 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
 function AltRow({ option, item }: { option: StorageOption; item: StorageListing }) {
   return (
     <div className="flex items-center gap-4 px-5 py-4">
-      <span className="hidden text-subtle sm:block">
-        <KindIcon option={option} />
-      </span>
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-3">
           <span className="text-lg font-semibold">{item.name}</span>

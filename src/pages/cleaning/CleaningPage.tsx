@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Camera, Check, ChevronDown, ChevronRight } from 'lucide-react'
 import { ButtonLink, Fine, Page, cx } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
 import { cleaningAdvice } from '../../lib/cleaning'
 import { compareInspections, hasAnyRecord } from '../../lib/inspection'
 import { CHECKLIST } from '../../data/checklist'
-import { CLEANING_BANDS, CLEANING_BANDS_SOURCE, CLEANING_FACTS, CLEANING_FROM_BEDROOMS } from '../../data/cleaningPrices'
-import { CLEANERS, CLEANING_CHECKLIST, DEPOSIT_LINKS } from '../../data/services'
+import { CLEANING_BANDS, CLEANING_BANDS_SOURCE, CLEANING_FROM_BEDROOMS } from '../../data/cleaningPrices'
+import { CLEANERS, CLEANING_CHECKLIST } from '../../data/services'
 import type { AppState } from '../../lib/types'
 
 const key = (i: number) => `clean-${i}`
@@ -23,9 +22,7 @@ export default function CleaningPage() {
     return (
       <Page title="Move-out cleaning">
         <div className="rounded-lg border-2 border-dashed border-line p-8 text-center">
-          <Camera size={32} className="mx-auto text-subtle" />
-          <p className="mt-3 text-xl font-bold">Do your move-out photos first</p>
-          <p className="mt-1 text-muted">We use them to work out what needs cleaning.</p>
+          <p className="text-xl font-bold">Do your move-out photos first</p>
           <ButtonLink to="/move-out/compare" className="mt-5">Take move-out photos</ButtonLink>
         </div>
       </Page>
@@ -93,7 +90,7 @@ export default function CleaningPage() {
             onClick={() => setTask('cleaning', 'done')}
             className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-brand text-lg font-semibold text-on-brand hover:bg-brand-hover sm:w-auto sm:px-6"
           >
-            {fromPrice ? 'Get an exact quote' : 'Get a cleaner quote'} <ArrowUpRight size={20} />
+            {fromPrice ? 'Get an exact quote' : 'Get a cleaner quote'}
           </a>
         ) : (
           <a href="#diy" className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-md bg-brand text-lg font-semibold text-on-brand hover:bg-brand-hover sm:w-auto sm:px-6">
@@ -125,14 +122,12 @@ export default function CleaningPage() {
         <span className="text-lg font-semibold">
           {issues.length === 0 ? 'Your report: nothing new to clean' : `Your report: ${issues.length} thing${issues.length === 1 ? '' : 's'} to clean`}
         </span>
-        <ChevronRight size={20} className="shrink-0 text-subtle" />
       </Link>
 
       {/* DIY checklist: open by default when DIY is the answer */}
       <details id="diy" className="group mt-8 rounded-lg border border-line px-5 py-4" open={!hire}>
         <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
           Clean it yourself: checklist
-          <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
         </summary>
         <ul className="mt-3 space-y-2">
           {CLEANING_CHECKLIST.map((text, i) => {
@@ -148,7 +143,7 @@ export default function CleaningPage() {
                   className={cx('flex w-full items-start gap-3 rounded-md border p-3 text-left text-sm transition', on ? 'border-brand bg-brand-soft text-muted line-through' : 'border-line hover:border-line-strong')}
                 >
                   <span className={cx('mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2', on ? 'border-brand bg-brand text-on-brand' : 'border-line-strong')}>
-                    {on && <Check size={12} strokeWidth={3} />}
+                    {on && <span className="h-2 w-2 rounded-sm bg-on-brand" />}
                   </span>
                   {text}
                 </button>
@@ -162,7 +157,6 @@ export default function CleaningPage() {
       <details className="group mt-3 rounded-lg border border-line px-5 py-4">
         <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
           Other cleaners in Durham
-          <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
         </summary>
         <div className="mt-3 divide-y divide-line">
           {CLEANERS.map((c) => (
@@ -172,7 +166,7 @@ export default function CleaningPage() {
                 <div className="text-sm text-muted">{c.priceText ?? 'Price on quote'}</div>
               </div>
               <a href={c.website} target="_blank" rel="noopener noreferrer" onClick={() => setTask('cleaning', 'done')} className="inline-flex h-10 shrink-0 items-center gap-1 rounded-md border border-line px-3 text-sm font-semibold hover:bg-canvas">
-                Quote <ArrowUpRight size={14} />
+                Quote
               </a>
             </div>
           ))}
@@ -180,8 +174,6 @@ export default function CleaningPage() {
         <Fine className="mt-3">
           Estimate from{' '}
           <a href={CLEANING_BANDS_SOURCE.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{CLEANING_BANDS_SOURCE.label}</a>.{' '}
-          {CLEANING_FACTS.noProRequired.text} Cleaning won't fix mould or damp; report those.{' '}
-          <a href={DEPOSIT_LINKS[0].url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Deposit rules</a>
         </Fine>
       </details>
     </Page>

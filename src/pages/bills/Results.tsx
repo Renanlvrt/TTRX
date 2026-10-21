@@ -1,42 +1,23 @@
 import { useMemo, useState } from 'react'
-import type { ReactNode } from 'react'
-import { ChevronDown, Droplets, ExternalLink, Flame, Pencil, Tv, Wifi, Zap } from 'lucide-react'
 import { Button, Page, cx, gbp } from '../../components/ui'
-import { AREAS } from '../../lib/types'
-import type { BillId, BillsSurvey, Money } from '../../lib/types'
+import type { BillsSurvey, Money } from '../../lib/types'
 import { energyCostFor, estimateBills } from '../../lib/bills'
 import { tariffsFor } from '../../data/energyTariffs'
 import { EXTRAS, PACKAGE_BENCHMARK } from '../../data/extras'
 import { providersFor } from '../../data/billProviders'
-import type { BillGroup, BillProvider } from '../../data/billProviders'
+import type { BillProvider } from '../../data/billProviders'
 import { RATES_CHECKED } from '../../data/rates'
-
-const GROUP_ICON: Record<BillGroup, ReactNode> = {
-  energy: <Zap size={16} />,
-  water: <Droplets size={16} />,
-  broadband: <Wifi size={16} />,
-  tv: <Tv size={16} />,
-}
-
-const BILL_ICON: Record<BillId, ReactNode> = {
-  electricity: <Zap size={18} />,
-  gas: <Flame size={18} />,
-  water: <Droplets size={18} />,
-  broadband: <Wifi size={18} />,
-  tv: <Tv size={18} />,
-}
 
 export default function Results({ survey, onEdit, onReset, onTenancyChange }: { survey: BillsSurvey; onEdit: () => void; onReset: () => void; onTenancyChange: (weeks: number) => void }) {
   const r = useMemo(() => estimateBills(survey), [survey])
   const weeks = survey.tenancyWeeks
   const [weeksText, setWeeksText] = useState(String(weeks))
-  const area = AREAS.find((a) => a.id === survey.area)
   const providers = providersFor(survey.area, survey)
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
   const toggleGroup = (g: string) => setExpanded((prev) => { const next = new Set(prev); if (next.has(g)) next.delete(g); else next.add(g); return next })
 
   return (
-    <Page title="Your bills" subtitle={`${area?.label}, ${survey.people} ${survey.people === 1 ? 'person' : 'people'}`}>
+    <Page title="Your bills">
       <div className="rounded-lg border border-highlight-strong bg-highlight p-5">
         <p className="text-2xl font-display font-semibold leading-tight md:text-3xl">{r.verdictText}</p>
         <div className={cx('mt-4 grid gap-3', r.package && 'grid-cols-2')}>
@@ -46,7 +27,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       </div>
       <div className="mt-2 text-right">
         <Button variant="ghost" size="md" onClick={onEdit}>
-          <Pencil size={16} /> Edit answers
+          Edit answers
         </Button>
       </div>
 
@@ -58,8 +39,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
             const shown = expanded.has(g.group) ? sorted : sorted.slice(0, 1)
             return (
               <div key={g.group}>
-                <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-muted">
-                  <span className="text-brand">{GROUP_ICON[g.group]}</span>
+                <div className="mb-2 text-sm font-semibold text-muted">
                   {g.label}
                 </div>
                 <div className="divide-y divide-line rounded-md border border-line bg-card">
@@ -77,7 +57,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                           rel="noreferrer"
                           className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-on-brand transition hover:bg-brand-hover"
                         >
-                          {link.label} <ExternalLink size={14} />
+                          {link.label}
                         </a>
                       </div>
                     )
@@ -97,14 +77,12 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
       <details className="group mt-8 rounded-lg border border-line bg-card px-5 py-3">
         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
           Details
-          <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
         </summary>
 
         <h3 className="mt-3 text-base font-semibold">Your share, bill by bill</h3>
         <div className="mt-1 divide-y divide-line">
           {r.lines.map((l) => (
             <div key={l.id} className="flex items-center gap-3 py-2">
-              <span className="text-brand">{BILL_ICON[l.id]}</span>
               <span className="flex-1 font-semibold">{l.label}</span>
               {l.householdAnnualGBP == null ? (
                 <span className="text-subtle">unavailable</span>
@@ -143,7 +121,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
               <div className="flex flex-wrap gap-x-4">
                 {x.links.map((l) => (
                   <a key={l.url} href={l.url} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-brand underline-offset-4 hover:underline">
-                    {l.label} <ExternalLink size={12} />
+                    {l.label}
                   </a>
                 ))}
               </div>
@@ -200,7 +178,7 @@ function priceLine(p: BillProvider, survey: BillsSurvey): string {
   return p.priceText ?? 'Price shown after postcode'
 }
 
-/** Weekly cost per person; the cheaper side is solid Palatinate so it stands out. */
+/** Weekly cost per person; the cheaper side is solid silver so it stands out. */
 function WeekTile({ label, money, cheaper, estimate }: { label: string; money: Money; cheaper: boolean; estimate?: boolean }) {
   return (
     <div className={cx('min-w-0 rounded-md p-3 sm:p-4', cheaper ? 'bg-brand text-on-brand' : 'bg-card')}>

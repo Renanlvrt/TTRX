@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
-import { FileText, Wand2 } from 'lucide-react'
-import { Button, ButtonLink, Fine, Page, cx } from '../../components/ui'
+import { Button, ButtonLink, Page, cx } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
 import { hasAnyRecord, inspectionProgress } from '../../lib/inspection'
 import { CHECKLIST, CONDITION_LABEL, ROOMS } from '../../data/checklist'
@@ -33,12 +32,11 @@ export default function ComparePage() {
   return (
     <Page
       title="Move-out photos"
-      subtitle="Retake each photo from the same angle."
       actions={
         <>
           <ProgressPill done={progress.done} total={progress.total} />
           {!demoMode && <Button variant="secondary" size="md" onClick={loadDemo}>
-            <Wand2 size={18} /> Load demo move-out (8 done)
+            Load demo move-out
           </Button>}
         </>
       }
@@ -55,10 +53,9 @@ export default function ComparePage() {
         })}
       </div>
 
-      <div className="no-print mt-10 flex flex-wrap items-center justify-between gap-4">
-        <Fine>{progress.missing.length === 0 ? 'All items paired.' : `${progress.missing.length} still to photograph.`}</Fine>
+      <div className="no-print mt-10 flex justify-end">
         <ButtonLink to="/move-out/report">
-          <FileText size={20} /> Build report
+          Build report
         </ButtonLink>
       </div>
     </Page>

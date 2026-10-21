@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { ArrowRight, CheckCircle2, Mail, Wand2 } from 'lucide-react'
 import { Button, ButtonLink, Card, Page } from '../../components/ui'
 import { setTask, useAppState } from '../../lib/store'
 import { hasAnyRecord, inspectionProgress } from '../../lib/inspection'
@@ -35,12 +34,11 @@ export default function InspectionPage() {
   return (
     <Page
       title="Photo inspection"
-      subtitle="Photograph each item on move-in day."
       actions={
         <>
           <ProgressPill done={progress.done} total={progress.total} />
           {!demoMode && <Button variant="secondary" size="md" onClick={loadDemo}>
-            <Wand2 size={18} /> Load demo house
+            Load demo house
           </Button>}
         </>
       }
@@ -73,17 +71,16 @@ export default function InspectionPage() {
           </Card>
         )}
         {triedFinish && complete && (
-          <Card className="flex items-center gap-3 border-brand bg-brand-soft">
-            <CheckCircle2 className="text-brand" size={24} />
-            <p className="text-lg font-bold">All 10 items recorded. Your move-in evidence is saved.</p>
+          <Card className="border-brand bg-brand-soft">
+            <p className="text-lg font-bold">All {progress.total} items recorded.</p>
           </Card>
         )}
         <div className="no-print flex flex-wrap items-center justify-between gap-3">
           <ButtonLink to="/move-in/email" variant="secondary">
-            <Mail size={20} /> Email landlord
+            Email landlord
           </ButtonLink>
           <Button onClick={finish}>
-            Finish <ArrowRight size={20} />
+            Finish
           </Button>
         </div>
       </div>

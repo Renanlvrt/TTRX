@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
-import { FlaskConical, RotateCcw } from 'lucide-react'
 import { Button, Fine, Page, Stat, cx } from '../../components/ui'
 import { DEMO_PARTNERS, SEED_SIGNUPS, createBillingDemo } from '../../lib/billingDemo'
 import type { BillingDemo, SignupResult, Snapshot } from '../../lib/billingDemo'
@@ -49,8 +48,7 @@ export default function PartnerBillingPage() {
 
   return (
     <Page title="Partner billing" subtitle="How RentReady would bill letting partners for student signups." back="/">
-      <div role="status" className="mb-8 flex items-start gap-3 rounded-md border border-highlight-strong border-l-4 bg-highlight p-4 text-ink">
-        <FlaskConical size={20} className="mt-0.5 shrink-0 text-brand" aria-hidden />
+      <div role="status" className="mb-8 flex items-start gap-3 rounded-md border border-highlight-strong bg-highlight p-4 text-ink">
         <p className="text-base font-semibold">Simulation. No real money moves and no partner is billed.</p>
       </div>
 
@@ -107,7 +105,7 @@ export default function PartnerBillingPage() {
         </form>
         <div className="mt-4">
           <Button type="button" variant="secondary" size="md" disabled={busy || !snap} onClick={() => run((d) => d.replayLast())}>
-            <RotateCcw size={16} aria-hidden /> Send the last request again
+            Send the last request again
           </Button>
         </div>
         {result && (

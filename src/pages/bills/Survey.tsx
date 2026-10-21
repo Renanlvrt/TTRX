@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, ArrowRight, Ban, Droplet, Droplets, Flame, Minus, Moon, Plus, ShowerHead, Snowflake, Sun, Tv, Wifi, Zap } from 'lucide-react'
-import { Button, OptionTile, cx } from '../../components/ui'
+import { Button, OptionTile } from '../../components/ui'
 import { AREAS } from '../../lib/types'
 import type { AreaId, BillsSurvey, HeatingPattern, WaterUse } from '../../lib/types'
 import { DEFAULT_TENANCY_WEEKS, areasForPostcode } from '../../lib/bills'
@@ -41,7 +40,6 @@ function toDraft(s: BillsSurvey | null): Draft {
 }
 
 const TOTAL = 7
-const ICON = 26
 
 export default function Survey({ initial, onStart, onFinish, onDemo }: { initial: BillsSurvey | null; onStart: () => void; onFinish: (s: BillsSurvey) => void; onDemo: () => void }) {
   const { demoMode } = useAppState()
@@ -98,15 +96,14 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
     set({ postcode: value, area })
   }
 
-  const steps: { title: string; help?: string; body: ReactNode }[] = [
+  const steps: { title: string; body: ReactNode }[] = [
     {
       title: 'Does the house offer a bills package?',
-      help: 'Rent that includes energy, water and Wi-Fi.',
       body: (
         <div className="space-y-3">
           <div className="grid gap-3 sm:grid-cols-2">
-            <OptionTile selected={d.hasPackage === true} onClick={() => set({ hasPackage: true })} title="Yes" icon={<Zap size={ICON} />} />
-            <OptionTile selected={d.hasPackage === false} onClick={() => set({ hasPackage: false })} title="No package" icon={<Ban size={ICON} />} />
+            <OptionTile selected={d.hasPackage === true} onClick={() => set({ hasPackage: true })} title="Yes" />
+            <OptionTile selected={d.hasPackage === false} onClick={() => set({ hasPackage: false })} title="No package" />
           </div>
           {d.hasPackage && (
             <label className="flex items-center gap-3 rounded-md border-2 border-brand bg-card px-5 py-4 focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-2">
@@ -120,7 +117,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
                 aria-label="Package price in pounds per person per week"
                 className="w-full bg-transparent text-4xl font-display font-semibold outline-none placeholder:text-subtle"
               />
-              <span className="shrink-0 text-lg font-medium text-muted">per person / week</span>
+              <span className="shrink-0 text-lg font-medium text-muted">/ week each</span>
             </label>
           )}
         </div>
@@ -128,7 +125,6 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
     },
     {
       title: 'Where is the house?',
-      help: 'Pick an area or type your postcode.',
       body: (
         <div className="space-y-3">
           <input
@@ -140,7 +136,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
           />
           <div className="grid gap-3 sm:grid-cols-2">
             {AREAS.map((a) => (
-              <OptionTile key={a.id} selected={d.area === a.id} onClick={() => set({ area: a.id })} title={a.label} caption={a.postcodes.join(' · ')} />
+              <OptionTile key={a.id} selected={d.area === a.id} onClick={() => set({ area: a.id })} title={a.label} />
             ))}
           </div>
         </div>
@@ -151,25 +147,24 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
       body: (
         <div className="flex items-center justify-center gap-8 py-6">
           <StepperButton label="Fewer people" disabled={d.people <= 1} onClick={() => set({ people: d.people - 1 })}>
-            <Minus size={28} />
+            <span aria-hidden className="text-4xl leading-none">−</span>
           </StepperButton>
           <span className="w-24 text-center text-7xl font-display font-semibold tabular-nums" aria-live="polite">
             {d.people}
           </span>
           <StepperButton label="More people" disabled={d.people >= 10} onClick={() => set({ people: d.people + 1 })}>
-            <Plus size={28} />
+            <span aria-hidden className="text-4xl leading-none">+</span>
           </StepperButton>
         </div>
       ),
     },
     {
       title: 'How much water does the house use?',
-      help: 'Think about a typical housemate.',
       body: (
         <div className="space-y-3">
-          <OptionTile selected={d.water === 'low'} onClick={() => set({ water: 'low' })} title="Low" caption="Quick 4-minute showers" icon={<Droplet size={ICON} />} />
-          <OptionTile selected={d.water === 'normal'} onClick={() => set({ water: 'normal' })} title="Normal" caption="A daily 8-minute shower" icon={<Droplets size={ICON} />} />
-          <OptionTile selected={d.water === 'high'} onClick={() => set({ water: 'high' })} title="High" caption="5 days a week, 20-minute showers" icon={<ShowerHead size={ICON} />} />
+          <OptionTile selected={d.water === 'low'} onClick={() => set({ water: 'low' })} title="Low" caption="4-minute showers" />
+          <OptionTile selected={d.water === 'normal'} onClick={() => set({ water: 'normal' })} title="Normal" caption="8-minute showers" />
+          <OptionTile selected={d.water === 'high'} onClick={() => set({ water: 'high' })} title="High" caption="20-minute showers" />
         </div>
       ),
     },
@@ -177,29 +172,27 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
       title: 'How warm do you keep the house?',
       body: (
         <div className="space-y-3">
-          <OptionTile selected={d.heating === 'allDay'} onClick={() => set({ heating: 'allDay' })} title="Warm and cozy" caption="T-shirt indoors in January · heating on most of the day" icon={<Sun size={ICON} />} />
-          <OptionTile selected={d.heating === 'nights'} onClick={() => set({ heating: 'nights' })} title="Only when I'm cold" caption="Hoodie first, heating in the evenings" icon={<Moon size={ICON} />} />
-          <OptionTile selected={d.heating === 'coldMonths'} onClick={() => set({ heating: 'coldMonths' })} title="I could live in an igloo" caption="Three duvets · heating only in the coldest weeks" icon={<Snowflake size={ICON} />} />
+          <OptionTile selected={d.heating === 'allDay'} onClick={() => set({ heating: 'allDay' })} title="Warm and cozy" />
+          <OptionTile selected={d.heating === 'nights'} onClick={() => set({ heating: 'nights' })} title="Only when I'm cold" />
+          <OptionTile selected={d.heating === 'coldMonths'} onClick={() => set({ heating: 'coldMonths' })} title="I could live in an igloo" />
         </div>
       ),
     },
     {
       title: 'Does the house have gas?',
-      help: 'A gas boiler or hob. Not sure? Ask the landlord.',
       body: (
         <div className="grid gap-3 sm:grid-cols-2">
-          <OptionTile selected={d.hasGas === true} onClick={() => set({ hasGas: true })} title="Yes" caption="Gas heating" icon={<Flame size={ICON} />} />
-          <OptionTile selected={d.hasGas === false} onClick={() => set({ hasGas: false })} title="No" caption="Electric heating" icon={<Zap size={ICON} />} />
+          <OptionTile selected={d.hasGas === true} onClick={() => set({ hasGas: true })} title="Yes" />
+          <OptionTile selected={d.hasGas === false} onClick={() => set({ hasGas: false })} title="No" />
         </div>
       ),
     },
     {
       title: 'Anything else?',
-      help: 'Tap all that apply.',
       body: (
         <div className="grid gap-3 sm:grid-cols-2">
-          <OptionTile selected={d.wifi} onClick={() => set({ wifi: !d.wifi })} title="Wi-Fi" icon={<Wifi size={ICON} />} />
-          <OptionTile selected={d.tvLicence} onClick={() => set({ tvLicence: !d.tvLicence })} title="TV licence" caption="Live TV or iPlayer" icon={<Tv size={ICON} />} />
+          <OptionTile selected={d.wifi} onClick={() => set({ wifi: !d.wifi })} title="Wi-Fi" />
+          <OptionTile selected={d.tvLicence} onClick={() => set({ tvLicence: !d.tvLicence })} title="TV licence" />
         </div>
       ),
     },
@@ -212,28 +205,24 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
         <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-canvas-strong" role="progressbar" aria-valuemin={1} aria-valuemax={TOTAL} aria-valuenow={step + 1}>
           <div className="h-full rounded-full bg-brand transition-all duration-300" style={{ width: `${((step + 1) / TOTAL) * 100}%` }} />
         </div>
-        <span className="shrink-0 text-sm font-semibold text-muted tabular-nums">
-          {step + 1} of {TOTAL}
-        </span>
       </div>
 
       <h1 className="text-4xl font-display font-semibold">{current.title}</h1>
-      <p className={cx('mt-2 text-lg text-muted', !current.help && 'invisible')}>{current.help ?? '·'}</p>
 
       <div className="mt-8 min-h-64">{current.body}</div>
 
       <div className="mt-10 flex items-center justify-between gap-4">
         {step === 0 ? (
           <Link to="/" className="inline-flex h-14 items-center gap-2 rounded-md px-4 text-lg font-semibold text-muted hover:bg-canvas-strong hover:text-ink">
-            <ArrowLeft size={20} /> Home
+            Home
           </Link>
         ) : (
           <Button data-nav variant="ghost" onClick={() => setStep(step - 1)}>
-            <ArrowLeft size={20} /> Back
+            Back
           </Button>
         )}
         <Button data-nav onClick={next} disabled={!answered}>
-          {step === TOTAL - 1 ? 'See my estimate' : 'Next'} <ArrowRight size={20} />
+          {step === TOTAL - 1 ? 'See my estimate' : 'Next'}
         </Button>
       </div>
 

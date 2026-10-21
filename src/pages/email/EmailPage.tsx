@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Camera, Check, Copy, Mail, RotateCcw } from 'lucide-react'
 import { Button, ButtonLink, Card, Fine, Page } from '../../components/ui'
 import { setState, setTask, useAppState } from '../../lib/store'
 import { buildMoveInEmail, mailtoLink } from '../../lib/email'
@@ -23,9 +22,6 @@ export default function EmailPage() {
     return (
       <Page title="Email your landlord">
         <Card className="flex flex-col items-center gap-5 py-16 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-md bg-brand-soft text-brand">
-            <Camera size={30} />
-          </span>
           <h2 className="text-2xl font-bold">Do your photo inspection first</h2>
           <ButtonLink to="/move-in/inspection">Start inspection</ButtonLink>
         </Card>
@@ -58,7 +54,7 @@ export default function EmailPage() {
       title="Email your landlord"
       actions={
         <Button variant="ghost" size="md" onClick={reset}>
-          <RotateCcw size={18} /> Reset to template
+          Reset
         </Button>
       }
     >
@@ -82,7 +78,6 @@ export default function EmailPage() {
 
       <div className="mt-6 flex flex-wrap gap-3">
         <Button onClick={copy}>
-          {copied ? <Check size={20} /> : <Copy size={20} />}
           {copied ? 'Copied' : 'Copy email'}
         </Button>
         <a
@@ -90,7 +85,7 @@ export default function EmailPage() {
           onClick={() => setTask('email', 'done')}
           className="inline-flex h-14 items-center justify-center gap-2 rounded-md border border-line bg-card px-7 text-lg font-semibold hover:border-line-strong hover:bg-canvas"
         >
-          <Mail size={20} /> Open in mail app
+          Open in mail app
         </a>
       </div>
 

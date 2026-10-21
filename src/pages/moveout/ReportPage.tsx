@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Download } from 'lucide-react'
 import { Button, Fine, Page, Stat, cx } from '../../components/ui'
 import { setTask, useAppState } from '../../lib/store'
 import { compareInspections, sortRows, summarize } from '../../lib/inspection'
@@ -45,7 +44,7 @@ export default function ReportPage() {
       back="/move-out/compare"
       actions={
         <Button onClick={() => window.print()}>
-          <Download size={20} /> Download PDF
+          Download PDF
         </Button>
       }
     >
@@ -53,9 +52,6 @@ export default function ReportPage() {
 
       <div className="report-stats">
         <Stat label="New issues" value={String(counts.newIssue)} highlight />
-        <p className="mt-2 text-sm text-muted">
-          {counts.preExisting} pre-existing, {counts.unchanged} unchanged{counts.unmatched ? `, ${counts.unmatched} photo missing` : ''}
-        </p>
       </div>
 
       <div className="mt-8 space-y-4">
@@ -71,7 +67,8 @@ export default function ReportPage() {
         </button>
       )}
 
-      <div className="mt-10 border-t border-line pt-6">
+      {/* The disclaimer goes on the PDF the landlord sees; on screen it is noise. */}
+      <div className="mt-10 hidden border-t border-line pt-6 print:block">
         <Fine>
           User-created record. Supporting evidence only, not a professional inspection or legal determination. Flags reflect the conditions you selected, not automated image analysis.{' '}
           Deposit disputes:{' '}

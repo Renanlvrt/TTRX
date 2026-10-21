@@ -2,7 +2,6 @@
 // Style rules: teal gradient ground, frosted glass cards, white text, silver-mint actions, pale gold highlights.
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowLeft, Check } from 'lucide-react'
 import type { TaskStatus } from '../lib/types'
 
 export function cx(...c: (string | false | null | undefined)[]) {
@@ -63,7 +62,7 @@ export function Page({ title, subtitle, back, actions, children }: { title: stri
     <div className="mx-auto w-full max-w-4xl px-6 py-10">
       {back && (
         <Link to={back} className="no-print mb-6 inline-flex items-center gap-2 text-base font-medium text-muted hover:text-ink">
-          <ArrowLeft size={18} /> Back
+          Back
         </Link>
       )}
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -79,7 +78,7 @@ export function Page({ title, subtitle, back, actions, children }: { title: stri
 }
 
 /** Large selectable tile for survey answers and pickers. */
-export function OptionTile({ selected, onClick, title, caption, icon }: { selected: boolean; onClick: () => void; title: string; caption?: string; icon?: ReactNode }) {
+export function OptionTile({ selected, onClick, title, caption }: { selected: boolean; onClick: () => void; title: string; caption?: string }) {
   return (
     <button
       type="button"
@@ -90,13 +89,12 @@ export function OptionTile({ selected, onClick, title, caption, icon }: { select
         selected ? 'border-brand bg-brand-soft ring-1 ring-brand' : 'border-line bg-card hover:border-line-strong',
       )}
     >
-      {icon && <span className={cx('shrink-0', selected ? 'text-brand' : 'text-subtle')}>{icon}</span>}
       <span className="flex-1">
         <span className="block text-lg font-semibold">{title}</span>
         {caption && <span className="mt-0.5 block text-sm text-muted">{caption}</span>}
       </span>
       <span className={cx('flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2', selected ? 'border-brand bg-brand text-on-brand' : 'border-line-strong')}>
-        {selected && <Check size={14} strokeWidth={3} />}
+        {selected && <span className="h-2.5 w-2.5 rounded-full bg-on-brand" />}
       </span>
     </button>
   )
@@ -121,7 +119,7 @@ const STATUS: Record<TaskStatus, { label: string; cls: string }> = {
 
 export function StatusBadge({ status }: { status: TaskStatus }) {
   const s = STATUS[status]
-  return <span className={cx('inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border px-2 py-0.5 text-xs font-semibold', s.cls)}>{status === 'done' && <Check size={14} strokeWidth={3} />}{s.label}</span>
+  return <span className={cx('inline-flex shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border px-2 py-0.5 text-xs font-semibold', s.cls)}>{s.label}</span>
 }
 
 /** Small print for assumptions, disclaimers and sources. */
