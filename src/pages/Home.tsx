@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
 import { LogoMark } from '../components/Logo'
-import { StatusBadge } from '../components/ui'
 import { useAppState } from '../lib/store'
 import type { TaskId } from '../lib/types'
 
@@ -37,27 +36,6 @@ const STAGES: Stage[] = [
   },
 ]
 
-function TaskList({ stage }: { stage: Stage }) {
-  const { tasks } = useAppState()
-  return (
-    <ul className="overflow-hidden rounded-md border border-line border-b-0">
-      {stage.tasks.map((t) => (
-        <li key={t.id}>
-          <Link
-            to={t.to}
-            className="group flex items-center gap-4 border-b border-line bg-card px-4 py-4 transition-colors hover:bg-brand-soft"
-          >
-            <span className="flex min-w-0 flex-1 flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
-              <span className="text-lg font-semibold leading-snug">{t.title}</span>
-              <StatusBadge status={tasks[t.id]} />
-            </span>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
 export default function Home() {
   return (
     <div className="flex min-h-[calc(100dvh-4.5rem-env(safe-area-inset-top))] flex-col text-white">
@@ -80,19 +58,54 @@ export default function Home() {
   )
 }
 
-/** One stage's three tasks (/move-in, /move-out). Used by the phone layout. */
+/** One stage's three tasks (/move-in, /move-out) as a numbered timeline on a glass panel. */
 export function StagePage() {
+  const { tasks } = useAppState()
   const slug = useLocation().pathname.split('/')[1]
   const stage = STAGES.find((s) => s.slug === slug) ?? STAGES[0]
+  const done = stage.tasks.filter((t) => tasks[t.id] === 'done').length
+  const total = stage.tasks.length
+  // The next step to do gets the glow; once all are done, none does.
+  const current = stage.tasks.findIndex((t) => tasks[t.id] !== 'done')
+
   return (
-    <div className="mx-auto w-full max-w-xl px-6 py-10">
-      <Link to="/" className="mb-6 inline-flex items-center gap-2 text-base font-medium text-muted hover:text-ink">
-        Back
+    <div className="mx-auto w-full max-w-xl px-4 pt-6 pb-12">
+      <Link to="/" className="inline-flex min-h-11 items-center gap-2 px-2 text-xl text-muted hover:text-ink">
+        <span aria-hidden className="text-3xl leading-none">‹</span> Back
       </Link>
-      <h1 className="font-display text-4xl font-semibold">{stage.title}</h1>
-      <div className="mt-6">
-        <TaskList stage={stage} />
+      <h1 className="silver-text mt-4 pb-2 text-center text-[3.5rem] font-semibold leading-[1.15] tracking-tight">{stage.title}</h1>
+
+      <div className="mt-8 flex items-center justify-between px-2">
+        <span className="rounded-md border border-white/15 bg-white/10 px-2.5 py-1 text-base text-ink">{total} steps</span>
+        <span className="text-base text-muted">{done} of {total} completed</span>
       </div>
+      <div className="mx-2 mt-3 h-2 overflow-hidden rounded-full bg-white/12" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={done} aria-label="Steps completed">
+        <div className="h-full rounded-full bg-brand transition-all" style={{ width: `${(done / total) * 100}%` }} />
+      </div>
+
+      <ol className="glass step-panel relative -mx-2 mt-14 flex flex-col gap-8 rounded-[1.75rem] p-4">
+        <span aria-hidden className="step-line absolute top-[60px] bottom-[60px] left-[31px] w-0.5" />
+        {stage.tasks.map((t, i) => {
+          const active = i === current
+          const finished = tasks[t.id] === 'done'
+          return (
+            <li key={t.id} className="relative flex items-center">
+              <span aria-hidden className={`step-num relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] text-sm font-semibold ${active ? 'is-active' : ''} ${finished ? 'is-done' : ''}`}>
+                {i + 1}
+              </span>
+              <span aria-hidden className={`step-tie h-0.5 w-3 shrink-0 ${active ? 'is-active' : ''}`} />
+              <Link
+                to={t.to}
+                aria-label={`Step ${i + 1}: ${t.title}${finished ? ', done' : ''}`}
+                className={`step-row flex h-[5.5rem] min-w-0 flex-1 items-center justify-between gap-3 rounded-2xl px-5 ${active ? 'is-active' : ''}`}
+              >
+                <span className="silver-text truncate text-[1.6rem] font-bold tracking-tight">{t.title}</span>
+                <span aria-hidden className="text-3xl leading-none text-muted">›</span>
+              </Link>
+            </li>
+          )
+        })}
+      </ol>
     </div>
   )
 }
