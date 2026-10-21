@@ -6,7 +6,7 @@ import { setState, setTask, useAppState } from '../../lib/store'
 import { cleaningAdvice } from '../../lib/cleaning'
 import { compareInspections, hasAnyRecord } from '../../lib/inspection'
 import { CHECKLIST } from '../../data/checklist'
-import { CLEANING_BANDS, CLEANING_BANDS_SOURCE, CLEANING_FACTS } from '../../data/cleaningPrices'
+import { CLEANING_BANDS, CLEANING_BANDS_SOURCE, CLEANING_FACTS, CLEANING_FROM_BEDROOMS } from '../../data/cleaningPrices'
 import { CLEANERS, CLEANING_CHECKLIST, DEPOSIT_LINKS } from '../../data/services'
 import type { AppState } from '../../lib/types'
 
@@ -39,6 +39,8 @@ export default function CleaningPage() {
   const advice = cleaningAdvice({ bedrooms, people: bedrooms, depositPerPersonGBP: deposit ?? 0, dirtyItems: issues.length, bands: CLEANING_BANDS })
   const hire = advice.verdict === 'hire'
   const each = Math.round(advice.perPersonCostGBP)
+  // Large houses only have a published starting price, so the exact figure comes from the cleaner's quote.
+  const fromPrice = bedrooms >= CLEANING_FROM_BEDROOMS
 
   const done = new Set(cleaningDone)
   const toggle = (id: string) => {
@@ -75,7 +77,7 @@ export default function CleaningPage() {
         <div className="mt-4 grid grid-cols-2 gap-3">
           <div className={cx('rounded-md p-3 sm:p-4', hire ? 'bg-brand text-white' : 'bg-white')}>
             <div className={cx('text-sm font-semibold', hire ? 'text-white' : 'text-muted')}>Cleaner</div>
-            <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">£{each}<span className={cx('text-sm font-semibold', hire ? 'text-white/80' : 'text-muted')}> each</span></div>
+            <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">{fromPrice && <span className={cx('text-sm font-semibold', hire ? 'text-white/80' : 'text-muted')}>from </span>}£{each}<span className={cx('text-sm font-semibold', hire ? 'text-white/80' : 'text-muted')}> each</span></div>
           </div>
           <div className={cx('rounded-md p-3 sm:p-4', !hire ? 'bg-brand text-white' : 'bg-white')}>
             <div className={cx('text-sm font-semibold', !hire ? 'text-white' : 'text-muted')}>Your deposit</div>
@@ -91,7 +93,7 @@ export default function CleaningPage() {
             onClick={() => setTask('cleaning', 'done')}
             className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-brand text-lg font-semibold text-white hover:bg-brand-hover sm:w-auto sm:px-6"
           >
-            Get a cleaner quote <ArrowUpRight size={20} />
+            {fromPrice ? 'Get an exact quote' : 'Get a cleaner quote'} <ArrowUpRight size={20} />
           </a>
         ) : (
           <a href="#diy" className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-md bg-brand text-lg font-semibold text-white hover:bg-brand-hover sm:w-auto sm:px-6">

@@ -20,6 +20,14 @@ export const CLEANING_BANDS_SOURCE = {
   url: 'https://tenancy.cleaning/end-of-tenancy-cleaning-durham/',
 }
 
+/**
+ * From this size up, Tenancy.Cleaning only publishes a starting price ("5 bed or more: From £475. Send us the details
+ * for an exact price."), so the app shows "from" and sends students to an exact quote. Checked 2026-10-21; no Durham
+ * cleaner publishes a fixed 6-bed price. Real large jobs: a 5-bed clean with extras £640 (tenancy.cleaning County Durham),
+ * a 6-bed, 6-bathroom clean with carpets, windows and appliances £1,026 (tenancycleaner.com, TS26, Sep 2026).
+ */
+export const CLEANING_FROM_BEDROOMS = 5
+
 /** Verified context lines for the page. */
 export const CLEANING_FACTS = {
   disputes: { text: 'Cleaning comes up in 54% of TDS deposit disputes (2024/25).', url: 'https://www.nrla.org.uk/news/what-2025-taught-us-about-deposit-disputes' },
