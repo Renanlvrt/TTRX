@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { Button, Page, cx, gbp } from '../../components/ui'
 import type { BillsSurvey, Money } from '../../lib/types'
-import { energyCostFor, estimateBills } from '../../lib/bills'
-import { tariffsFor } from '../../data/energyTariffs'
+import { estimateBills } from '../../lib/bills'
+import { energyOffers, exactCount } from '../../lib/energyMatch'
+import type { EnergyOffer } from '../../lib/energyMatch'
+import { ACTIVE_SUPPLIERS } from '../../data/energyTariffs'
 import { EXTRAS, PACKAGE_BENCHMARK } from '../../data/extras'
 import { providersFor } from '../../data/billProviders'
 import type { BillProvider } from '../../data/billProviders'
@@ -35,7 +37,8 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
         <h2 className="mb-4 text-xl font-bold">{r.verdict === 'package' ? 'Prefer to set bills up yourself?' : 'Set up your bills'}</h2>
         <div className="space-y-5">
           {providers.map((g) => {
-            const sorted = sortCheapestFirst(g.providers, survey)
+            if (g.group === 'energy') return <EnergyGroup key={g.group} label={g.label} survey={survey} providers={g.providers} />
+            const sorted = sortCheapestFirst(g.providers)
             const shown = expanded.has(g.group) ? sorted : sorted.slice(0, 1)
             return (
               <div key={g.group}>
@@ -49,7 +52,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                       <div key={p.id} className="flex items-center justify-between gap-3 p-4">
                         <div className="min-w-0">
                           <div className="text-lg font-semibold">{p.name}</div>
-                          <div className="text-sm text-muted">{priceLine(p, survey)}</div>
+                          <div className="text-sm text-muted">{priceLine(p)}</div>
                         </div>
                         <a
                           href={link.url}
@@ -142,7 +145,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
               <li key={a}>{a}</li>
             ))}
             <li>
-              “up to” = Ofgem price cap; “≈” = from the supplier’s advertised saving vs the cap. {PACKAGE_BENCHMARK.text}{' '}
+              “Up to” = Ofgem price cap, the most a standard variable tariff can charge. {PACKAGE_BENCHMARK.text}{' '}
               <a href={PACKAGE_BENCHMARK.url} target="_blank" rel="noreferrer" className="underline underline-offset-2">Listing</a>
             </li>
             <li>
@@ -169,12 +172,60 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
   )
 }
 
-/** One short price line per provider: the best energy tariff for this house, or the advertised price. */
-function priceLine(p: BillProvider, survey: BillsSurvey): string {
-  if (p.group === 'energy') {
-    const best = cheapestKnown(p, survey)
-    return best == null ? 'Price on quote' : `From ${gbp(best)}/wk each`
-  }
+/** Gas and electricity: only suppliers confirmed to take this house's meter, cheapest exact price first. */
+function EnergyGroup({ label, survey, providers }: { label: string; survey: BillsSurvey; providers: BillProvider[] }) {
+  const [all, setAll] = useState(false)
+  const offers = energyOffers(survey, new Date().toISOString().slice(0, 10))
+  const shown = all ? offers : offers.slice(0, 1)
+  const site = (id: string) => providers.find((p) => p.id === id)
+  return (
+    <div>
+      <div className="mb-2 text-sm font-semibold text-muted">{label}</div>
+      <div className="divide-y divide-line rounded-md border border-line bg-card">
+        {shown.map((o) => {
+          const p = site(o.supplierId)
+          if (!p) return null
+          return (
+            <div key={o.supplierId} className="flex items-center justify-between gap-3 p-4">
+              <div className="min-w-0">
+                <div className="text-lg font-semibold">{p.name}</div>
+                <div className="text-sm text-muted">{offerLine(o)}</div>
+              </div>
+              <a
+                href={p.website}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-11 shrink-0 items-center rounded-md bg-brand px-4 text-sm font-semibold text-on-brand transition hover:bg-brand-hover"
+              >
+                {o.route === 'online' ? 'Join online' : 'Contact to join'}
+              </a>
+            </div>
+          )
+        })}
+      </div>
+      {offers.length > 1 && (
+        <button type="button" onClick={() => setAll(!all)} className="mt-1 min-h-11 text-sm font-semibold text-muted underline-offset-4 hover:text-ink hover:underline">
+          {all ? 'Show only the cheapest' : `Show all ${offers.length} options`}
+        </button>
+      )}
+      <p className="mt-1 text-xs text-subtle">
+        Exact prices from {exactCount(offers)} of {ACTIVE_SUPPLIERS.value} suppliers. Only suppliers that take your meter.
+      </p>
+    </div>
+  )
+}
+
+function offerLine(o: EnergyOffer): string {
+  const extra = [o.exitFeePerFuel ? `£${o.exitFeePerFuel}/fuel exit fee` : null, o.note].filter(Boolean).join(' · ')
+  if (o.noPrice === 'nightRate') return ['Night-rate price on quote', o.note].filter(Boolean).join(' · ')
+  if (o.noPrice === 'gasOnQuote') return ['Gas price on quote', o.note].filter(Boolean).join(' · ')
+  if (o.perPersonWeek == null) return ['Price on quote', o.note].filter(Boolean).join(' · ')
+  const price = `${o.basis === 'capMax' ? 'Up to ' : ''}${gbp(o.perPersonWeek)}/wk each`
+  return [price, o.basis === 'published' ? o.tariff : null, extra].filter(Boolean).join(' · ')
+}
+
+/** One short price line per provider: the advertised price. */
+function priceLine(p: BillProvider): string {
   return p.priceText ?? 'Price shown after postcode'
 }
 
@@ -192,18 +243,14 @@ function WeekTile({ label, money, cheaper, estimate }: { label: string; money: M
   )
 }
 
-/** Cheapest known weekly price for a provider (energy: best tariff for this house; others: their advertised monthly price). */
-function cheapestKnown(p: BillProvider, survey: BillsSurvey): number | null {
-  if (p.group === 'energy') {
-    const costs = tariffsFor(p.id).filter((t) => t.rates).map((t) => energyCostFor(survey, t.rates!).perPersonWeek)
-    return costs.length ? Math.min(...costs) : null
-  }
+/** Advertised monthly price, used to sort non-energy providers. */
+function cheapestKnown(p: BillProvider): number | null {
   const m = p.priceText?.match(/£([\d.]+)/)
   return m ? Number(m[1]) : null
 }
 
-function sortCheapestFirst(list: BillProvider[], survey: BillsSurvey): BillProvider[] {
-  const key = (p: BillProvider) => cheapestKnown(p, survey) ?? Infinity
+function sortCheapestFirst(list: BillProvider[]): BillProvider[] {
+  const key = (p: BillProvider) => cheapestKnown(p) ?? Infinity
   return [...list].sort((a, b) => key(a) - key(b))
 }
 

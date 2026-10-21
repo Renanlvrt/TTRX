@@ -99,9 +99,9 @@ export const BILL_PROVIDERS: BillProvider[] = [
     category: 'electricity',
     areas: ALL,
     priceText: null,
-    tags: ['24m fix ~0.9% under cap', '£50/fuel exit fee'],
-    source: 'https://www.moneysavingexpert.com/utilities/are-there-any-cheap-fixed-energy-deals-currently-worth-it/',
-    checkedDate: CHECKED,
+    tags: ['Tracker 15m', 'Prepayment by contacting support'],
+    source: 'https://www.fuseenergy.com/app/boarding',
+    checkedDate: '2026-10-21',
   },
   {
     id: 'outfox',

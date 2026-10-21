@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, OptionTile } from '../../components/ui'
 import { AREAS } from '../../lib/types'
-import type { AreaId, BillsSurvey, HeatingPattern, WaterUse } from '../../lib/types'
+import type { AreaId, BillsSurvey, HeatingPattern, MeterType, WaterUse } from '../../lib/types'
 import { DEFAULT_TENANCY_WEEKS, areasForPostcode } from '../../lib/bills'
 import { CITIES, PRICED_CITY, findCity, suggest } from '../../data/places'
 import { SuggestInput } from '../../components/Suggest'
@@ -18,6 +18,8 @@ interface Draft {
   water: WaterUse | null
   heating: HeatingPattern | null
   hasGas: boolean | null
+  meter: MeterType | 'unsure' | null
+  economy7: boolean | 'unsure' | null
   wifi: boolean
   tvLicence: boolean
   tenancyWeeks: number
@@ -25,7 +27,7 @@ interface Draft {
 
 function toDraft(s: BillsSurvey | null): Draft {
   if (!s)
-    return { hasPackage: null, pppw: '', area: null, city: '', place: '', people: 4, water: null, heating: null, hasGas: null, wifi: true, tvLicence: false, tenancyWeeks: DEFAULT_TENANCY_WEEKS }
+    return { hasPackage: null, pppw: '', area: null, city: '', place: '', people: 4, water: null, heating: null, hasGas: null, meter: null, economy7: null, wifi: true, tvLicence: false, tenancyWeeks: DEFAULT_TENANCY_WEEKS }
   return {
     hasPackage: s.packagePppw != null,
     pppw: s.packagePppw != null ? String(s.packagePppw) : '',
@@ -36,13 +38,15 @@ function toDraft(s: BillsSurvey | null): Draft {
     water: s.water,
     heating: s.heating,
     hasGas: s.hasGas,
+    meter: s.meter ?? null,
+    economy7: s.economy7 ?? null,
     wifi: s.wifi,
     tvLicence: s.tvLicence,
     tenancyWeeks: s.tenancyWeeks,
   }
 }
 
-const TOTAL = 7
+const TOTAL = 9
 
 export default function Survey({ initial, onStart, onFinish }: { initial: BillsSurvey | null; onStart: () => void; onFinish: (s: BillsSurvey) => void }) {
   const [d, setD] = useState<Draft>(() => toDraft(initial))
@@ -71,6 +75,8 @@ export default function Survey({ initial, onStart, onFinish }: { initial: BillsS
     d.water != null,
     d.heating != null,
     d.hasGas != null,
+    d.meter != null,
+    d.economy7 != null,
     true,
   ][step]
 
@@ -85,6 +91,8 @@ export default function Survey({ initial, onStart, onFinish }: { initial: BillsS
       water: d.water!,
       heating: d.heating!,
       hasGas: d.hasGas!,
+      meter: d.meter!,
+      economy7: d.economy7!,
       wifi: d.wifi,
       tvLicence: d.tvLicence,
       tenancyWeeks: d.tenancyWeeks,
@@ -206,6 +214,30 @@ export default function Survey({ initial, onStart, onFinish }: { initial: BillsS
         <div className="grid gap-3 sm:grid-cols-2">
           <OptionTile selected={d.hasGas === true} onClick={() => set({ hasGas: true })} title="Yes" />
           <OptionTile selected={d.hasGas === false} onClick={() => set({ hasGas: false })} title="No" />
+        </div>
+      ),
+    },
+    {
+      title: 'How do you pay at the meter?',
+      body: (
+        <div className="space-y-3">
+          <OptionTile selected={d.meter === 'credit'} onClick={() => set({ meter: 'credit' })} title="Monthly bills" />
+          <OptionTile selected={d.meter === 'prepayKey'} onClick={() => set({ meter: 'prepayKey' })} title="Top-up key or card" />
+          <OptionTile selected={d.meter === 'smartPrepay'} onClick={() => set({ meter: 'smartPrepay' })} title="Top up in an app" caption="Smart pay as you go" />
+          <OptionTile selected={d.meter === 'unsure'} onClick={() => set({ meter: 'unsure' })} title="Not sure" />
+          {d.meter === 'unsure' && (
+            <p className="px-1 text-base text-muted">A slot for a key or card, or “credit” on the meter screen, means you top up.</p>
+          )}
+        </div>
+      ),
+    },
+    {
+      title: 'Is electricity cheaper at night?',
+      body: (
+        <div className="space-y-3">
+          <OptionTile selected={d.economy7 === false} onClick={() => set({ economy7: false })} title="No, one price" />
+          <OptionTile selected={d.economy7 === true} onClick={() => set({ economy7: true })} title="Yes" caption="Economy 7, two readings on the meter" />
+          <OptionTile selected={d.economy7 === 'unsure'} onClick={() => set({ economy7: 'unsure' })} title="Not sure" />
         </div>
       ),
     },

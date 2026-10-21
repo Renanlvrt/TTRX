@@ -21,6 +21,8 @@ export const AREAS: Area[] = [
 export type WaterUse = 'low' | 'normal' | 'high'
 export type HeatingPattern = 'allDay' | 'nights' | 'coldMonths'
 export type BillId = 'electricity' | 'gas' | 'water' | 'broadband' | 'tv'
+/** How the house pays at the meter: monthly bills, top-up key or card, or smart pay as you go. */
+export type MeterType = 'credit' | 'prepayKey' | 'smartPrepay'
 
 export interface BillsSurvey {
   /** Bills package price in £ per person per week; null = no package offered. */
@@ -34,6 +36,10 @@ export interface BillsSurvey {
   tvLicence: boolean
   /** Tenancy length in weeks (Durham default 51). */
   tenancyWeeks: number
+  /** Meter payment type; 'unsure' or missing = only suppliers that take every type. */
+  meter?: MeterType | 'unsure'
+  /** Economy 7 (cheaper at night) meter; 'unsure' or missing = treated as one rate. */
+  economy7?: boolean | 'unsure'
 }
 
 export interface BillLine {

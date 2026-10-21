@@ -67,3 +67,28 @@ Sources:
   - https://switchcraft.co.uk/energy-api/
 - **Broadband affiliates on Awin:** BT £25 broadband (+£20 TV), Sky £25, Virgin Media (rate not shown).
 - **Student bill-splitters** (Fused, Split the Bills): no public partner terms; contact them directly.
+
+## 6. Update after a real Fuse quote (21 Oct 2026)
+
+- A Fuse quote for a DH1 address listed single-rate electricity at 26.11p/kWh and 49.94p/day (Tracker 15m, £100 exit fee); Fixed 18m/24m/16m/12m at 26.20, 26.32, 26.48 and 27.35p; Variable 25.45p and 61.58p/day. It also listed "Single Rate Prepayment (Variable)" at 24.66p and 61.57p/day, marked "Available after contacting support". So "unsupported meter" means "not through online sign-up", not "never". The quote showed no gas prices.
+- The earlier app price for Fuse (cap x 0.991, from an MSE summary) was wrong and has been removed.
+- The Kraken APIs publish Direct Debit and non-Direct Debit rows. The product page shows the non-DD price (for example EDF Standard Variable at 26.89p); the DD price (25.455p) is only in `/standard-unit-rates/` with `payment_method`.
+- Live region F rates, Direct Debit, inc. VAT, 21 Oct 2026:
+
+| Tariff | Elec p/kWh | Elec p/day | Gas p/kWh | Gas p/day | Exit fee per fuel |
+|---|---|---|---|---|---|
+| E.ON Next Pledge Tracker 12m v12 | 24.455 | 61.583 | 7.6608 | 29.79375 | £25 |
+| EDF Simply Tracker Jan 2028 | 25.455 | 54.733 | 7.92435 | 22.93725 | £50 |
+| EDF Simply Fixed Oct 2027 v4 | 28.874 | 61.583 | 10.3845 | 29.79375 | £50 |
+| E.ON Next Flex / EDF Standard Variable | 25.455 | 61.583 | 7.92435 | 29.79375 | 0 |
+| E.ON Next Fixed 12m v163 | 26.532 | 60.30 | 9.1098 | 29.14905 | £50 |
+| Octopus Key and Card / Smart PAYG | 24.67 | 60.0658 | 7.663005 | 28.279965 | 0 |
+| EDF Prepay / PAYG Standard Variable | 24.678 | 61.583 | 7.6629 | 29.79375 | 0 |
+| E.ON Next Flex Prepayment | 24.67 | 61.58 | 7.6629 | 29.7885 | 0 |
+
+- Suppliers that publish a prepayment tariff (Octopus, EDF, E.ON Next) or show one in a quote (Fuse) are listed for prepayment meters as "Contact to join". Octopus says online sign-up works for some smart pay-as-you-go meters.
+- About 23 active domestic suppliers (Ofgem State of the Market). Getting all of them live, from an address, needs a licensed feed: The Energy Shop (Tariff Feed API covers payment methods and meter types; white-label finds the current supplier from industry data) or Switchcraft ("quick quote" returns supplier, meter details and plans for an address). Meter-point data by address also exists through the Loqate Utilities Register (RECCo data), by account only.
+  - https://theenergyshop.com/affiliates
+  - https://switchcraft.co.uk/energy-api/
+  - https://docs.loqate.com/location-solutions/utilities-register/loqate-utilities-register
+  - https://www.ofgem.gov.uk/publications/state-market-report-retail
