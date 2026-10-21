@@ -51,7 +51,7 @@ function TaskList({ stage }: { stage: Stage }) {
         <li key={t.id}>
           <Link
             to={t.to}
-            className="group flex items-center gap-4 border-b border-line bg-white px-4 py-4 transition-colors hover:bg-brand-soft"
+            className="group flex items-center gap-4 border-b border-line bg-card px-4 py-4 transition-colors hover:bg-brand-soft"
           >
             <span className="shrink-0 text-brand">{t.icon}</span>
             <span className="flex min-w-0 flex-1 flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
@@ -68,8 +68,7 @@ function TaskList({ stage }: { stage: Stage }) {
 
 export default function Home() {
   return (
-    // The lobby slides under the glass header so the gradient shows through it.
-    <div className="lobby on-brand -mt-[calc(4.5rem+env(safe-area-inset-top))] flex min-h-[100dvh] flex-col pt-[calc(4.5rem+env(safe-area-inset-top))] text-white">
+    <div className="flex min-h-[calc(100dvh-4.5rem-env(safe-area-inset-top))] flex-col text-white">
       <div className="flex flex-1 flex-col items-center justify-center px-6 pt-6 pb-24">
         <LogoMark size={136} silver className="logo-glow" />
         <h1 className="silver-text mt-1 text-[3.6rem] font-semibold leading-none tracking-tight">RentReady</h1>

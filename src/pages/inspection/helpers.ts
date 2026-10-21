@@ -30,6 +30,6 @@ export function replaceInspection(kind: InspectionKind, next: Inspection, prev: 
 
 export const CONDITION_TONE: Record<Condition, string> = {
   good: 'border-brand bg-brand-soft text-brand',
-  damaged: 'border-highlight-strong bg-highlight text-slate-900',
-  na: 'border-slate-400 bg-slate-100 text-slate-700',
+  damaged: 'border-highlight-strong bg-highlight text-ink',
+  na: 'border-line-strong bg-canvas text-muted',
 }

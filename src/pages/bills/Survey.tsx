@@ -109,7 +109,7 @@ export default function Survey({ initial, onStart, onFinish, onDemo }: { initial
             <OptionTile selected={d.hasPackage === false} onClick={() => set({ hasPackage: false })} title="No package" icon={<Ban size={ICON} />} />
           </div>
           {d.hasPackage && (
-            <label className="flex items-center gap-3 rounded-md border-2 border-brand bg-white px-5 py-4 focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-2">
+            <label className="flex items-center gap-3 rounded-md border-2 border-brand bg-card px-5 py-4 focus-within:ring-2 focus-within:ring-brand focus-within:ring-offset-2">
               <span className="text-4xl font-display font-semibold text-subtle">£</span>
               <input
                 autoFocus

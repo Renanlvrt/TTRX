@@ -88,7 +88,7 @@ export default function EmailPage() {
         <a
           href={mailtoLink(subject, body)}
           onClick={() => setTask('email', 'done')}
-          className="inline-flex h-14 items-center justify-center gap-2 rounded-md border border-line bg-white px-7 text-lg font-semibold hover:border-line-strong hover:bg-canvas"
+          className="inline-flex h-14 items-center justify-center gap-2 rounded-md border border-line bg-card px-7 text-lg font-semibold hover:border-line-strong hover:bg-canvas"
         >
           <Mail size={20} /> Open in mail app
         </a>

@@ -77,7 +77,7 @@ export default function StoragePage() {
             {best?.kind === 'unit' && alternatives.some((a) => a.total == null && a.kind === 'box') && (
               <Fine className="mt-3">A whole container is the cheapest published price here, but box services below may cost less for {count} boxes. Get a quote.</Fine>
             )}
-            <details className="group mt-6 rounded-lg border border-line bg-white px-5 py-3">
+            <details className="group mt-6 rounded-lg border border-line bg-card px-5 py-3">
               <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
                 Other options ({alternatives.length})
                 <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
@@ -102,7 +102,7 @@ function Question({ n, title, children }: { n: number; title: string; children: 
   return (
     <div>
       <div className="mb-3 flex items-center gap-3">
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-bold text-white">{n}</span>
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-sm font-bold text-on-brand">{n}</span>
         <h2 className="text-xl font-bold">{title}</h2>
       </div>
       {children}
@@ -133,7 +133,7 @@ function BookLink({ item, primary }: { item: StorageListing; primary?: boolean }
       onClick={() => setTask('storage', 'done')}
       className={cx(
         'inline-flex shrink-0 items-center justify-center gap-1.5 rounded-md font-semibold transition',
-        primary ? 'h-12 bg-brand px-6 text-lg text-white hover:bg-brand-hover' : 'h-10 border border-line px-4 text-sm hover:bg-canvas',
+        primary ? 'h-12 bg-brand px-6 text-lg text-on-brand hover:bg-brand-hover' : 'h-10 border border-line px-4 text-sm hover:bg-canvas',
       )}
     >
       {primary ? 'Book' : 'Visit'} <ArrowUpRight size={primary ? 20 : 16} />
@@ -152,7 +152,7 @@ function BestCard({ option, item, boxes }: { option: StorageOption; item: Storag
       <div className="text-sm font-semibold text-muted">Best option for {boxes} box{boxes === 1 ? '' : 'es'}</div>
       <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-white text-brand">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-card text-brand">
             <KindIcon option={option} />
           </span>
           <div>

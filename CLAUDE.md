@@ -53,7 +53,7 @@ If requirements are vague, run **grill-me first**, then **planner**, then implem
 - Modern, accessible, high-clarity interface.
 - Generous spacing (`p-6`, `gap-4`) and clean visual hierarchy.
 - Use a tight 3-color palette.
-- Purple is banned from the design palette, Palatinate included (SPEC.md §9 #31). Palette: deep teal actions, cyan second action, pale-gold highlights, cool off-white surface. No emojis. Glass, gradient and glow are allowed only on Home and the header, as matched to the user's mock (SPEC.md §9 #32).
+- Purple is banned from the design palette, Palatinate included (SPEC.md §9 #31). Look: the user's Home mock everywhere (SPEC.md §9 #32, #33): teal gradient ground, frosted glass cards, white text, silver-mint buttons with dark labels, pale-gold highlights. No emojis.
 - Avoid hard black text; prefer `text-slate-900`.
 
 ## Context Hygiene (Claude Code Best Practices)

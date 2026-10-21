@@ -1,36 +1,47 @@
 @import "tailwindcss";
 
-/* Palette: deep teal (action), cyan (second action), pale gold (highlight), cool off-white (surface). Swap here to reskin.
-   Purple is no longer used anywhere (dropped 2026-10-21, see SPEC.md §9). */
+/* Palette: the Home mock everywhere. Deep teal gradient ground, frosted glass cards, white text,
+   silver-mint actions with dark teal labels, pale gold highlights. Purple is not used (SPEC.md §9 #31, #33). */
 @theme {
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-brand: #04625C;
-  --color-brand-hover: #034E4A;
-  --color-brand-deep: #033A39;
-  --color-brand-soft: #E5F1EF;
-  --color-brand-tint: #C5E2DD;
-  --color-cyan: #0E7C86;
-  --color-cyan-hover: #0B6870;
-  --color-ink: #1A2B2A;
-  --color-surface: #F5F7F6;
-  --color-muted: #4F5D5B;
-  --color-subtle: #66726F;
-  --color-line: #D9E0DE;
-  --color-line-strong: #B3BFBC;
-  /* Form field borders: >= 3.5:1 on white and surface (WCAG 1.4.11). */
-  --color-field-border: #7D8A87;
-  --color-canvas: #EDF1F0;
-  --color-canvas-strong: #E1E7E5;
-  --color-highlight: #FBF5E6;
+  --color-brand: #D6EBE7;
+  --color-brand-hover: #BFDDD7;
+  --color-brand-deep: #A9CFC8;
+  --color-on-brand: #053B38;
+  --color-brand-soft: #0F6A64;
+  --color-brand-tint: #3E8B84;
+  --color-ink: #F2F8F7;
+  --color-surface: #04524E;
+  --color-muted: #CFE1DF;
+  --color-subtle: #A6C2BF;
+  --color-line: #2D716C;
+  --color-line-strong: #4F8C87;
+  /* Form field borders: >= 3:1 on the ground (WCAG 1.4.11). */
+  --color-field-border: #7FAAA6;
+  --color-card: rgba(255, 255, 255, 0.09);
+  --color-canvas: rgba(255, 255, 255, 0.06);
+  --color-canvas-strong: rgba(255, 255, 255, 0.13);
+  --color-highlight: rgba(214, 180, 100, 0.16);
   --color-highlight-strong: #C8A75B;
-  /* Soft corners everywhere: sm 8px, md 12px, lg 16px. */
+  /* Soft corners everywhere: sm 8px, md 14px, lg 20px. */
   --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
 }
 
-html, body { background: var(--color-surface); }
+html { background: #052730; }
+body { background: transparent; }
+/* One fixed gradient behind every page, so the glass header and cards always sit on it. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(90% 55% at 88% 8%, rgba(9, 120, 104, 0.45) 0%, rgba(9, 120, 104, 0) 70%),
+    linear-gradient(200deg, #05695C 0%, #04605A 32%, #034A4B 62%, #052730 100%);
+}
 body { @apply text-ink antialiased; }
 
 h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
@@ -42,33 +53,20 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
   outline-offset: 2px;
 }
 
-/* On the teal header and lobby a teal ring would vanish; use white. */
-header :where(a, button):focus-visible, .on-brand :where(a, button):focus-visible { outline-color: #ffffff; }
 
 /* Lobby look, matched to the reference mock (everything raw/Gemini_Generated_Image_4yn4tr4yn4tr4yn4.jpg).
-   Gradient, glass and glow are a user-requested exception to the no-effects rule (SPEC.md §9 #32). */
+   Gradient, glass and glow are a user-requested exception to the no-effects rule (SPEC.md §9 #32, #33). */
 .app-bar {
   position: sticky;
   top: 0;
   z-index: 20;
   background:
-    linear-gradient(100deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 32%, rgba(255, 255, 255, 0.08) 68%, rgba(255, 255, 255, 0.12) 100%),
-    linear-gradient(90deg, #1C4B4E 0%, #1F5653 100%);
+    linear-gradient(100deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.07) 32%, rgba(255, 255, 255, 0.12) 68%, rgba(255, 255, 255, 0.18) 100%),
+    rgba(20, 74, 76, 0.62);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 1px 12px rgba(0, 20, 20, 0.18);
   -webkit-backdrop-filter: blur(24px) saturate(170%);
   backdrop-filter: blur(24px) saturate(170%);
-}
-/* Over the Home gradient the bar is see-through glass; over light pages it stays solid so the wordmark keeps its contrast. */
-.app-bar.over {
-  background:
-    linear-gradient(100deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.07) 32%, rgba(255, 255, 255, 0.12) 68%, rgba(255, 255, 255, 0.18) 100%),
-    rgba(20, 74, 76, 0.62);
-}
-.lobby {
-  background:
-    radial-gradient(90% 55% at 88% 8%, rgba(9, 128, 108, 0.55) 0%, rgba(9, 128, 108, 0) 70%),
-    linear-gradient(200deg, #067263 0%, #04625C 32%, #034A4B 62%, #052730 100%);
 }
 .silver-text {
   background: linear-gradient(180deg, #F8FCFC 0%, #DCE7E8 50%, #AFC3C5 100%);
@@ -95,7 +93,14 @@ header :where(a, button):focus-visible, .on-brand :where(a, button):focus-visibl
   background: rgba(255, 255, 255, 0.24);
 }
 
+/* Paper stays light: the report PDF prints dark text on white. */
 @media print {
+  :root {
+    --color-brand: #0E6B62; --color-on-brand: #FFFFFF; --color-ink: #1A2B2A; --color-muted: #4F5D5B; --color-subtle: #66726F;
+    --color-line: #D9E0DE; --color-line-strong: #B3BFBC; --color-card: #FFFFFF; --color-canvas: #EDF1F0; --color-canvas-strong: #E1E7E5;
+    --color-brand-soft: #E6F2EF; --color-brand-tint: #CBE4DF; --color-highlight: #FBF5E6;
+  }
   .no-print { display: none !important; }
-  body { background: #ffffff; }
+  html, body { background: #ffffff; }
+  body::before { display: none; }
 }

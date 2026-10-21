@@ -75,13 +75,13 @@ export default function CleaningPage() {
         <p className="text-2xl font-display font-semibold leading-tight md:text-3xl">{advice.headline}</p>
 
         <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className={cx('rounded-md p-3 sm:p-4', hire ? 'bg-brand text-white' : 'bg-white')}>
-            <div className={cx('text-sm font-semibold', hire ? 'text-white' : 'text-muted')}>Cleaner</div>
-            <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">{fromPrice && <span className={cx('text-sm font-semibold', hire ? 'text-white/80' : 'text-muted')}>from </span>}£{each}<span className={cx('text-sm font-semibold', hire ? 'text-white/80' : 'text-muted')}> each</span></div>
+          <div className={cx('rounded-md p-3 sm:p-4', hire ? 'bg-brand text-on-brand' : 'bg-card')}>
+            <div className={cx('text-sm font-semibold', hire ? 'text-on-brand' : 'text-muted')}>Cleaner</div>
+            <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">{fromPrice && <span className={cx('text-sm font-semibold', hire ? 'text-on-brand/70' : 'text-muted')}>from </span>}£{each}<span className={cx('text-sm font-semibold', hire ? 'text-on-brand/70' : 'text-muted')}> each</span></div>
           </div>
-          <div className={cx('rounded-md p-3 sm:p-4', !hire ? 'bg-brand text-white' : 'bg-white')}>
-            <div className={cx('text-sm font-semibold', !hire ? 'text-white' : 'text-muted')}>Your deposit</div>
-            <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">£{deposit}<span className={cx('text-sm font-semibold', !hire ? 'text-white/80' : 'text-muted')}> each</span></div>
+          <div className={cx('rounded-md p-3 sm:p-4', !hire ? 'bg-brand text-on-brand' : 'bg-card')}>
+            <div className={cx('text-sm font-semibold', !hire ? 'text-on-brand' : 'text-muted')}>Your deposit</div>
+            <div className="mt-1 text-2xl font-display font-semibold sm:text-3xl">£{deposit}<span className={cx('text-sm font-semibold', !hire ? 'text-on-brand/70' : 'text-muted')}> each</span></div>
           </div>
         </div>
 
@@ -91,12 +91,12 @@ export default function CleaningPage() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setTask('cleaning', 'done')}
-            className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-brand text-lg font-semibold text-white hover:bg-brand-hover sm:w-auto sm:px-6"
+            className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-md bg-brand text-lg font-semibold text-on-brand hover:bg-brand-hover sm:w-auto sm:px-6"
           >
             {fromPrice ? 'Get an exact quote' : 'Get a cleaner quote'} <ArrowUpRight size={20} />
           </a>
         ) : (
-          <a href="#diy" className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-md bg-brand text-lg font-semibold text-white hover:bg-brand-hover sm:w-auto sm:px-6">
+          <a href="#diy" className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-md bg-brand text-lg font-semibold text-on-brand hover:bg-brand-hover sm:w-auto sm:px-6">
             Open the cleaning checklist
           </a>
         )}
@@ -105,7 +105,7 @@ export default function CleaningPage() {
           {editing ? 'Done' : 'Not a ' + bedrooms + '-bed? Change'}
         </button>
         {editing && (
-          <label className="mt-3 block max-w-[50%] rounded-md bg-white p-3 text-sm font-semibold text-muted">
+          <label className="mt-3 block max-w-[50%] rounded-md bg-card p-3 text-sm font-semibold text-muted">
             Bedrooms
             <input
               type="number"
@@ -121,7 +121,7 @@ export default function CleaningPage() {
       )}
 
       {/* What the report found */}
-      <Link to="/move-out/report" className="mt-8 flex min-h-11 items-center justify-between gap-3 rounded-lg border border-line bg-white px-5 py-4 hover:border-line-strong">
+      <Link to="/move-out/report" className="mt-8 flex min-h-11 items-center justify-between gap-3 rounded-lg border border-line bg-card px-5 py-4 hover:border-line-strong">
         <span className="text-lg font-semibold">
           {issues.length === 0 ? 'Your report: nothing new to clean' : `Your report: ${issues.length} thing${issues.length === 1 ? '' : 's'} to clean`}
         </span>
@@ -147,7 +147,7 @@ export default function CleaningPage() {
                   onClick={() => toggle(id)}
                   className={cx('flex w-full items-start gap-3 rounded-md border p-3 text-left text-sm transition', on ? 'border-brand bg-brand-soft text-muted line-through' : 'border-line hover:border-line-strong')}
                 >
-                  <span className={cx('mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2', on ? 'border-brand bg-brand text-white' : 'border-line-strong')}>
+                  <span className={cx('mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border-2', on ? 'border-brand bg-brand text-on-brand' : 'border-line-strong')}>
                     {on && <Check size={12} strokeWidth={3} />}
                   </span>
                   {text}

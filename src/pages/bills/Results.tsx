@@ -62,7 +62,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                   <span className="text-brand">{GROUP_ICON[g.group]}</span>
                   {g.label}
                 </div>
-                <div className="divide-y divide-line rounded-md border border-line bg-white">
+                <div className="divide-y divide-line rounded-md border border-line bg-card">
                   {shown.map((p) => {
                     const link = primaryLink(p)
                     return (
@@ -75,7 +75,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
                           href={link.url}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white transition hover:bg-brand-hover"
+                          className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-on-brand transition hover:bg-brand-hover"
                         >
                           {link.label} <ExternalLink size={14} />
                         </a>
@@ -94,7 +94,7 @@ export default function Results({ survey, onEdit, onReset, onTenancyChange }: { 
         </div>
       </section>
 
-      <details className="group mt-8 rounded-lg border border-line bg-white px-5 py-3">
+      <details className="group mt-8 rounded-lg border border-line bg-card px-5 py-3">
         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-lg font-semibold [&::-webkit-details-marker]:hidden">
           Details
           <ChevronDown size={20} className="text-subtle transition group-open:rotate-180" />
@@ -203,12 +203,12 @@ function priceLine(p: BillProvider, survey: BillsSurvey): string {
 /** Weekly cost per person; the cheaper side is solid Palatinate so it stands out. */
 function WeekTile({ label, money, cheaper, estimate }: { label: string; money: Money; cheaper: boolean; estimate?: boolean }) {
   return (
-    <div className={cx('min-w-0 rounded-md p-3 sm:p-4', cheaper ? 'bg-brand text-white' : 'bg-white')}>
-      <div className={cx('text-sm font-semibold', cheaper ? 'text-white' : 'text-muted')}>{label}</div>
+    <div className={cx('min-w-0 rounded-md p-3 sm:p-4', cheaper ? 'bg-brand text-on-brand' : 'bg-card')}>
+      <div className={cx('text-sm font-semibold', cheaper ? 'text-on-brand' : 'text-muted')}>{label}</div>
       <div className="mt-1 whitespace-nowrap text-2xl font-display font-semibold sm:text-3xl">
-        {estimate && <span className={cx('text-lg', cheaper ? 'text-white/80' : 'text-subtle')}>~</span>}
+        {estimate && <span className={cx('text-lg', cheaper ? 'text-on-brand/70' : 'text-subtle')}>~</span>}
         {gbp(money.perWeek)}
-        <span className={cx('text-sm font-semibold', cheaper ? 'text-white/80' : 'text-muted')}>/wk</span>
+        <span className={cx('text-sm font-semibold', cheaper ? 'text-on-brand/70' : 'text-muted')}>/wk</span>
       </div>
     </div>
   )

@@ -43,6 +43,7 @@ Started 2026-10-20. This branch moves RentReady from the hackathon demo toward a
 | Test (file > name) | Why it looks wrong | Evidence | Status |
 |---|---|---|---|
 | src/design/contrast.test.ts > --color-brand is Durham Palatinate #7E317B | The user dropped purple ("the purple give a vibe coded sign") and chose a green-cyan teal like Apple's latest iPhones | User instruction, 2026-10-21; new brand #0E6B62 passes every other contrast test (white on brand 6.37:1, brand on surface 5.92:1) | Overruled by user, test left unedited; fails by design from feat/teal-lobby on |
+| src/design/contrast.test.ts > white button label on brand ≥ 4.5:1, and the same on brand-hover | The user asked for every page in the Home mock's style: dark teal ground, so buttons are silver-mint with dark teal labels, not white labels | User instruction, 2026-10-21; labels use --color-on-brand #053B38 at 10.0:1 on brand and 8.6:1 on brand-hover | Overruled by user, tests left unedited |
 
 ## Loop log
 
@@ -58,3 +59,4 @@ Started 2026-10-20. This branch moves RentReady from the hackathon demo toward a
 | 19:49 | Final check | 722\/722 tests, build passes, eslint 0 errors (2 old react-refresh warnings in ui.tsx); no disputed tests; loop stopped | this commit |
 | 2026-10-21 | User: purple looks vibe coded, UI too boxy, Home captions and headline redundant | Teal palette, 8/12/16px corners, system font, logo mark, Home lobby (logo plus two tiles), accent stripes removed (branch feat/teal-lobby) | see git log |
 | 2026-10-21 | User: copy the reference mock exactly; buttons less raised, logo glow softer, header more glass | Sampled the mock's colours; gradient lobby, silver mark and glyphs, frosted panel and header; iterated against side-by-side screenshots | see git log |
+| 2026-10-21 | User: give every page the Home style; no white showing around the app on iPhone | Dark glass theme from tokens: fixed teal gradient behind every page, glass cards, white text, silver-mint buttons, light tokens restored for print; html background and theme-color set so Safari's bars match | see git log |

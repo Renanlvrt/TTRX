@@ -5,7 +5,7 @@ import { Button, Fine, Page, Stat, cx } from '../../components/ui'
 import { DEMO_PARTNERS, SEED_SIGNUPS, createBillingDemo } from '../../lib/billingDemo'
 import type { BillingDemo, SignupResult, Snapshot } from '../../lib/billingDemo'
 
-const input = 'h-12 w-full rounded-md border border-field-border bg-white px-4 text-base text-ink placeholder:text-subtle focus:border-brand focus:outline-2 focus:outline-brand'
+const input = 'h-12 w-full rounded-md border border-field-border bg-card px-4 text-base text-ink placeholder:text-subtle focus:border-brand focus:outline-2 focus:outline-brand'
 
 export default function PartnerBillingPage() {
   const demo = useRef<BillingDemo | null>(null)
@@ -56,7 +56,7 @@ export default function PartnerBillingPage() {
 
       <section aria-labelledby="partners-h" className="mb-10">
         <h2 id="partners-h" className="mb-3 font-display text-2xl font-semibold text-ink">Fictional partners</h2>
-        <ul className="divide-y divide-line rounded-md border border-line bg-white md:hidden">
+        <ul className="divide-y divide-line rounded-md border border-line bg-card md:hidden">
           {DEMO_PARTNERS.map((p) => (
             <li key={p.id} className="px-4 py-3">
               <div className="flex items-baseline justify-between gap-3">
@@ -67,7 +67,7 @@ export default function PartnerBillingPage() {
             </li>
           ))}
         </ul>
-        <div className="hidden rounded-md border border-line bg-white md:block">
+        <div className="hidden rounded-md border border-line bg-card md:block">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-line-strong bg-canvas text-xs uppercase tracking-[0.1em] text-muted">
               <tr>
@@ -91,7 +91,7 @@ export default function PartnerBillingPage() {
         </div>
       </section>
 
-      <section aria-labelledby="add-h" className="mb-10 rounded-md border border-line border-t-4 border-t-brand bg-white p-6">
+      <section aria-labelledby="add-h" className="mb-10 rounded-md border border-line bg-card p-6">
         <h2 id="add-h" className="font-display text-2xl font-semibold text-ink">Add a simulated signup</h2>
         <Fine className="mt-1">Use any address on a .example domain. A code counts as a partner link the student opened an hour earlier.</Fine>
         <form onSubmit={onSubmit} className="mt-5 grid gap-4 md:grid-cols-[2fr_1fr_auto] md:items-end">
@@ -146,7 +146,7 @@ function Ledger({ snap }: { snap: Snapshot }) {
         {snap.receivables.length === 0 ? (
           <Fine>No partner owes anything yet.</Fine>
         ) : (
-          <dl className="divide-y divide-line rounded-md border border-line bg-white">
+          <dl className="divide-y divide-line rounded-md border border-line bg-card">
             {snap.receivables.map((r) => (
               <div key={r.partner} className="flex items-baseline justify-between gap-4 px-4 py-3">
                 <dt className="text-base text-ink">{r.partner}</dt>
@@ -160,7 +160,7 @@ function Ledger({ snap }: { snap: Snapshot }) {
       <section aria-labelledby="ledger-h">
         <h2 id="ledger-h" className="mb-1 font-display text-2xl font-semibold text-ink">Ledger</h2>
         <Fine className="mb-3">Double entry: each fee is a debit to the partner and a credit to RentReady. Rows are never edited.</Fine>
-        <ul className="divide-y divide-line rounded-md border border-line bg-white md:hidden">
+        <ul className="divide-y divide-line rounded-md border border-line bg-card md:hidden">
           {snap.rows.length === 0 && <li className="px-4 py-4 text-muted">No postings yet.</li>}
           {snap.rows.map((r) => (
             <li key={r.id} className="px-4 py-3">
@@ -172,7 +172,7 @@ function Ledger({ snap }: { snap: Snapshot }) {
             </li>
           ))}
         </ul>
-        <div className="hidden rounded-md border border-line bg-white md:block">
+        <div className="hidden rounded-md border border-line bg-card md:block">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-line-strong bg-canvas text-xs uppercase tracking-[0.1em] text-muted">
               <tr>

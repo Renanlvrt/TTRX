@@ -1,5 +1,5 @@
 // Shared UI kit. Every page builds from these so the whole app reskins from one file.
-// Style rules: stone surfaces, Palatinate actions, parchment highlights, serif headings, ruled data, firm borders.
+// Style rules: teal gradient ground, frosted glass cards, white text, silver-mint actions, pale gold highlights.
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, Check } from 'lucide-react'
@@ -21,8 +21,8 @@ export function Button({ variant = 'primary', size = 'lg', className, ...rest }:
       className={cx(
         'inline-flex items-center justify-center gap-2 rounded-md font-semibold tracking-[0.01em] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40',
         size === 'lg' ? 'h-13 px-7 text-base' : 'h-11 px-5 text-base',
-        variant === 'primary' && 'bg-brand text-white hover:bg-brand-hover',
-        variant === 'secondary' && 'border border-line-strong bg-white text-ink hover:border-brand hover:text-brand',
+        variant === 'primary' && 'bg-brand text-on-brand hover:bg-brand-hover',
+        variant === 'secondary' && 'border border-line-strong bg-card text-ink hover:border-brand hover:text-brand',
         variant === 'ghost' && 'text-muted hover:bg-canvas hover:text-ink',
         className,
       )}
@@ -37,7 +37,7 @@ export function ButtonLink({ to, children, variant = 'primary', className }: { t
       to={to}
       className={cx(
         'inline-flex h-13 items-center justify-center gap-2 rounded-md px-7 text-base font-semibold tracking-[0.01em] transition-colors',
-        variant === 'primary' ? 'bg-brand text-white hover:bg-brand-hover' : 'border border-line-strong bg-white text-ink hover:border-brand hover:text-brand',
+        variant === 'primary' ? 'bg-brand text-on-brand hover:bg-brand-hover' : 'border border-line-strong bg-card text-ink hover:border-brand hover:text-brand',
         className,
       )}
     >
@@ -48,7 +48,7 @@ export function ButtonLink({ to, children, variant = 'primary', className }: { t
 
 export function Card({ children, className, highlight }: { children: ReactNode; className?: string; highlight?: boolean }) {
   return (
-    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-white', className)}>
+    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-card', className)}>
       {children}
     </div>
   )
@@ -69,7 +69,6 @@ export function Page({ title, subtitle, back, actions, children }: { title: stri
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-display text-4xl font-semibold leading-tight text-ink md:text-[2.75rem]">{title}</h1>
-          <div aria-hidden className="mt-3 h-0.5 w-12 bg-brand" />
           {subtitle && <p className="mt-3 text-lg text-muted">{subtitle}</p>}
         </div>
         {actions && <div className="no-print flex gap-3">{actions}</div>}
@@ -88,7 +87,7 @@ export function OptionTile({ selected, onClick, title, caption, icon }: { select
       aria-pressed={selected}
       className={cx(
         'flex w-full items-center gap-4 rounded-md border p-5 text-left transition-colors',
-        selected ? 'border-brand bg-brand-soft ring-1 ring-brand' : 'border-line bg-white hover:border-line-strong',
+        selected ? 'border-brand bg-brand-soft ring-1 ring-brand' : 'border-line bg-card hover:border-line-strong',
       )}
     >
       {icon && <span className={cx('shrink-0', selected ? 'text-brand' : 'text-subtle')}>{icon}</span>}
@@ -96,7 +95,7 @@ export function OptionTile({ selected, onClick, title, caption, icon }: { select
         <span className="block text-lg font-semibold">{title}</span>
         {caption && <span className="mt-0.5 block text-sm text-muted">{caption}</span>}
       </span>
-      <span className={cx('flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2', selected ? 'border-brand bg-brand text-white' : 'border-line-strong')}>
+      <span className={cx('flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2', selected ? 'border-brand bg-brand text-on-brand' : 'border-line-strong')}>
         {selected && <Check size={14} strokeWidth={3} />}
       </span>
     </button>
@@ -106,7 +105,7 @@ export function OptionTile({ selected, onClick, title, caption, icon }: { select
 /** Big number with a label. `highlight` puts it on pale gold. */
 export function Stat({ label, value, sub, highlight }: { label: string; value: string; sub?: string; highlight?: boolean }) {
   return (
-    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-white')}>
+    <div className={cx('rounded-md border p-6', highlight ? 'border-highlight-strong bg-highlight' : 'border-line bg-card')}>
       <div className="text-sm font-semibold text-muted">{label}</div>
       <div className="mt-2 font-display text-4xl font-semibold tabular-nums">{value}</div>
       {sub && <div className="mt-1 text-base text-muted">{sub}</div>}

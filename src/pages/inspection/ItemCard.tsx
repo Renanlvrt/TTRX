@@ -62,7 +62,7 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
   }
 
   return (
-    <div id={`item-${item.id}`} className={cx('scroll-mt-6 rounded-lg border bg-white p-4 transition', attention ? 'border-highlight-strong ring-4 ring-highlight' : 'border-line')}>
+    <div id={`item-${item.id}`} className={cx('scroll-mt-6 rounded-lg border bg-card p-4 transition', attention ? 'border-highlight-strong ring-4 ring-highlight' : 'border-line')}>
       <input ref={input} type="file" accept="image/*" className="hidden" onChange={(e) => addPhoto(e.target.files?.[0])} />
 
       {url ? (
@@ -125,14 +125,14 @@ export function ItemCard({ kind, item, record, attention }: { kind: InspectionKi
         className="mt-2 h-10 w-full rounded-md border border-field-border px-3 text-sm placeholder:text-subtle focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand"
       />
 
-      {error && <p role="alert" className="mt-2 text-sm font-medium text-red-700">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm font-medium text-red-300">{error}</p>}
     </div>
   )
 }
 
 function IconBtn({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
   return (
-    <button type="button" aria-label={label} title={label} onClick={onClick} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-ink hover:bg-white hover:text-ink">
+    <button type="button" aria-label={label} title={label} onClick={onClick} className="flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-on-brand hover:bg-white hover:text-ink">
       {children}
     </button>
   )
@@ -140,7 +140,7 @@ function IconBtn({ label, onClick, children }: { label: string; onClick: () => v
 
 function Saving() {
   return (
-    <span className="absolute inset-0 flex items-center justify-center gap-2 rounded-md bg-white/80 text-sm font-semibold text-ink">
+    <span className="absolute inset-0 flex items-center justify-center gap-2 rounded-md bg-white/80 text-sm font-semibold text-on-brand">
       <Loader2 size={18} className="animate-spin" /> Saving…
     </span>
   )

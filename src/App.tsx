@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { BrowserRouter, Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, useNavigate } from 'react-router-dom'
 import { LogoMark } from './components/Logo'
 import Home, { StagePage } from './pages/Home'
 import { enterDemoMode, resetToNewUser } from './lib/demoMode'
@@ -87,9 +87,8 @@ function LogoLink() {
 }
 
 function Header() {
-  const over = useLocation().pathname === '/'
   return (
-    <header className={`app-bar no-print pt-[env(safe-area-inset-top)] ${over ? 'over' : ''}`}>
+    <header className="app-bar no-print pt-[env(safe-area-inset-top)]">
       <div className="mx-auto flex h-18 max-w-4xl items-center justify-center px-6">
         <LogoLink />
       </div>
@@ -101,7 +100,7 @@ export default function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <DemoHotkeys />
-      <div className="min-h-screen bg-surface">
+      <div className="min-h-screen">
         <Header />
         <main>
           <Routes>
