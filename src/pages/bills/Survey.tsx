@@ -5,12 +5,15 @@ import { Button, OptionTile } from '../../components/ui'
 import { AREAS } from '../../lib/types'
 import type { AreaId, BillsSurvey, HeatingPattern, WaterUse } from '../../lib/types'
 import { DEFAULT_TENANCY_WEEKS, areasForPostcode } from '../../lib/bills'
+import { CITIES, PRICED_CITY, findCity, suggest } from '../../data/places'
+import { SuggestInput } from '../../components/Suggest'
 
 interface Draft {
   hasPackage: boolean | null
   pppw: string
   area: AreaId | null
-  postcode: string
+  city: string
+  place: string
   people: number
   water: WaterUse | null
   heating: HeatingPattern | null
@@ -22,12 +25,13 @@ interface Draft {
 
 function toDraft(s: BillsSurvey | null): Draft {
   if (!s)
-    return { hasPackage: null, pppw: '', area: null, postcode: '', people: 4, water: null, heating: null, hasGas: null, wifi: true, tvLicence: false, tenancyWeeks: DEFAULT_TENANCY_WEEKS }
+    return { hasPackage: null, pppw: '', area: null, city: '', place: '', people: 4, water: null, heating: null, hasGas: null, wifi: true, tvLicence: false, tenancyWeeks: DEFAULT_TENANCY_WEEKS }
   return {
     hasPackage: s.packagePppw != null,
     pppw: s.packagePppw != null ? String(s.packagePppw) : '',
     area: s.area,
-    postcode: '',
+    city: PRICED_CITY,
+    place: AREAS.find((a) => a.id === s.area)?.label ?? '',
     people: s.people,
     water: s.water,
     heating: s.heating,
@@ -45,10 +49,24 @@ export default function Survey({ initial, onStart, onFinish }: { initial: BillsS
   const [step, setStep] = useState(0)
   const set = (patch: Partial<Draft>) => setD((prev) => ({ ...prev, ...patch }))
 
+  // Location: any UK city can be typed, but only Durham has researched prices.
+  const city = findCity(d.city)
+  const isDurham = city?.name === PRICED_CITY
+  const citySuggestions = suggest(CITIES.map((c) => c.name), d.city)
+  // A known city other than Durham, or a typed name that matches nothing in the list.
+  const otherCity = city ? (isDurham ? null : city.name) : d.city.trim().length >= 3 && citySuggestions.length === 0 ? d.city.trim() : null
+  const placeOptions = isDurham ? AREAS.map((a) => a.label) : city?.neighbourhoods ?? []
+  // Durham also matches postcodes: "DH1 4" suggests Viaduct.
+  const placeSuggestions = isDurham && areasForPostcode(d.place).length > 0
+    ? areasForPostcode(d.place).map((id) => AREAS.find((a) => a.id === id)!.label)
+    : suggest(placeOptions, d.place)
+  const areaFor = (label: string) => AREAS.find((a) => a.label.toLowerCase() === label.trim().toLowerCase())?.id ?? null
+
+
   const pppw = Number(d.pppw)
   const answered = [
     d.hasPackage === false || (d.hasPackage === true && d.pppw.trim() !== '' && Number.isFinite(pppw) && pppw > 0),
-    d.area != null,
+    isDurham && d.area != null,
     d.people >= 1,
     d.water != null,
     d.heating != null,
@@ -88,12 +106,6 @@ export default function Survey({ initial, onStart, onFinish }: { initial: BillsS
     return () => window.removeEventListener('keydown', onKey)
   }, [])
 
-  function onPostcode(value: string) {
-    const matches = areasForPostcode(value)
-    const area = matches.length === 0 || (d.area && matches.includes(d.area)) ? d.area : matches[0]
-    set({ postcode: value, area })
-  }
-
   const steps: { title: string; body: ReactNode }[] = [
     {
       title: 'Does the house offer a bills package?',
@@ -124,19 +136,31 @@ export default function Survey({ initial, onStart, onFinish }: { initial: BillsS
     {
       title: 'Where is the house?',
       body: (
-        <div className="space-y-3">
-          <input
-            value={d.postcode}
-            onChange={(e) => onPostcode(e.target.value)}
-            placeholder="Postcode, e.g. DH1 4"
-            aria-label="Postcode"
-            className="h-14 w-full rounded-md border-2 border-field-border px-5 text-lg font-semibold uppercase outline-none placeholder:font-normal placeholder:normal-case placeholder:text-subtle focus:border-brand focus:ring-2 focus:ring-brand focus:ring-offset-1"
+        <div className="space-y-5">
+          <SuggestInput
+            label="City"
+            value={d.city}
+            placeholder="e.g. Durham"
+            autoFocus={!d.city}
+            suggestions={citySuggestions}
+            onChange={(v) => set({ city: v, place: '', area: null })}
+            onPick={(v) => set({ city: v, place: '', area: null })}
           />
-          <div className="grid gap-3 sm:grid-cols-2">
-            {AREAS.map((a) => (
-              <OptionTile key={a.id} selected={d.area === a.id} onClick={() => set({ area: a.id })} title={a.label} />
-            ))}
-          </div>
+          {city?.neighbourhoods !== undefined || isDurham ? (
+            <SuggestInput
+              label="Neighbourhood or postcode"
+              value={d.place}
+              placeholder={isDurham ? 'e.g. Viaduct or DH1 4' : `e.g. ${placeOptions[0]}`}
+              suggestions={placeSuggestions}
+              onChange={(v) => set({ place: v, area: isDurham ? areaFor(v) ?? (areasForPostcode(v).length === 1 ? areasForPostcode(v)[0] : null) : null })}
+              onPick={(v) => set({ place: v, area: isDurham ? areaFor(v) : null })}
+            />
+          ) : null}
+          {otherCity && (
+            <p className="rounded-md border border-highlight-strong bg-highlight px-5 py-4 text-lg font-semibold">
+              No prices for {otherCity} yet. Only Durham for now.
+            </p>
+          )}
         </div>
       ),
     },

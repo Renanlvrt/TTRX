@@ -109,6 +109,13 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
 .step-row:hover { border-color: rgba(255, 255, 255, 0.35); }
 
+/* Suggestions under a text box: solid enough to read over the page below. */
+.suggest-list {
+  background: #0B4541;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
 /* Paper stays light: the report PDF prints dark text on white. */
 @media print {
   :root {
